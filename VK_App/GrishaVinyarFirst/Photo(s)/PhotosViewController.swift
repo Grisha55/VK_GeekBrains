@@ -18,26 +18,7 @@ class PhotosViewController: UIViewController {
         collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.collectionViewLayout = makeCompositionalLayout()
         
-    }
-    
-    func makeCompositionalLayout() -> UICollectionViewLayout {
-        
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(1.0))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        
-        return layout
     }
     
     func getImages(images: [UIImage?]) {
@@ -63,6 +44,19 @@ extension PhotosViewController: UICollectionViewDelegate {
     }
 }
 
+// UICollectionViewDelegateFlowLayout
+extension PhotosViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        let spacing: CGFloat = 0
+        return spacing
+    }
+}
+
  //UICollectionViewDataSource
 extension PhotosViewController: UICollectionViewDataSource {
 
@@ -80,6 +74,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     }
 }
 
+// PhotoCollectionViewCellDelegate
 extension PhotosViewController: PhotoCollectionViewCellDelegate {
     
     func likeAction(sender: UIButton, label: UILabel) {
