@@ -19,6 +19,7 @@ class PhotosViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.collectionViewLayout = makeCompositionalLayout()
+        
     }
     
     func makeCompositionalLayout() -> UICollectionViewLayout {
@@ -26,6 +27,7 @@ class PhotosViewController: UIViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalHeight(1.0))
@@ -42,6 +44,7 @@ class PhotosViewController: UIViewController {
         self.photosArray = images
     }
 }
+
 // UICollectionViewDelegate
 extension PhotosViewController: UICollectionViewDelegate {
     
@@ -59,13 +62,13 @@ extension PhotosViewController: UICollectionViewDelegate {
         }
     }
 }
+
  //UICollectionViewDataSource
 extension PhotosViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photosArray.count
     }
-
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
 
@@ -76,16 +79,6 @@ extension PhotosViewController: UICollectionViewDataSource {
         return cell
     }
 }
- //UICollectionViewDelegateFlowLayout
-/*extension PhotosViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 50)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0
-    }
-}*/
 
 extension PhotosViewController: PhotoCollectionViewCellDelegate {
     
