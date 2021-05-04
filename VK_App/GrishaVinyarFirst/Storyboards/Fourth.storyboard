@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jFd-vF-qgY">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Massages-->
+        <scene sceneID="aa6-bT-Uph">
+            <objects>
+                <viewController id="bgW-nO-xGt" customClass="MessageViewController" customModule="GrishaVinyarFirst" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TEq-UW-alh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wP4-J1-gwe">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="3oB-Mw-aVQ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wP4-J1-gwe" firstAttribute="top" secondItem="3oB-Mw-aVQ" secondAttribute="top" id="VnA-IP-dvh"/>
+                            <constraint firstItem="3oB-Mw-aVQ" firstAttribute="bottom" secondItem="wP4-J1-gwe" secondAttribute="bottom" id="kvv-Nu-8C1"/>
+                            <constraint firstItem="3oB-Mw-aVQ" firstAttribute="trailing" secondItem="wP4-J1-gwe" secondAttribute="trailing" id="nhn-P8-JNa"/>
+                            <constraint firstItem="wP4-J1-gwe" firstAttribute="leading" secondItem="3oB-Mw-aVQ" secondAttribute="leading" id="wAU-X4-Rms"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Massages" id="n9a-Sh-YQP"/>
+                    <connections>
+                        <outlet property="searchBar" destination="SQY-n4-YQ4" id="PR8-po-z7V"/>
+                        <outlet property="tableView" destination="wP4-J1-gwe" id="ohu-zF-7V0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oyT-sO-hds" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" id="SQY-n4-YQ4">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
+            </objects>
+            <point key="canvasLocation" x="1044.9275362318842" y="157.36607142857142"/>
+        </scene>
+        <!--Messages-->
+        <scene sceneID="fCc-a5-pQB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jFd-vF-qgY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Messages" image="message" catalog="system" id="Kw7-6n-sRf"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="39S-WQ-xL5">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="bgW-nO-xGt" kind="relationship" relationship="rootViewController" id="qzK-2n-uO8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5L8-Nt-Qs1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="134.78260869565219" y="157.36607142857142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
