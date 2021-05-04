@@ -23,6 +23,7 @@ class NewsViewController: UIViewController {
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: "newsCell")
+        tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "newsCellTwo")
     }
 
 }
@@ -30,19 +31,26 @@ class NewsViewController: UIViewController {
 extension NewsViewController: UITableViewDelegate {}
 
 extension NewsViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else { return UITableViewCell()}
+        if indexPath.row % 2 == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else { return UITableViewCell()}
+            
+            cell.configure(imageForPhoto: UIImage(named: "винни1"), labelForImage: "Василий Пупкин", bigText: "Hello my name is Krosh .kljfdklfkkfkdsflkdklfjaklsdjfskladjsklfjkajsdfweiropqwioikjgfkldskfweirowqithjifl;adskflksl;fksloikopioprewio21231fg354g564r5ger454g5reg5r541r54tg56er4grte45rer5e46er456r4554terwe14gteqrw5647t84t5644rew5464q658rt454fg4545r45645445erw45rew45r64rt5erw54", bigImage: UIImage(named: "крош"), secondBigImage: UIImage(named: "крош2"))
+            cell.delegate = self
+            return cell
+        }
         
-        cell.configure(imageForPhoto: UIImage(named: "винни1"), labelForImage: "Василий Пупкин", bigText: "Hello my name is Krosh .kljfdklfkkfkdsflkdklfjaklsdjfskladjsklfjkajsdfweiropqwioikjgfkldskfweirowqithjifl;adskflksl;fksloikopioprewio21231fg354g564r5ger454g5reg5r541r54tg56er4grte45rer5e46er456r4554terwe14gteqrw5647t84t5644rew5464q658rt454fg4545r45645445erw45rew45r64rt5erw54", bigImage: UIImage(named: "крош"), secondBigImage: UIImage(named: "крош2"))
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCellTwo", for: indexPath) as? NewsCell else { return UITableViewCell() }
         
-        cell.delegate = self
+        cell.configure(name: "Мишки в сосновом бору", photo: UIImage(named: "мишки"))
         
-        return cell
+       return cell
     }
     
 }
