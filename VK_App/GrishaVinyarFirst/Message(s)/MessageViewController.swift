@@ -18,11 +18,16 @@ class MessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let leftNavigationBarButton = UIBarButtonItem(customView: searchBar)
+        self.navigationItem.leftBarButtonItem = leftNavigationBarButton
+        
         tableView.rowHeight = 120
         
         userMessages = DataStorage.shared.usersArray
         
         navigationItem.titleView = searchBar
+        searchBar.delegate = self
+        
         searchBar.delegate = self
         
         tableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "messageCell")
