@@ -11,36 +11,47 @@ class MessageViewController: UIViewController {
 
     var userMessages = [User]()
     
-    @IBOutlet var searchBar: UISearchBar!
+    let tableView = UITableView()
     
-    @IBOutlet weak var tableView: UITableView!
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let leftNavigationBarButton = UIBarButtonItem(customView: searchBar)
-        self.navigationItem.leftBarButtonItem = leftNavigationBarButton
         
         tableView.rowHeight = 120
         
         userMessages = DataStorage.shared.usersArray
         
-        navigationItem.titleView = searchBar
-        searchBar.delegate = self
-        
-        searchBar.delegate = self
-        
+        constraintsForTableView()
         tableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "messageCell")
         tableView.dataSource = self
         tableView.delegate = self
+        
+        searchController.searchBar.delegate = self
+        setSearchController()
+    }
+    
+    private func setSearchController() {
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    private func constraintsForTableView() {
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive           = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive     = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive   = true
     }
 }
-//MARK: -UITableViewDelegatee
 
+//MARK: - UITableViewDelegatee
 extension MessageViewController: UITableViewDelegate {}
 
-// MARK: -UITableViewDataSource
-
+// MARK: - UITableViewDataSource
 extension MessageViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,10 +67,8 @@ extension MessageViewController: UITableViewDataSource {
         
         return cell
     }
-    
-    
 }
-
+// MARK: - UISearchBarDelegate
 extension MessageViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
