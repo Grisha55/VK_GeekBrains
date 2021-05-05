@@ -22,7 +22,7 @@ class FriendViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(UINib(nibName: "FriendTableViewCell", bundle: nil), forCellReuseIdentifier: "friendCell")
+        tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -108,11 +108,11 @@ extension FriendViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
         
         let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
         
-        cell.storageElementsForFriend(name: user.name , image: user.avatar)
+        cell.configure(name: user.name , photo: user.avatar)
         
         return cell
     }
