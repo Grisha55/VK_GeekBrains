@@ -131,7 +131,7 @@ class LoginViewController: UIViewController {
     @IBAction func didButtonTap() {
         updateText()
         
-        guard login == "admin", password == "123456" else {
+        guard login == "", password == "" else {
             showAlert()
             return
         }

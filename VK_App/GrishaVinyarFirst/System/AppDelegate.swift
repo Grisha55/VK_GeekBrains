@@ -50,14 +50,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
         
         func setupFriends() {
-            let userOne   =  User(name: "Волк", age: 25, description: "Я волк и мне 25 лет", avatar: UIImage(named: "волк"), photosArray: [UIImage(named: "волк1"), UIImage(named: "волк2"), UIImage(named: "волк3")])
-            let userTwo   = User(name: "Крыса", age: 29, description: "Я крыса и мне 29 лет", avatar: UIImage(named: "крыса"), photosArray: [UIImage(named: "крыса1"), UIImage(named: "крыса2"), UIImage(named: "крыса3")])
-            let userThree = User(name: "Лунтик", age: 16, description: "Я лунтик и мне 16 лет", avatar: UIImage(named: "лунтик"), photosArray: [UIImage(named: "лунтик1"), UIImage(named: "лунтик2"), UIImage(named: "лунтик3")])
-            let userFour  = User(name: "Халк", age: 40, description: "Я халк и мне 40 лет", avatar: UIImage(named: "халк"), photosArray: [UIImage(named: "халк1"), UIImage(named: "халк2"), UIImage(named: "халк3")])
-            let userFive  = User(name: "Чебурашка", age: 12, description: "Я чебурашка и мне 12 лет", avatar: UIImage(named: "чебурашка"), photosArray: [UIImage(named: "чебурашка1"), UIImage(named: "чебурашка2"), UIImage(named: "чебурашка3")])
-            let userSix = User(name: "Крош", age: 20, description: nil, avatar: UIImage(named: "крош"), photosArray: [UIImage(named: "крош1"), UIImage(named: "крош2")])
-            let userSeven = User(name: "Винни", age: 40, description: nil, avatar: UIImage(named: "винни"), photosArray: [UIImage(named: "винни1")])
-            let userEight = User(name: "Кот", age: 30, description: nil, avatar: UIImage(named: "кот"), photosArray: [UIImage(named: "кот")])
+            let userOne = User(name: "Айболит", age: 40, description: nil, avatar: UIImage(named: "айболит"), photosArray: [UIImage(named: "айболит1"), UIImage(named: "айболит2")])
+            let userTwo =  User(name: "Волк", age: 25, description: "Я волк и мне 25 лет", avatar: UIImage(named: "волк"), photosArray: [UIImage(named: "волк1"), UIImage(named: "волк2"), UIImage(named: "волк3")])
+            let userThree   = User(name: "Крыса", age: 29, description: "Я крыса и мне 29 лет", avatar: UIImage(named: "крыса"), photosArray: [UIImage(named: "крыса1"), UIImage(named: "крыса2"), UIImage(named: "крыса3")])
+            let userFour = User(name: "Лунтик", age: 16, description: "Я лунтик и мне 16 лет", avatar: UIImage(named: "лунтик"), photosArray: [UIImage(named: "лунтик1"), UIImage(named: "лунтик2"), UIImage(named: "лунтик3")])
+            let userFive  = User(name: "Халк", age: 40, description: "Я халк и мне 40 лет", avatar: UIImage(named: "халк"), photosArray: [UIImage(named: "халк1"), UIImage(named: "халк2"), UIImage(named: "халк3")])
+            let userSix  = User(name: "Чебурашка", age: 12, description: "Я чебурашка и мне 12 лет", avatar: UIImage(named: "чебурашка"), photosArray: [UIImage(named: "чебурашка1"), UIImage(named: "чебурашка2"), UIImage(named: "чебурашка3")])
+            let userSeven = User(name: "Крош", age: 20, description: nil, avatar: UIImage(named: "крош"), photosArray: [UIImage(named: "крош1"), UIImage(named: "крош2")])
+            let userEight = User(name: "Винни", age: 40, description: nil, avatar: UIImage(named: "винни"), photosArray: [UIImage(named: "винни1")])
+            let userNine = User(name: "Кот", age: 30, description: nil, avatar: UIImage(named: "кот"), photosArray: [UIImage(named: "кот")])
+            
             
             DataStorage.shared.usersArray.append(userOne)
             DataStorage.shared.usersArray.append(userTwo)
@@ -68,11 +70,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DataStorage.shared.usersArray.append(userSeven)
             DataStorage.shared.usersArray.append(userEight)
             
-            DataStorage.shared.arrayOfArraysOfFriends.append([userOne, userSeven])
-            DataStorage.shared.arrayOfArraysOfFriends.append([userTwo, userSix, userEight])
-            DataStorage.shared.arrayOfArraysOfFriends.append([userThree])
-            DataStorage.shared.arrayOfArraysOfFriends.append([userFour])
-            DataStorage.shared.arrayOfArraysOfFriends.append([userFive])
+            DataStorage.shared.arrayOfArraysOfFriends.append([userOne]) // а
+            DataStorage.shared.arrayOfArraysOfFriends.append([userTwo, userEight]) // в
+            DataStorage.shared.arrayOfArraysOfFriends.append([userThree, userSeven, userNine]) // к
+            DataStorage.shared.arrayOfArraysOfFriends.append([userFour]) // л
+            DataStorage.shared.arrayOfArraysOfFriends.append([userFive]) // х
+            DataStorage.shared.arrayOfArraysOfFriends.append([userSix]) // ч
         }
     
 }

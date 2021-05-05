@@ -11,6 +11,14 @@ class FriendViewController: UIViewController {
     
    @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var lettersView: UIView!
+    
+    @IBOutlet weak var stackWithLetters: UIStackView!
+    
+    private var lettersArray = [String]()
+    
+    private var buttonsArray = [UIButton]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -19,12 +27,38 @@ class FriendViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        setupLettersArray()
+        createButtons()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let destVC = segue.destination as? PhotosViewController else { return }
         guard let user = sender as? User else { return }
         destVC.getImages(images: user.photosArray)
+    }
+    
+    func createButtons() {
+        for letter in lettersArray {
+            let button = UIButton()
+            button.setTitle(letter, for: .normal)
+            button.setTitleColor(.black, for: .normal)
+            button.addTarget(self, action: #selector(chooseLetter(button:)), for: .touchUpInside)
+            buttonsArray.append(button)
+            stackWithLetters.addArrangedSubview(button)
+        }
+    }
+    
+    @objc func chooseLetter(button: UIButton) {
+        let section = buttonsArray.firstIndex(of: button)
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: Int(section!)), at: .none, animated: true)
+    }
+    
+    func setupLettersArray() {
+        for usersArray in DataStorage.shared.arrayOfArraysOfFriends {
+            guard let user = usersArray.first else { return }
+            guard let letter = user.name.first else { return }
+            lettersArray.append(String(letter))
+        }
     }
 }
 // MARK: - UITableViewDelegate
@@ -34,7 +68,6 @@ extension FriendViewController: UITableViewDelegate {
         
         let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
         
-        // Animation
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        usingSpringWithDamping: 0.5,
@@ -57,14 +90,11 @@ extension FriendViewController: UITableViewDelegate {
 extension FriendViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
         return DataStorage.shared.arrayOfArraysOfFriends.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return DataStorage.shared.arrayOfArraysOfFriends[section].count
-        
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -83,7 +113,6 @@ extension FriendViewController: UITableViewDataSource {
         let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
         
         cell.storageElementsForFriend(name: user.name , image: user.avatar)
-        
         
         return cell
     }
