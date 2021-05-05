@@ -8,58 +8,73 @@ import UIKit
 
 class FriendTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var nameOfFriendLabel: UILabel!
+    private let nameLabel: UILabel = {
+        let name = UILabel()
+        name.adjustsFontSizeToFitWidth = true
+        name.numberOfLines = 0
+        name.translatesAutoresizingMaskIntoConstraints = false
+        return name
+    }()
     
-    @IBOutlet weak var photoOfFriend: MyCustomImageView!
+    private let photoImage: UIImageView = {
+        let photo = UIImageView()
+        photo.clipsToBounds = true
+        photo.layer.masksToBounds = true
+        photo.layer.cornerRadius = 40
+        photo.translatesAutoresizingMaskIntoConstraints = false
+        return photo
+    }()
     
-    @IBOutlet weak var photoView: MyCustomView!
-    
-    func nilComponentsForFriend() {
-        self.nameOfFriendLabel.text = nil
-        self.photoOfFriend.image = nil
-        self.photoView = nil
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubview(nameLabel)
+        addSubview(photoImage)
+        setupNameLabel()
+        setupPhotoImage()
+        animatePhotoImage()
         
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        self.photoOfFriend.contentMode = .scaleToFill
-        nilComponentsForFriend()
+    func setupNameLabel() {
+        nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
-    func tapPhoto() {
-        self.photoOfFriend.isUserInteractionEnabled = true
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(animationForPhoto))
-        self.photoOfFriend.addGestureRecognizer(gesture)
+    func setupPhotoImage() {
+        photoImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        photoImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        photoImage.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        photoImage.heightAnchor.constraint(equalToConstant: 80).isActive = true
     }
     
-    @objc func animationForPhoto() {
-        UIView.animate(withDuration: 1,
-                       delay: 1,
-                       usingSpringWithDamping: 1,
-                       initialSpringVelocity: 1,
-                       options: .curveEaseInOut)
-        { [weak self] in
-            self?.photoOfFriend.frame.size.width += 10
-            self?.photoOfFriend.frame.size.height += 10
-        } completion: { (_) in
-            
-        }
+    func animatePhotoImage() {
+        self.photoImage.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(tapPhoto))
+        self.photoImage.addGestureRecognizer(gesture)
+    }
+    
+    @objc func tapPhoto() {
+        UIView.animate(withDuration: 2.0,
+                       animations: { [weak self] in
+                        self?.photoImage.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                       },
+                       completion: { [weak self] _ in
+                        self?.photoImage.transform = .identity
+                       })
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func prepareForReuse() {
-        super.prepareForReuse()
-        nilComponentsForFriend()
+        self.nameLabel.text = nil
+        self.photoImage.image = nil
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        tapPhoto()
+    func configure(name: String, photo: UIImage?) {
+        self.nameLabel.text = name
+        self.photoImage.image = photo
     }
     
-    func storageElementsForFriend(name: String, image: UIImage?) {
-        self.nameOfFriendLabel.text = name
-        self.photoOfFriend.image = image
-    }
 }
