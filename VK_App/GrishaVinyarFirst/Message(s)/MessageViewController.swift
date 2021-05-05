@@ -18,12 +18,10 @@ class MessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.rowHeight = 120
-        
         userMessages = DataStorage.shared.usersArray
         
         constraintsForTableView()
-        tableView.register(UINib(nibName: "MessageTableViewCell", bundle: nil), forCellReuseIdentifier: "messageCell")
+        tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "MessageCell")
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -49,7 +47,12 @@ class MessageViewController: UIViewController {
 }
 
 //MARK: - UITableViewDelegatee
-extension MessageViewController: UITableViewDelegate {}
+extension MessageViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 200
+    }
+}
 
 // MARK: - UITableViewDataSource
 extension MessageViewController: UITableViewDataSource {
@@ -59,11 +62,11 @@ extension MessageViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
         
         let userMessage = userMessages[indexPath.row]
         
-        cell.configureCell(photo: userMessage.avatar, name: userMessage.name)
+        cell.configure(photo: userMessage.avatar, name: userMessage.name)
         
         return cell
     }
