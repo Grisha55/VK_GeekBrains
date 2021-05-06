@@ -7,11 +7,12 @@
 import UIKit
 
 class FriendTableViewCell: UITableViewCell {
-
+    
     private let nameLabel: UILabel = {
         let name = UILabel()
         name.adjustsFontSizeToFitWidth = true
         name.numberOfLines = 0
+        name.textColor = .black
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
     }()
@@ -21,30 +22,51 @@ class FriendTableViewCell: UITableViewCell {
         photo.clipsToBounds = true
         photo.layer.masksToBounds = true
         photo.layer.cornerRadius = 40
+        photo.layer.borderWidth = 5
+        photo.layer.borderColor = UIColor.black.cgColor
         photo.translatesAutoresizingMaskIntoConstraints = false
         return photo
     }()
     
+    private let shadowView: UIView = {
+        let shadowView = UIView()
+        shadowView.translatesAutoresizingMaskIntoConstraints = false
+        shadowView.layer.shadowRadius = 5.0
+        shadowView.layer.shadowColor = UIColor.black.cgColor
+        shadowView.layer.shadowOpacity = 1
+        shadowView.layer.shadowOffset = .zero
+        return shadowView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(nameLabel)
-        addSubview(photoImage)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(shadowView)
+        shadowView.addSubview(photoImage)
         setupNameLabel()
-        setupPhotoImage()
+        setupShadow()
         animatePhotoImage()
+        setupPhotoImage()
         
     }
     
-    func setupNameLabel() {
-        nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-        nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    func setupPhotoImage() {
+        photoImage.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor).isActive = true
+        photoImage.leadingAnchor.constraint(equalTo: shadowView.leadingAnchor).isActive   = true
+        photoImage.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor).isActive     = true
+        photoImage.topAnchor.constraint(equalTo: shadowView.topAnchor).isActive           = true
     }
     
-    func setupPhotoImage() {
-        photoImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
-        photoImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        photoImage.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        photoImage.heightAnchor.constraint(equalToConstant: 80).isActive = true
+    func setupNameLabel() {
+        nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive               = true
+    }
+    
+    func setupShadow() {
+        shadowView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        shadowView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive                  = true
+        shadowView.widthAnchor.constraint(equalToConstant: 80).isActive                                   = true
+        shadowView.heightAnchor.constraint(equalToConstant: 80).isActive                                  = true
     }
     
     func animatePhotoImage() {
