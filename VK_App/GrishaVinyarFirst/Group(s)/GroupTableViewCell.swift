@@ -9,56 +9,53 @@ import UIKit
 
 class GroupTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var groupLabel: UILabel!
+    private let nameLabel: UILabel = {
+        let name = UILabel()
+        name.textColor = .black
+        name.numberOfLines = 0
+        name.translatesAutoresizingMaskIntoConstraints = false
+        return name
+    }()
     
-    @IBOutlet weak var groupImage: UIImageView!
+    private let groupImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 20
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
-    func nilComponentsForGroup() {
-        self.groupLabel.text = nil
-        self.groupImage.image = nil
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(groupImage)
+        setupNameLabel()
+        setupGroupImage()
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        nilComponentsForGroup()
-        tapGroupImage()
+    func setupNameLabel() {
+        nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive               = true
+    }
+    
+    func setupGroupImage() {
+        groupImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        groupImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive                  = true
+        groupImage.widthAnchor.constraint(equalToConstant: 150).isActive                                  = true
+        groupImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive            = true
     }
     
     override func prepareForReuse() {
-        super.prepareForReuse()
-        nilComponentsForGroup()
-    }
-
-    func tapGroupImage() {
-        self.groupImage.isUserInteractionEnabled = true
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(animationForGroupImage))
-        groupImage.addGestureRecognizer(gestureRecognizer)
+        self.nameLabel.text = nil
+        self.groupImage.image = nil
     }
     
-    @objc func animationForGroupImage() {
-        UIView.animate(withDuration: 2,
-                       delay: 0.5,
-                       usingSpringWithDamping: 1,
-                       initialSpringVelocity: 1,
-                       options: .curveEaseInOut)
-        { [weak self] in
-            self?.groupImage.frame.size.width += 10
-            self?.groupImage.frame.size.height += 10
-        } completion: { (_) in
-            
-        }
-
-    }
-
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func storageElementsForGroup(groupLabel: String, groupImage: UIImage?) {
-        self.groupLabel.text = groupLabel
+        self.nameLabel.text = groupLabel
         self.groupImage.image = groupImage
     }
     

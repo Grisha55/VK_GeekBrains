@@ -9,13 +9,12 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
 
-    let groupCell = "groupCell"
+    let groupCell = "GroupCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let  nib = UINib(nibName: "GroupTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: groupCell)
+        tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
         
     }
 

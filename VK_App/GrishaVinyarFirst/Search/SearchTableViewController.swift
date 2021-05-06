@@ -18,7 +18,7 @@ class SearchTableViewController: UITableViewController {
         
         self.tableView.rowHeight = 93
         
-        tableView.register(UINib(nibName: "GroupTableViewCell", bundle: nil), forCellReuseIdentifier: "groupCell")
+        tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: "GroupCell")
         
         setupFilterArray()
         
@@ -87,7 +87,7 @@ class SearchTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
         
         let filteredData = filterArray[indexPath.row]
         
