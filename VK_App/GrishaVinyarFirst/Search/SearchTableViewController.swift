@@ -105,12 +105,13 @@ extension SearchTableViewController: UISearchResultsUpdating {
 
         self.filterArray = []
 
-        for group in DataStorage.shared.allGroupsArray {
-            if searchController.searchBar.text == "" {
-                filterArray = DataStorage.shared.allGroupsArray
-            } else if group.name.contains(searchController.searchBar.text!) {
-                filterArray.append(group)
-            }
+        if searchController.searchBar.text == "" {
+            filterArray = DataStorage.shared.allGroupsArray
+        } else {
+            filterArray = DataStorage.shared.allGroupsArray.filter({ groups in
+                guard let text = searchController.searchBar.text else { return false }
+                return groups.name.contains(text)
+            })
         }
         self.tableView.reloadData()
     }
