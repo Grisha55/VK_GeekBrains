@@ -213,18 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				BE04F5442637EE10000FD010 /* System */,
-				BEDB752C2632E0A700F89977 /* Loading */,
-				BE04F5432637EDF0000FD010 /* Login */,
-				BE44D31326306E8B00F35A36 /* Message(s) */,
-				BEEA83CF262EE33F0029C997 /* News */,
 				BE7CBFB8262082F500A61DD4 /* Model */,
-				BE7CBFA92620805D00A61DD4 /* Search */,
-				BE7CBFA02620742900A61DD4 /* Group(s) */,
-				BE21956826205B5D00ED9259 /* Photo(s) */,
-				BE861F89263B42D800FF9678 /* CustomViewControllers */,
-				BEC4B086263C000A00B517C8 /* Interaction controllers */,
-				BE861F88263B42A700FF9678 /* Animation Controllers */,
-				BE9BE8422620569C00B5C86F /* Friend(s) */,
+				BEFB9EAB2649655E00DE1678 /* Controllers */,
 				BE515785261E2190000B3D8B /* Storyboards */,
 				BEA301452618E7EF00259CF1 /* Assets.xcassets */,
 				BEA3014A2618E7EF00259CF1 /* Info.plist */,
@@ -258,6 +248,24 @@
 				BE26FDDF2641A54500049E76 /* NewsCell.xib */,
 			);
 			path = News;
+			sourceTree = "<group>";
+		};
+		BEFB9EAB2649655E00DE1678 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BEDB752C2632E0A700F89977 /* Loading */,
+				BE04F5432637EDF0000FD010 /* Login */,
+				BE9BE8422620569C00B5C86F /* Friend(s) */,
+				BE21956826205B5D00ED9259 /* Photo(s) */,
+				BE7CBFA02620742900A61DD4 /* Group(s) */,
+				BE7CBFA92620805D00A61DD4 /* Search */,
+				BEEA83CF262EE33F0029C997 /* News */,
+				BE44D31326306E8B00F35A36 /* Message(s) */,
+				BE861F89263B42D800FF9678 /* CustomViewControllers */,
+				BEC4B086263C000A00B517C8 /* Interaction controllers */,
+				BE861F88263B42A700FF9678 /* Animation Controllers */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
