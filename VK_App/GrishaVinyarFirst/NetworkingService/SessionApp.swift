@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SessionApp {
+final class SessionApp {
     
     static var shared = SessionApp()
     
