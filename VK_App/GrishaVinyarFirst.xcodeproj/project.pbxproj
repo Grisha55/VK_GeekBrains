@@ -41,9 +41,12 @@
 		BEEA83D6262EE3C10029C997 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEA83D4262EE3C10029C997 /* NewsTableViewCell.swift */; };
 		BEEA83D7262EE3C10029C997 /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEEA83D5262EE3C10029C997 /* NewsTableViewCell.xib */; };
 		BEF4682726341EE500E6C7DD /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF4682626341EE500E6C7DD /* PhotosViewController.swift */; };
+		C1F3AEA98333627BC04CBDA8 /* Pods_GrishaVinyarFirst.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFAF5C88AAFB2BB2800E2D33 /* Pods_GrishaVinyarFirst.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9CBF85E77667C8769ECA72F4 /* Pods-GrishaVinyarFirst.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrishaVinyarFirst.debug.xcconfig"; path = "Target Support Files/Pods-GrishaVinyarFirst/Pods-GrishaVinyarFirst.debug.xcconfig"; sourceTree = "<group>"; };
+		AFAF5C88AAFB2BB2800E2D33 /* Pods_GrishaVinyarFirst.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrishaVinyarFirst.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE21956926205B8800ED9259 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		BE26FDDE2641A54500049E76 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 		BEEA83D4262EE3C10029C997 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		BEEA83D5262EE3C10029C997 /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
 		BEF4682626341EE500E6C7DD /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		C0B73B7B6DF8AAF7AFB1564D /* Pods-GrishaVinyarFirst.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrishaVinyarFirst.release.xcconfig"; path = "Target Support Files/Pods-GrishaVinyarFirst/Pods-GrishaVinyarFirst.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,12 +91,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1F3AEA98333627BC04CBDA8 /* Pods_GrishaVinyarFirst.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		93E9249CE793D10BEFD39FBD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9CBF85E77667C8769ECA72F4 /* Pods-GrishaVinyarFirst.debug.xcconfig */,
+				C0B73B7B6DF8AAF7AFB1564D /* Pods-GrishaVinyarFirst.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BE04F5432637EDF0000FD010 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +223,8 @@
 			children = (
 				BEA3013B2618E7ED00259CF1 /* GrishaVinyarFirst */,
 				BEA3013A2618E7ED00259CF1 /* Products */,
+				93E9249CE793D10BEFD39FBD /* Pods */,
+				E74ADD7EEF076CCA12A83685 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -279,6 +296,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		E74ADD7EEF076CCA12A83685 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AFAF5C88AAFB2BB2800E2D33 /* Pods_GrishaVinyarFirst.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -286,9 +311,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEA3014D2618E7EF00259CF1 /* Build configuration list for PBXNativeTarget "GrishaVinyarFirst" */;
 			buildPhases = (
+				79E5E3BBD0BDAC1B11B33906 /* [CP] Check Pods Manifest.lock */,
 				BEA301352618E7EC00259CF1 /* Sources */,
 				BEA301362618E7EC00259CF1 /* Frameworks */,
 				BEA301372618E7EC00259CF1 /* Resources */,
+				69C0DF164447FEA728AF4AE1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -350,6 +377,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		69C0DF164447FEA728AF4AE1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GrishaVinyarFirst/Pods-GrishaVinyarFirst-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GrishaVinyarFirst/Pods-GrishaVinyarFirst-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GrishaVinyarFirst/Pods-GrishaVinyarFirst-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		79E5E3BBD0BDAC1B11B33906 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GrishaVinyarFirst-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BEA301352618E7EC00259CF1 /* Sources */ = {
@@ -523,6 +592,7 @@
 		};
 		BEA3014E2618E7EF00259CF1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CBF85E77667C8769ECA72F4 /* Pods-GrishaVinyarFirst.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -542,6 +612,7 @@
 		};
 		BEA3014F2618E7EF00259CF1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0B73B7B6DF8AAF7AFB1564D /* Pods-GrishaVinyarFirst.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
