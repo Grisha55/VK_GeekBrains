@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE0AB9E6265C9E4A0057BDC4 /* LoginWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0AB9E5265C9E490057BDC4 /* LoginWebViewController.swift */; };
 		BE21956B26205B8800ED9259 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE21956926205B8800ED9259 /* PhotoCollectionViewCell.swift */; };
 		BE21956C26205B8800ED9259 /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */; };
 		BE26FDE02641A54500049E76 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE26FDDE2641A54500049E76 /* NewsCell.swift */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		9CBF85E77667C8769ECA72F4 /* Pods-GrishaVinyarFirst.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrishaVinyarFirst.debug.xcconfig"; path = "Target Support Files/Pods-GrishaVinyarFirst/Pods-GrishaVinyarFirst.debug.xcconfig"; sourceTree = "<group>"; };
 		AFAF5C88AAFB2BB2800E2D33 /* Pods_GrishaVinyarFirst.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrishaVinyarFirst.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE0AB9E5265C9E490057BDC4 /* LoginWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebViewController.swift; sourceTree = "<group>"; };
 		BE21956926205B8800ED9259 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		BE26FDDE2641A54500049E76 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
@@ -104,7 +106,6 @@
 				9CBF85E77667C8769ECA72F4 /* Pods-GrishaVinyarFirst.debug.xcconfig */,
 				C0B73B7B6DF8AAF7AFB1564D /* Pods-GrishaVinyarFirst.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -112,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				BEA301402618E7ED00259CF1 /* LoginViewController.swift */,
+				BE0AB9E5265C9E490057BDC4 /* LoginWebViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -436,6 +438,7 @@
 				BE7BF56D2658A4C4005A6718 /* SessionApp.swift in Sources */,
 				BE7CBFBE262084BC00A61DD4 /* Groups.swift in Sources */,
 				BE9BE83F2620540500B5C86F /* FriendTableViewCell.swift in Sources */,
+				BE0AB9E6265C9E4A0057BDC4 /* LoginWebViewController.swift in Sources */,
 				BE861F8B263B43FF00FF9678 /* InteractiveTransition.swift in Sources */,
 				BE21956B26205B8800ED9259 /* PhotoCollectionViewCell.swift in Sources */,
 				BE7CBFAB2620807F00A61DD4 /* SearchTableViewController.swift in Sources */,
