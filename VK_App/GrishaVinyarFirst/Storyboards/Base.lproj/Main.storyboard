@@ -36,11 +36,12 @@
                     </view>
                     <connections>
                         <outlet property="webView" destination="e57-uG-csZ" id="McX-NS-ehr"/>
+                        <segue destination="jAU-fA-epO" kind="show" identifier="toTabBar" id="sZC-Rf-Xj3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a34-CX-kbE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-430.43478260869568" y="-621.42857142857144"/>
+            <point key="canvasLocation" x="764" y="-649"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="tu6-yD-oFG">
@@ -266,6 +267,9 @@
             <point key="canvasLocation" x="1251" y="567"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="sZC-Rf-Xj3"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="vk.image" width="112.19599914550781" height="112.19599914550781"/>
         <systemColor name="opaqueSeparatorColor">

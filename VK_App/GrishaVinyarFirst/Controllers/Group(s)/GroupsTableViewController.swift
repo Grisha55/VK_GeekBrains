@@ -11,9 +11,15 @@ class GroupsTableViewController: UITableViewController {
 
     let groupCell = "GroupCell"
     
+    let networkingService = NetworkingService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        networkingService.getUserGroups()
+        
+        networkingService.searchGroups()
+        
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
         
     }

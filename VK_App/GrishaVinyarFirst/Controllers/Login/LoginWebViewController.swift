@@ -77,6 +77,9 @@ extension LoginWebViewController: WKNavigationDelegate {
         
         
         decisionHandler(.cancel)
+        
+        // make the transition to the tabBarVC
+        performSegue(withIdentifier: "toTabBar", sender: self)
     }
     
 }

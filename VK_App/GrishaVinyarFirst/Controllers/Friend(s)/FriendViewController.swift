@@ -15,12 +15,16 @@ class FriendViewController: UIViewController {
     
     @IBOutlet weak var stackWithLetters: UIStackView!
     
+    let networkingService = NetworkingService()
+    
     private var lettersArray = [String]()
     
     private var buttonsArray = [UIButton]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        networkingService.getFriends()
         
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
