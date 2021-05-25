@@ -26,6 +26,7 @@
 		BE861F8B263B43FF00FF9678 /* InteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE861F8A263B43FF00FF9678 /* InteractiveTransition.swift */; };
 		BE8A1552262C27BF009B627C /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8A1551262C27BF009B627C /* FriendViewController.swift */; };
 		BE9BE83F2620540500B5C86F /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9BE83D2620540500B5C86F /* FriendTableViewCell.swift */; };
+		BEA05A28265D53BB00D1C2DE /* NetworkingConstans.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA05A27265D53BB00D1C2DE /* NetworkingConstans.swift */; };
 		BEA3013D2618E7ED00259CF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA3013C2618E7ED00259CF1 /* AppDelegate.swift */; };
 		BEA3013F2618E7ED00259CF1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA3013E2618E7ED00259CF1 /* SceneDelegate.swift */; };
 		BEA301412618E7ED00259CF1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA301402618E7ED00259CF1 /* LoginViewController.swift */; };
@@ -68,6 +69,7 @@
 		BE861F8A263B43FF00FF9678 /* InteractiveTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveTransition.swift; sourceTree = "<group>"; };
 		BE8A1551262C27BF009B627C /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		BE9BE83D2620540500B5C86F /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		BEA05A27265D53BB00D1C2DE /* NetworkingConstans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingConstans.swift; sourceTree = "<group>"; };
 		BEA301392618E7ED00259CF1 /* GrishaVinyarFirst.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrishaVinyarFirst.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEA3013C2618E7ED00259CF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEA3013E2618E7ED00259CF1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				BE7BF56C2658A4C4005A6718 /* SessionApp.swift */,
 				BE0AB9E7265CBB390057BDC4 /* NetworkingService.swift */,
+				BEA05A27265D53BB00D1C2DE /* NetworkingConstans.swift */,
 			);
 			path = NetworkingService;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				BEF4682726341EE500E6C7DD /* PhotosViewController.swift in Sources */,
 				BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */,
 				BEA301412618E7ED00259CF1 /* LoginViewController.swift in Sources */,
+				BEA05A28265D53BB00D1C2DE /* NetworkingConstans.swift in Sources */,
 				BE7CBFA22620744A00A61DD4 /* GroupsTableViewController.swift in Sources */,
 				BE7CBFBA2620835000A61DD4 /* DataStorage.swift in Sources */,
 				BE7BF56D2658A4C4005A6718 /* SessionApp.swift in Sources */,

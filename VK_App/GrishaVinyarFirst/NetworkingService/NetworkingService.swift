@@ -9,6 +9,8 @@ import Foundation
 
 class NetworkingService {
     
+    let constanse = NetworkingConstans()
+    
     // MARK: Friends
     func getFriends() {
         
@@ -19,15 +21,15 @@ class NetworkingService {
         let session = URLSession(configuration: configuration)
         
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.vk.com"
+        components.scheme = constanse.scheme
+        components.host = constanse.host
         components.path = "/method/users.get"
         
         components.queryItems = [
             URLQueryItem(name: "order", value: "name"),
             URLQueryItem(name: "fields", value: "sex, city, country"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: "5.68")
+            URLQueryItem(name: "v", value: constanse.version)
         ]
         
         guard let url = components.url else { return }
@@ -58,15 +60,15 @@ class NetworkingService {
         let session = URLSession(configuration: configuration)
         
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.vk.com"
+        components.scheme = constanse.scheme
+        components.host = constanse.host
         components.path = "/method/photos.get"
         
         components.queryItems = [
             URLQueryItem(name: "album_id", value: "wall"),
             URLQueryItem(name: "rev", value: "1"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: "5.68")
+            URLQueryItem(name: "v", value: constanse.version)
         ]
         
         guard let url = components.url else { return }
@@ -95,13 +97,13 @@ class NetworkingService {
         let session = URLSession(configuration: configuration)
         
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.vk.com"
+        components.scheme = constanse.scheme
+        components.host = constanse.host
         components.path = "/method/groups.get"
         components.queryItems = [
             URLQueryItem(name: "fields", value: "status, fixed_post, verified"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: "5.68")
+            URLQueryItem(name: "v", value: constanse.version)
         ]
         
         guard let url = components.url else { return }
@@ -130,13 +132,13 @@ class NetworkingService {
         let session = URLSession(configuration: configuration)
         
         var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.vk.com"
+        components.scheme = constanse.scheme
+        components.host = constanse.host
         components.path = "/method/groups.search"
         components.queryItems = [
             URLQueryItem(name: "q", value: "sport"),
             URLQueryItem(name: "sort", value: "0"),
-            URLQueryItem(name: "v", value: "5.68"),
+            URLQueryItem(name: "v", value: constanse.version),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token)
         ]
         
