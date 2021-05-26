@@ -10,6 +10,8 @@ import WebKit
 
 class LoginWebViewController: UIViewController {
     
+    let networkingConstanse = NetworkingConstans()
+    
     @IBOutlet weak var webView: WKWebView! {
         didSet {
             webView.navigationDelegate = self
@@ -31,12 +33,12 @@ class LoginWebViewController: UIViewController {
         constructor.host = "oauth.vk.com"
         constructor.path = "/authorize"
         constructor.queryItems = [
-            URLQueryItem(name: "client_id", value: "7863075"),
+            URLQueryItem(name: "client_id", value: networkingConstanse.clientId),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "scope", value: "262150"),
             URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: "5.68")
+            URLQueryItem(name: "v", value: networkingConstanse.version)
         ]
         guard let url = constructor.url else { return }
         let request = URLRequest(url: url)
