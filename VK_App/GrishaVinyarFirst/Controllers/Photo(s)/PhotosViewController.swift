@@ -11,10 +11,15 @@ class PhotosViewController: UIViewController {
 
     var photosArray = [UIImage?]()
     
+    let networkengMService = NetworkingService()
+    
     @IBOutlet var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        networkengMService.getPhotos()
+        
         collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
         collectionView.dataSource = self
         collectionView.delegate = self

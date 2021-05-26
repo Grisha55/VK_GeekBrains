@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DataStorage: NSObject {
+final class DataStorage: NSObject {
     
     static let shared = DataStorage()
     
