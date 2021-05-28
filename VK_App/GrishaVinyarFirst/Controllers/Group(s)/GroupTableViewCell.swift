@@ -20,7 +20,9 @@ class GroupTableViewCell: UITableViewCell {
     private let groupImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = 40
+        imageView.layer.borderWidth = 3
+        imageView.layer.borderColor = UIColor.purple.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -34,15 +36,16 @@ class GroupTableViewCell: UITableViewCell {
     }
     
     func setupNameLabel() {
-        nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive               = true
+        nameLabel.leadingAnchor.constraint(equalTo: groupImage.trailingAnchor, constant: 10).isActive    = true
+        nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive                  = true
+        nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
     }
     
     func setupGroupImage() {
-        groupImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        groupImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive    = true
         groupImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive                  = true
-        groupImage.widthAnchor.constraint(equalToConstant: 150).isActive                                  = true
-        groupImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive            = true
+        groupImage.widthAnchor.constraint(equalToConstant: 80).isActive                                   = true
+        groupImage.heightAnchor.constraint(equalToConstant: 80).isActive                                  = true
     }
     
     override func prepareForReuse() {

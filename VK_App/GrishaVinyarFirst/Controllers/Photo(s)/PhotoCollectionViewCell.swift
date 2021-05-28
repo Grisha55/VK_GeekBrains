@@ -20,10 +20,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var stackView: UIStackView!
     
     weak var delegate: PhotoCollectionViewCellDelegate?
-    
-    func nilComponentsForPhoto() {
-        self.photoImage.image = nil
-    }
 
     func makeBeautifulPhoto() {
         self.photoImage.layer.cornerRadius = 20
@@ -31,13 +27,12 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        nilComponentsForPhoto()
         makeBeautifulPhoto()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        nilComponentsForPhoto()
+        self.photoImage.image = nil
     }
 
     func storageElementsForPhoto(image: UIImage?) {
