@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct User {
+struct Friend {
     var name: String
     var age: Int
     var description: String?

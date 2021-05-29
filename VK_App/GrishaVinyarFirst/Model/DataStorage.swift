@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DataStorage: NSObject {
+final class DataStorage: NSObject {
     
     static let shared = DataStorage()
     
@@ -15,8 +15,8 @@ class DataStorage: NSObject {
         super.init()
     }
     
-    var usersArray = [User]()
-    var allGroupsArray = [Groups]()
-    var groupsArray = [Groups]()
-    var arrayOfArraysOfFriends = [[User]]()
+    var usersArray = [Friend]()
+    var allGroupsArray = [List]()
+    var groupsArray = [List]()
+    var arrayOfArraysOfFriends = [[Friend]]()
 }

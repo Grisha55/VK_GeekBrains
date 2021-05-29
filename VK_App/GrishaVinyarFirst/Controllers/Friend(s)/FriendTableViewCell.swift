@@ -22,8 +22,8 @@ class FriendTableViewCell: UITableViewCell {
         photo.clipsToBounds = true
         photo.layer.masksToBounds = true
         photo.layer.cornerRadius = 40
-        photo.layer.borderWidth = 5
-        photo.layer.borderColor = UIColor.black.cgColor
+        photo.layer.borderWidth = 3
+        photo.layer.borderColor = UIColor.cyan.cgColor
         photo.translatesAutoresizingMaskIntoConstraints = false
         return photo
     }()
@@ -32,7 +32,7 @@ class FriendTableViewCell: UITableViewCell {
         let shadowView = UIView()
         shadowView.translatesAutoresizingMaskIntoConstraints = false
         shadowView.layer.shadowRadius = 5.0
-        shadowView.layer.shadowColor = UIColor.black.cgColor
+        shadowView.layer.shadowColor = UIColor.purple.cgColor
         shadowView.layer.shadowOpacity = 1
         shadowView.layer.shadowOffset = .zero
         return shadowView

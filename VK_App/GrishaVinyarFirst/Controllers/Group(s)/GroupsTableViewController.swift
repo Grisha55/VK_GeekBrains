@@ -11,9 +11,29 @@ class GroupsTableViewController: UITableViewController {
 
     let groupCell = "GroupCell"
     
+    let networkingService = NetworkingService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        networkingService.getUserGroups { [weak self] (result) in
+            switch result {
+            
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            case .success(let list):
+                
+                DataStorage.shared.groupsArray = list
+            
+            }
+            
+            DispatchQueue.main.async {
+                
+                self?.tableView.reloadData()
+            }
+        }
+        
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
         
     }
@@ -42,9 +62,23 @@ class GroupsTableViewController: UITableViewController {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: groupCell, for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
         
-        let nameString = DataStorage.shared.groupsArray[indexPath.row]
+        let group = DataStorage.shared.groupsArray[indexPath.row]
         
-        cell.storageElementsForGroup(groupLabel: nameString.name, groupImage: nameString.groupImage)
+        guard let photoString = group.photo50 else { return UITableViewCell() }
+        
+        guard let url = URL(string: photoString) else { return UITableViewCell() }
+        
+        let imageView = UIImageView()
+        
+        do {
+            let data = try Data(contentsOf: url)
+            imageView.image = UIImage(data: data)
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        cell.storageElementsForGroup(groupLabel: group.name ?? "N/A", groupImage: imageView.image)
         
         return cell
     }

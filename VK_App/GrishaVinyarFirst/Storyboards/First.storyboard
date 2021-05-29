@@ -83,9 +83,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" directionalLockEnabled="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7O-ly-bCU">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7O-ly-bCU">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l1v-Bn-aS0">
                                     <size key="itemSize" width="128" height="128"/>
@@ -94,10 +93,20 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="bdt-wC-hUl" id="HZU-Le-Gml"/>
+                                    <outlet property="delegate" destination="bdt-wC-hUl" id="QrD-kG-c6I"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ftd-c2-5y8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="M7O-ly-bCU" firstAttribute="trailing" secondItem="Ftd-c2-5y8" secondAttribute="trailing" id="eXj-vW-ZWp"/>
+                            <constraint firstItem="M7O-ly-bCU" firstAttribute="leading" secondItem="Ftd-c2-5y8" secondAttribute="leading" id="jpr-5I-tsP"/>
+                            <constraint firstItem="M7O-ly-bCU" firstAttribute="bottom" secondItem="Ftd-c2-5y8" secondAttribute="bottom" id="sb7-UX-W3W"/>
+                            <constraint firstItem="M7O-ly-bCU" firstAttribute="top" secondItem="Ftd-c2-5y8" secondAttribute="top" id="yAd-b0-Fzj"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="645-uH-xLr"/>
                     <connections>

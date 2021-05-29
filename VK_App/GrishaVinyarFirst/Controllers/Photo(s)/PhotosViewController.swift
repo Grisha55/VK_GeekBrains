@@ -8,22 +8,44 @@
 import UIKit
 
 class PhotosViewController: UIViewController {
-
-    var photosArray = [UIImage?]()
+    
+    let networkingService = NetworkingService()
+    
+    var pictures = [Picture]()
+    
+    // id пользователя, на которого нажали
+    var userID: Int = 0
     
     @IBOutlet var collectionView: UICollectionView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
-        collectionView.dataSource = self
-        collectionView.delegate = self
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         
     }
     
-    func getImages(images: [UIImage?]) {
-        self.photosArray = images
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Делаем запрос для получения фоток пользователя, на которого нажали
+        networkingService.getPhotos(userID: userID) { [weak self] (result) in
+            switch result {
+            
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            case .success(let pictures):
+                self?.pictures = pictures
+                
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            }
+        }
+        
+        collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
     }
+    
 }
 
 // UICollectionViewDelegate
@@ -57,19 +79,38 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
- //UICollectionViewDataSource
+//UICollectionViewDataSource
 extension PhotosViewController: UICollectionViewDataSource {
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photosArray.count
+        
+        return pictures.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
-
-        cell.storageElementsForPhoto(image: photosArray[indexPath.row])
-
+        
+        let imageView = UIImageView()
+        
+        guard let sizes = pictures[indexPath.row].sizes else { return UICollectionViewCell() }
+        
+        guard let pictureURL = sizes[indexPath.row].src else { return UICollectionViewCell() }
+        
+        guard let url = URL(string: pictureURL) else { return UICollectionViewCell() }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            
+            imageView.image = UIImage(data: data)
+            
+            cell.storageElementsForPhoto(image: imageView.image)
+        } catch {
+            
+            print(error.localizedDescription)
+        }
+        
         cell.delegate = self
-
+        
         return cell
     }
 }
