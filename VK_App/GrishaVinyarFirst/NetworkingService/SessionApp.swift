@@ -12,7 +12,7 @@ final class SessionApp {
     static var shared = SessionApp()
     
     var token: String?
-    var userID: String?
+    var userID: Int?
     
     private init() {}
 }

@@ -15,62 +15,58 @@ class FriendViewController: UIViewController {
     
     @IBOutlet weak var stackWithLetters: UIStackView!
     
+    // id друга
+    var id = 0
+    
     let networkingService = NetworkingService()
     
     private var lettersArray = [String]()
     
     private var buttonsArray = [UIButton]()
     
+    var items = [Item]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        networkingService.getFriends()
+        // Получаем данные о всех друзьях пользователя
+        networkingService.getFriends { [weak self] (result) in
+            switch result {
+            
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            case .success(let users):
+                
+                self?.items = users
+                
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+                
+            }
+        }
         
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        setupLettersArray()
-        createButtons()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         guard let destVC = segue.destination as? PhotosViewController else { return }
-        guard let user = sender as? User else { return }
-        destVC.getImages(images: user.photosArray)
+        
+        // Передаем id пользователя на экран с его фотографиями
+        destVC.userID = id
     }
     
-    func createButtons() {
-        for letter in lettersArray {
-            let button = UIButton()
-            button.setTitle(letter, for: .normal)
-            button.setTitleColor(.black, for: .normal)
-            button.addTarget(self, action: #selector(chooseLetter(button:)), for: .touchUpInside)
-            buttonsArray.append(button)
-            stackWithLetters.addArrangedSubview(button)
-        }
-    }
-    
-    @objc func chooseLetter(button: UIButton) {
-        let section = buttonsArray.firstIndex(of: button)
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: Int(section!)), at: .none, animated: true)
-    }
-    
-    func setupLettersArray() {
-        for usersArray in DataStorage.shared.arrayOfArraysOfFriends {
-            guard let user = usersArray.first else { return }
-            guard let letter = user.name.first else { return }
-            lettersArray.append(String(letter))
-        }
-    }
 }
 // MARK: - UITableViewDelegate
 extension FriendViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
         
         UIView.animate(withDuration: 0.5,
                        delay: 0,
@@ -81,8 +77,13 @@ extension FriendViewController: UITableViewDelegate {
         } completion: { _ in
             self.tableView.cellForRow(at: indexPath)?.transform = .identity
         }
-
-        performSegue(withIdentifier: "fromFriendsToPhotos", sender: user)
+        
+        let item = items[indexPath.row]
+        
+        // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
+        id = item.id ?? 0
+        
+        performSegue(withIdentifier: "fromFriendsToPhotos", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -94,29 +95,45 @@ extension FriendViewController: UITableViewDelegate {
 extension FriendViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return DataStorage.shared.arrayOfArraysOfFriends.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataStorage.shared.arrayOfArraysOfFriends[section].count
+        return items.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        let usersArray = DataStorage.shared.arrayOfArraysOfFriends[section].first
+        let item = items[section]
         
-        guard let letter = usersArray?.name.first else {return "" }
+        guard let letter = item.lastName?.first else {return "" }
         
         return String(letter)
-    }
+    }*/
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
         
-        let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
+        let item = items[indexPath.row]
         
-        cell.configure(name: user.name , photo: user.avatar)
+        let imageView = UIImageView()
+        
+        guard let photoString = item.photo_100 else { return UITableViewCell() }
+        
+        guard let url = URL(string: photoString) else { return UITableViewCell() }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            
+            imageView.image = UIImage(data: data)
+            
+        } catch {
+            
+            print(error.localizedDescription)
+        }
+        
+        cell.configure(name: item.lastName ?? "No name" , photo: imageView.image)
         
         return cell
     }
