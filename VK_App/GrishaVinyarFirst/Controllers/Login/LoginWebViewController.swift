@@ -26,6 +26,13 @@ class LoginWebViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if let token = UserDefaults.standard.string(forKey: "Token") {
+            
+            SessionApp.shared.token = token
+            
+            performSegue(withIdentifier: "toTabBar", sender: self)
+        }
+        
         // https://oauth.vk.com/authorize
         
         var constructor = URLComponents()
@@ -34,11 +41,12 @@ class LoginWebViewController: UIViewController {
         constructor.path = "/authorize"
         constructor.queryItems = [
             URLQueryItem(name: "client_id", value: networkingConstanse.clientId),
-            URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
+            URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "scope", value: "262150"),
             URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: networkingConstanse.version)
+            URLQueryItem(name: "v", value: networkingConstanse.version),
+            
         ]
         guard let url = constructor.url else { return }
         let request = URLRequest(url: url)
@@ -72,16 +80,17 @@ extension LoginWebViewController: WKNavigationDelegate {
         
         // Токен имеет ключ “access_token”, Мы можем получить его и использовать в наших запросах к ВК.
         let token = params["access_token"]
-        
-        SessionApp.shared.token = token
-        
-        print(token as Any)
+           
+        if let token = token, !token.isEmpty {
+            
+            UserDefaults.standard.setValue(token, forKey: "Token")
+            
+            performSegue(withIdentifier: "toTabBar", sender: self)
+        }
         
         
         decisionHandler(.cancel)
         
-        // make the transition to the tabBarVC
-        performSegue(withIdentifier: "toTabBar", sender: self)
     }
     
 }
