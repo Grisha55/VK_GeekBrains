@@ -53,7 +53,9 @@ class NetworkingService {
                 
                 guard let items = user.response?.items else { return }
                 
-                completion(.success(items))
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
                 
             } catch {
                 completion(.failure(error))
@@ -104,7 +106,9 @@ class NetworkingService {
                 
                 guard let pictures = photos.response?.items else { return }
                 
-                completion(.success(pictures))
+                DispatchQueue.main.async {
+                    completion(.success(pictures))
+                }
                 
             } catch {
                 print(error.localizedDescription)
@@ -152,7 +156,9 @@ class NetworkingService {
                 
                 guard let items = groups.response?.items else { return }
                 
-                completion(.success(items))
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
     
             } catch {
                 completion(.failure(error))
@@ -200,7 +206,9 @@ class NetworkingService {
                 
                 guard let items = group.response?.items else { return }
                 
-                completion(.success(items))
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
                 
             } catch {
                 completion(.failure(error))
