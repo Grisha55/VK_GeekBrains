@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PhotosViewController: UIViewController {
     
     let networkingService = NetworkingService()
     
-    var pictures = [Picture]()
+    var pictures = List<Picture>()
     
     // id пользователя, на которого нажали
     var userID: Int = 0
@@ -92,9 +93,9 @@ extension PhotosViewController: UICollectionViewDataSource {
         
         let imageView = UIImageView()
         
-        guard let sizes = pictures[indexPath.row].sizes else { return UICollectionViewCell() }
+        let sizes = pictures[indexPath.row].sizes
         
-        guard let pictureURL = sizes[indexPath.row].src else { return UICollectionViewCell() }
+        let pictureURL = sizes[indexPath.row].src
         
         guard let url = URL(string: pictureURL) else { return UICollectionViewCell() }
         

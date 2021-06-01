@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class DataStorage: NSObject {
     
@@ -16,7 +17,7 @@ final class DataStorage: NSObject {
     }
     
     var usersArray = [Friend]()
-    var allGroupsArray = [List]()
-    var groupsArray = [List]()
+    var allGroupsArray = List<GroupList>()
+    var groupsArray = List<GroupList>()
     var arrayOfArraysOfFriends = [[Friend]]()
 }

@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import RealmSwift
 
 class NetworkingService {
     
     let constanse = NetworkingConstans()
     
     // MARK: Friends
-    func getFriends(completion: @escaping (Result<[Item], Error>) -> Void) {
+    func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void) {
         
         // https://api.vk.com/method/friends.get
         
@@ -62,7 +63,7 @@ class NetworkingService {
     }
     
     // MARK: Photos
-    func getPhotos(userID: Int?, completion: @escaping (Result<[Picture], Error>) -> Void) {
+    func getPhotos(userID: Int?, completion: @escaping (Result<List<Picture>, Error>) -> Void) {
         
         // https://api.vk.com/method/photos.get
         
@@ -113,7 +114,7 @@ class NetworkingService {
     }
     
     // MARK: Groups
-    func getUserGroups(completion: @escaping (Result<[List], Error>) -> Void) {
+    func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.get
         
@@ -160,7 +161,7 @@ class NetworkingService {
         task.resume()
     }
     
-    func searchGroups(name: String, completion: @escaping (Result<[List], Error>) -> Void) {
+    func searchGroups(name: String, completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.search
         

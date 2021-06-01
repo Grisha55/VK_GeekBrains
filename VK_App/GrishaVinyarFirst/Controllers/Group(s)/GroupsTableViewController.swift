@@ -64,7 +64,7 @@ class GroupsTableViewController: UITableViewController {
         
         let group = DataStorage.shared.groupsArray[indexPath.row]
         
-        guard let photoString = group.photo50 else { return UITableViewCell() }
+        let photoString = group.photo50
         
         guard let url = URL(string: photoString) else { return UITableViewCell() }
         

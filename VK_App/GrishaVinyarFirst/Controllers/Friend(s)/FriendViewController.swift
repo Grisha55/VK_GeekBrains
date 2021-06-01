@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendViewController: UIViewController {
     
@@ -24,7 +25,7 @@ class FriendViewController: UIViewController {
     
     private var buttonsArray = [UIButton]()
     
-    var items = [Item]()
+    var items = List<Item>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +82,7 @@ extension FriendViewController: UITableViewDelegate {
         let item = items[indexPath.row]
         
         // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
-        id = item.id ?? 0
+        id = item.id 
         
         performSegue(withIdentifier: "fromFriendsToPhotos", sender: self)
     }
@@ -119,7 +120,7 @@ extension FriendViewController: UITableViewDataSource {
         
         let imageView = UIImageView()
         
-        guard let photoString = item.photo_100 else { return UITableViewCell() }
+        let photoString = item.photo_100
         
         guard let url = URL(string: photoString) else { return UITableViewCell() }
         
@@ -133,7 +134,7 @@ extension FriendViewController: UITableViewDataSource {
             print(error.localizedDescription)
         }
         
-        cell.configure(name: item.lastName ?? "No name" , photo: imageView.image)
+        cell.configure(name: item.lastName , photo: imageView.image)
         
         return cell
     }
