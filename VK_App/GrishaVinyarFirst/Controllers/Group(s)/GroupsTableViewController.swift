@@ -78,7 +78,7 @@ class GroupsTableViewController: UITableViewController {
             print(error.localizedDescription)
         }
         
-        cell.storageElementsForGroup(groupLabel: group.name ?? "N/A", groupImage: imageView.image)
+        cell.storageElementsForGroup(groupLabel: group.name , groupImage: imageView.image)
         
         return cell
     }

@@ -12,18 +12,10 @@ class FriendViewController: UIViewController {
     
    @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var lettersView: UIView!
-    
-    @IBOutlet weak var stackWithLetters: UIStackView!
-    
     // id друга
     var id = 0
     
     let networkingService = NetworkingService()
-    
-    private var lettersArray = [String]()
-    
-    private var buttonsArray = [UIButton]()
     
     var items = List<Item>()
     
@@ -103,15 +95,6 @@ extension FriendViewController: UITableViewDataSource {
         return items.count
     }
     
-    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let item = items[section]
-        
-        guard let letter = item.lastName?.first else {return "" }
-        
-        return String(letter)
-    }*/
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
@@ -134,7 +117,7 @@ extension FriendViewController: UITableViewDataSource {
             print(error.localizedDescription)
         }
         
-        cell.configure(name: item.lastName , photo: imageView.image)
+        cell.configure(name: "\(item.firstName) \(item.lastName)" , photo: imageView.image)
         
         return cell
     }
