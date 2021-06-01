@@ -82,7 +82,7 @@ class NetworkingService {
             URLQueryItem(name: "owner_id", value: String(userID ?? -1)),
             URLQueryItem(name: "album_id", value: "wall"),
             URLQueryItem(name: "photo_sizes", value: "1"),
-            URLQueryItem(name: "count", value: "20"),
+            URLQueryItem(name: "count", value: "3"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
             URLQueryItem(name: "v", value: constanse.version)
         ]
