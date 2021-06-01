@@ -6,24 +6,24 @@
 //
 
 import Foundation
-
+import RealmSwift
 
 // MARK: - Group
-class Group: Decodable {
-    let response: GroupData?
+class Group: Object, Codable {
+    @objc dynamic var response: GroupData?
 }
 
 // MARK: - Response
-class GroupData: Decodable {
-    let count: Int?
-    let items: [List]?
+class GroupData: Object, Codable {
+    @objc dynamic var count: Int = 0
+    var items: List<GroupList> = List<GroupList>()
 }
 
 // MARK: - Item
-class List: Decodable {
-    let id: Int?
-    let name: String?
-    let photo50: String?
+class GroupList: Object, Codable {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name: String = ""
+    @objc dynamic var photo50: String = ""
 
     enum CodingKeys: String, CodingKey {
         case id, name
