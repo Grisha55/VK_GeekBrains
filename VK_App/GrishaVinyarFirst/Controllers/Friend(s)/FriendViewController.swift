@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import SDWebImage
 
 class FriendViewController: UIViewController {
     
@@ -103,19 +104,7 @@ extension FriendViewController: UITableViewDataSource {
         
         let imageView = UIImageView()
         
-        let photoString = item.photo_100
-        
-        guard let url = URL(string: photoString) else { return UITableViewCell() }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            
-            imageView.image = UIImage(data: data)
-            
-        } catch {
-            
-            print(error.localizedDescription)
-        }
+        imageView.sd_setImage(with: URL(string: item.photo_100), placeholderImage: UIImage(systemName: "person"))
         
         cell.configure(name: "\(item.firstName) \(item.lastName)" , photo: imageView.image)
         

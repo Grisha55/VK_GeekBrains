@@ -75,17 +75,10 @@ class SearchTableViewController: UITableViewController {
         setupAlert()
     }
     
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return 1
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return DataStorage.shared.allGroupsArray.count
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -93,18 +86,9 @@ class SearchTableViewController: UITableViewController {
         
         let filteredData = DataStorage.shared.allGroupsArray[indexPath.row]
         
-        guard let url = URL(string: filteredData.photo50 ) else { return UITableViewCell() }
-        
         let imageView = UIImageView()
         
-        do {
-            let data = try Data(contentsOf: url)
-            
-            imageView.image = UIImage(data: data)
-            
-        } catch {
-            print(error.localizedDescription)
-        }
+        imageView.sd_setImage(with: URL(string: filteredData.photo50), placeholderImage: UIImage(systemName: "person.3"))
         
         cell.storageElementsForGroup(groupLabel: filteredData.name , groupImage: imageView.image)
         

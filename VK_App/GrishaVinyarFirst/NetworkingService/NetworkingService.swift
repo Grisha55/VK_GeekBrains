@@ -30,7 +30,8 @@ class NetworkingService {
             URLQueryItem(name: "order", value: "name"),
             URLQueryItem(name: "fields", value: "sex, bdate, city, country, photo_100, photo_200_orig"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: constanse.version)
+            URLQueryItem(name: "v", value: constanse.version),
+            URLQueryItem(name: "count", value: "100")
         ]
         
         guard let url = components.url else { return }

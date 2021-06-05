@@ -9,4 +9,5 @@ target 'GrishaVinyarFirst' do
 
   pod 'Alamofire'
   pod 'RealmSwift'
+  pod 'SDWebImage'
 end

@@ -97,18 +97,9 @@ extension PhotosViewController: UICollectionViewDataSource {
         
         let pictureURL = sizes[indexPath.row].src
         
-        guard let url = URL(string: pictureURL) else { return UICollectionViewCell() }
+        imageView.sd_setImage(with: URL(string: pictureURL), placeholderImage: UIImage(systemName: "person"))
         
-        do {
-            let data = try Data(contentsOf: url)
-            
-            imageView.image = UIImage(data: data)
-            
-            cell.storageElementsForPhoto(image: imageView.image)
-        } catch {
-            
-            print(error.localizedDescription)
-        }
+        cell.storageElementsForPhoto(image: imageView.image)
         
         cell.delegate = self
         
