@@ -8,4 +8,6 @@ target 'GrishaVinyarFirst' do
   # Pods for GrishaVinyarFirst
 
   pod 'Alamofire'
+  pod 'RealmSwift'
+  pod 'SDWebImage'
 end

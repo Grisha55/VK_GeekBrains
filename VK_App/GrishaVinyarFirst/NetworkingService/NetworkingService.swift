@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import RealmSwift
 
 class NetworkingService {
     
     let constanse = NetworkingConstans()
     
     // MARK: Friends
-    func getFriends(completion: @escaping (Result<[Item], Error>) -> Void) {
+    func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void) {
         
         // https://api.vk.com/method/friends.get
         
@@ -29,7 +30,8 @@ class NetworkingService {
             URLQueryItem(name: "order", value: "name"),
             URLQueryItem(name: "fields", value: "sex, bdate, city, country, photo_100, photo_200_orig"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: constanse.version)
+            URLQueryItem(name: "v", value: constanse.version),
+            URLQueryItem(name: "count", value: "100")
         ]
         
         guard let url = components.url else { return }
@@ -52,7 +54,9 @@ class NetworkingService {
                 
                 guard let items = user.response?.items else { return }
                 
-                completion(.success(items))
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
                 
             } catch {
                 completion(.failure(error))
@@ -62,7 +66,7 @@ class NetworkingService {
     }
     
     // MARK: Photos
-    func getPhotos(userID: Int?, completion: @escaping (Result<[Picture], Error>) -> Void) {
+    func getPhotos(userID: Int?, completion: @escaping (Result<List<Picture>, Error>) -> Void) {
         
         // https://api.vk.com/method/photos.get
         
@@ -79,7 +83,7 @@ class NetworkingService {
             URLQueryItem(name: "owner_id", value: String(userID ?? -1)),
             URLQueryItem(name: "album_id", value: "wall"),
             URLQueryItem(name: "photo_sizes", value: "1"),
-            URLQueryItem(name: "count", value: "20"),
+            URLQueryItem(name: "count", value: "3"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
             URLQueryItem(name: "v", value: constanse.version)
         ]
@@ -103,7 +107,9 @@ class NetworkingService {
                 
                 guard let pictures = photos.response?.items else { return }
                 
-                completion(.success(pictures))
+                DispatchQueue.main.async {
+                    completion(.success(pictures))
+                }
                 
             } catch {
                 print(error.localizedDescription)
@@ -113,7 +119,7 @@ class NetworkingService {
     }
     
     // MARK: Groups
-    func getUserGroups(completion: @escaping (Result<[List], Error>) -> Void) {
+    func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.get
         
@@ -151,7 +157,9 @@ class NetworkingService {
                 
                 guard let items = groups.response?.items else { return }
                 
-                completion(.success(items))
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
     
             } catch {
                 completion(.failure(error))
@@ -160,7 +168,7 @@ class NetworkingService {
         task.resume()
     }
     
-    func searchGroups(name: String, completion: @escaping (Result<[List], Error>) -> Void) {
+    func searchGroups(name: String, completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.search
         
@@ -199,7 +207,9 @@ class NetworkingService {
                 
                 guard let items = group.response?.items else { return }
                 
-                completion(.success(items))
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
                 
             } catch {
                 completion(.failure(error))

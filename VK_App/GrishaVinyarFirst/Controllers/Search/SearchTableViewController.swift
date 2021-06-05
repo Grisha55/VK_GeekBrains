@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SearchTableViewController: UITableViewController {
     
-    var filterArray = [List]()
+    var filterArray = List<GroupList>()
     
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -44,22 +45,20 @@ class SearchTableViewController: UITableViewController {
     func setupAlert() {
         let alertController = UIAlertController(title: "Добавление группы", message: "Хотите ли вы добавить группу?", preferredStyle: .alert)
         let alertActionOne = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
-        let alertActionTwo = UIAlertAction(title: "Добавить", style: .default) { (alert) in
+        let alertActionTwo = UIAlertAction(title: "Добавить", style: .default) { [weak self] (alert) in
             if alert.isEnabled {
                 
-                if let indexOfTappedOne = self.tableView.indexPathForSelectedRow {
+                if let indexOfTappedOne = self?.tableView.indexPathForSelectedRow {
                     
-                    let tappedElement = self.filterArray[indexOfTappedOne.row]
+                    let tappedElement = DataStorage.shared.allGroupsArray[indexOfTappedOne.row]
                     
-                    DataStorage.shared.allGroupsArray.removeAll { (group) -> Bool in
-                        group.name == tappedElement.name
-                    }
+                    DataStorage.shared.allGroupsArray.remove(at: indexOfTappedOne.row)
                     
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                     
                     DataStorage.shared.groupsArray.append(tappedElement)
                     
-                    self.navigationController?.popViewController(animated: true)
+                    self?.navigationController?.popViewController(animated: true)
                 }
             }
             
@@ -76,38 +75,22 @@ class SearchTableViewController: UITableViewController {
         setupAlert()
     }
     
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return 1
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return filterArray.count
+        return DataStorage.shared.allGroupsArray.count
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
         
-        let filteredData = filterArray[indexPath.row]
-        
-        guard let url = URL(string: filteredData.photo50 ?? "") else { return UITableViewCell() }
+        let filteredData = DataStorage.shared.allGroupsArray[indexPath.row]
         
         let imageView = UIImageView()
         
-        do {
-            let data = try Data(contentsOf: url)
-            
-            imageView.image = UIImage(data: data)
-            
-        } catch {
-            print(error.localizedDescription)
-        }
+        imageView.sd_setImage(with: URL(string: filteredData.photo50), placeholderImage: UIImage(systemName: "person.3"))
         
-        cell.storageElementsForGroup(groupLabel: filteredData.name ?? "N/A", groupImage: imageView.image)
+        cell.storageElementsForGroup(groupLabel: filteredData.name , groupImage: imageView.image)
         
         return cell
     }
@@ -136,18 +119,5 @@ extension SearchTableViewController: UISearchResultsUpdating {
             }
         }
         
-        self.filterArray = []
-        
-        if searchController.searchBar.text == "" {
-            filterArray = DataStorage.shared.allGroupsArray
-        } else {
-            
-            filterArray = DataStorage.shared.allGroupsArray.filter({ group in
-                guard let text = searchController.searchBar.text else { return false }
-                return ((group.name?.contains(text)) != nil)
-            })
-            
-            self.tableView.reloadData()
-        }
     }
 }

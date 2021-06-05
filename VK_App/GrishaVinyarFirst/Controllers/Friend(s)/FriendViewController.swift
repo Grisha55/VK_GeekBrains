@@ -6,25 +6,19 @@
 //
 
 import UIKit
+import RealmSwift
+import SDWebImage
 
 class FriendViewController: UIViewController {
     
    @IBOutlet weak var tableView: UITableView!
-    
-    @IBOutlet weak var lettersView: UIView!
-    
-    @IBOutlet weak var stackWithLetters: UIStackView!
     
     // id друга
     var id = 0
     
     let networkingService = NetworkingService()
     
-    private var lettersArray = [String]()
-    
-    private var buttonsArray = [UIButton]()
-    
-    var items = [Item]()
+    var items = List<Item>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +75,7 @@ extension FriendViewController: UITableViewDelegate {
         let item = items[indexPath.row]
         
         // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
-        id = item.id ?? 0
+        id = item.id 
         
         performSegue(withIdentifier: "fromFriendsToPhotos", sender: self)
     }
@@ -102,15 +96,6 @@ extension FriendViewController: UITableViewDataSource {
         return items.count
     }
     
-    /*func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let item = items[section]
-        
-        guard let letter = item.lastName?.first else {return "" }
-        
-        return String(letter)
-    }*/
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
@@ -119,21 +104,9 @@ extension FriendViewController: UITableViewDataSource {
         
         let imageView = UIImageView()
         
-        guard let photoString = item.photo_100 else { return UITableViewCell() }
+        imageView.sd_setImage(with: URL(string: item.photo_100), placeholderImage: UIImage(systemName: "person"))
         
-        guard let url = URL(string: photoString) else { return UITableViewCell() }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            
-            imageView.image = UIImage(data: data)
-            
-        } catch {
-            
-            print(error.localizedDescription)
-        }
-        
-        cell.configure(name: item.lastName ?? "No name" , photo: imageView.image)
+        cell.configure(name: "\(item.firstName) \(item.lastName)" , photo: imageView.image)
         
         return cell
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class GroupsTableViewController: UITableViewController {
 
@@ -64,21 +65,11 @@ class GroupsTableViewController: UITableViewController {
         
         let group = DataStorage.shared.groupsArray[indexPath.row]
         
-        guard let photoString = group.photo50 else { return UITableViewCell() }
-        
-        guard let url = URL(string: photoString) else { return UITableViewCell() }
-        
         let imageView = UIImageView()
         
-        do {
-            let data = try Data(contentsOf: url)
-            imageView.image = UIImage(data: data)
-            
-        } catch {
-            print(error.localizedDescription)
-        }
+        imageView.sd_setImage(with: URL(string: group.photo50), placeholderImage: UIImage(systemName: "person.3"))
         
-        cell.storageElementsForGroup(groupLabel: group.name ?? "N/A", groupImage: imageView.image)
+        cell.storageElementsForGroup(groupLabel: group.name , groupImage: imageView.image)
         
         return cell
     }

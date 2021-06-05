@@ -6,46 +6,31 @@
 //
 
 import Foundation
+import RealmSwift
 
 // MARK: - User
-class User: Decodable {
-    let response: Response?
+class User: Object, Codable {
+    @objc dynamic var response: Roster?
 }
 
-// MARK: - Response
-class Response: Decodable {
-    let count: Int
-    let items: [Item]
+// MARK: - Roster
+class Roster: Object, Codable {
+    @objc dynamic var count: Int = 0
+    var items: List<Item> = List<Item>()
 }
 
 // MARK: - Item
-class Item: Decodable {
-    let id: Int?
-    let firstName, lastName: String?
-    let isClosed, canAccessClosed: Bool?
-    let domain: String?
-    let city: City?
-    let online: Int?
-    let trackCode: String?
-    let photo_100: String?
+class Item: Object, Codable {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var firstName: String = ""
+    @objc dynamic var lastName: String = ""
+    @objc dynamic var photo_100: String = ""
 
     enum CodingKeys: String, CodingKey {
         case id
         case firstName = "first_name"
         case lastName = "last_name"
-        case isClosed = "is_closed"
-        case canAccessClosed = "can_access_closed"
-        case domain, city, online
-        case trackCode = "track_code"
         case photo_100
     }
 }
-
-// MARK: - City
-class City: Decodable {
-    let id: Int?
-    let title: String?
-}
-
-
 
