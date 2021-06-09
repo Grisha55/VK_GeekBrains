@@ -34,6 +34,7 @@
 		BEA301442618E7ED00259CF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA301422618E7ED00259CF1 /* Main.storyboard */; };
 		BEA301462618E7EF00259CF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA301452618E7EF00259CF1 /* Assets.xcassets */; };
 		BEA301492618E7EF00259CF1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA301472618E7EF00259CF1 /* LaunchScreen.storyboard */; };
+		BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4337B266BE67100EDB74F /* RealmManager.swift */; };
 		BEB8A458261C4D1B004CD850 /* First.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A457261C4D1B004CD850 /* First.storyboard */; };
 		BEB8A45C261C4D34004CD850 /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A45B261C4D34004CD850 /* Second.storyboard */; };
 		BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDB752D2632E0CE00F89977 /* LoadingViewController.swift */; };
@@ -82,6 +83,7 @@
 		BEA301452618E7EF00259CF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEA301482618E7EF00259CF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEA3014A2618E7EF00259CF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEB4337B266BE67100EDB74F /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		BEB8A457261C4D1B004CD850 /* First.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = First.storyboard; sourceTree = "<group>"; };
 		BEB8A45B261C4D34004CD850 /* Second.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
 		BEDB752D2632E0CE00F89977 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				BE7BF56C2658A4C4005A6718 /* SessionApp.swift */,
 				BE0AB9E7265CBB390057BDC4 /* NetworkingService.swift */,
 				BEA05A27265D53BB00D1C2DE /* NetworkingConstans.swift */,
+				BEB4337B266BE67100EDB74F /* RealmManager.swift */,
 			);
 			path = NetworkingService;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				BE44D31A26306FA600F35A36 /* MessageTableViewCell.swift in Sources */,
 				BE44D31526306EB000F35A36 /* MessageViewController.swift in Sources */,
 				BEA3013F2618E7ED00259CF1 /* SceneDelegate.swift in Sources */,
+				BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */,
 				BEEA83D1262EE3680029C997 /* NewsViewController.swift in Sources */,
 				BE7CBFB62620829E00A61DD4 /* Friend.swift in Sources */,
 				BEEA83D6262EE3C10029C997 /* NewsTableViewCell.swift in Sources */,

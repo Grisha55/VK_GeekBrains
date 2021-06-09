@@ -31,7 +31,7 @@ class NetworkingService {
             URLQueryItem(name: "fields", value: "sex, bdate, city, country, photo_100, photo_200_orig"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
             URLQueryItem(name: "v", value: constanse.version),
-            URLQueryItem(name: "count", value: "100")
+            //URLQueryItem(name: "count", value: "100")
         ]
         
         guard let url = components.url else { return }
@@ -66,7 +66,7 @@ class NetworkingService {
     }
     
     // MARK: Photos
-    func getPhotos(userID: Int?, completion: @escaping (Result<List<Picture>, Error>) -> Void) {
+    func getPhotos(userID: Int?, completion: @escaping (List<Picture>) -> Void, onError: @escaping (Error) -> Void) {
         
         // https://api.vk.com/method/photos.get
         
@@ -94,11 +94,11 @@ class NetworkingService {
         let task = session.dataTask(with: request) { data, response, error in
             
             if error != nil {
-                completion(.failure(error!))
+                onError(error!)
             }
             
             guard let data = data else {
-                completion(.failure(error!))
+                onError(error!)
                 return }
             
             do {
@@ -108,7 +108,7 @@ class NetworkingService {
                 guard let pictures = photos.response?.items else { return }
                 
                 DispatchQueue.main.async {
-                    completion(.success(pictures))
+                    completion(pictures)
                 }
                 
             } catch {
@@ -168,7 +168,7 @@ class NetworkingService {
         task.resume()
     }
     
-    func searchGroups(name: String, completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
+    func searchGroups(name: String, completion: @escaping (Result<List<GroupsArray>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.search
         
@@ -203,7 +203,7 @@ class NetworkingService {
                 return }
             
             do {
-                let group = try JSONDecoder().decode(Group.self, from: data)
+                let group = try JSONDecoder().decode(AllGroups.self, from: data)
                 
                 guard let items = group.response?.items else { return }
                 

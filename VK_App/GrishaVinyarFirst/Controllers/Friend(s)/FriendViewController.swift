@@ -18,34 +18,31 @@ class FriendViewController: UIViewController {
     
     let networkingService = NetworkingService()
     
-    var items = List<Item>()
+    var items: Results<Item>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Получаем данные о всех друзьях пользователя
-        networkingService.getFriends { [weak self] (result) in
-            switch result {
-            
-            case .failure(let error):
-                print(error.localizedDescription)
-                
-            case .success(let users):
-                
-                self?.items = users
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-                
-            }
-        }
-        
+        pairTableWithRealm()
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+    }
+    
+    func pairTableWithRealm() {
+        do {
+            RealmManager().getAllFriendsToBase()
+            let realm = try Realm()
+            self.items = realm.objects(Item.self)
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,6 +51,7 @@ class FriendViewController: UIViewController {
         
         // Передаем id пользователя на экран с его фотографиями
         destVC.userID = id
+        RealmManager().updatePhotos(for: id)
     }
     
 }
@@ -71,7 +69,7 @@ extension FriendViewController: UITableViewDelegate {
         } completion: { _ in
             self.tableView.cellForRow(at: indexPath)?.transform = .identity
         }
-        
+        guard let items = items else { return }
         let item = items[indexPath.row]
         
         // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
@@ -93,13 +91,14 @@ extension FriendViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let items = items else { return 0 }
         return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
-        
+        guard let items = items else { return UITableViewCell() }
         let item = items[indexPath.row]
         
         let imageView = UIImageView()

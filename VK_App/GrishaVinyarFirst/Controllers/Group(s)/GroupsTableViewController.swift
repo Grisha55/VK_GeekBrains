@@ -7,63 +7,66 @@
 
 import UIKit
 import SDWebImage
+import RealmSwift
 
 class GroupsTableViewController: UITableViewController {
-
+    
     let groupCell = "GroupCell"
     
     let networkingService = NetworkingService()
     
+    var groups: Results<GroupList>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        networkingService.getUserGroups { [weak self] (result) in
-            switch result {
-            
-            case .failure(let error):
-                print(error.localizedDescription)
-                
-            case .success(let list):
-                
-                DataStorage.shared.groupsArray = list
-            
-            }
-            
-            DispatchQueue.main.async {
-                
-                self?.tableView.reloadData()
-            }
-        }
-        
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
-        
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        checkGroups()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
         
     }
     
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+    func checkGroups() {
+        if groups?.count == 0 {
+            RealmManager().updataUsersGroups()
+        } else {
+            pairTableWithRealm()
+        }
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func pairTableWithRealm() {
         
-        return DataStorage.shared.groupsArray.count
+        do {
+            let realm = try Realm()
+            let groups = realm.objects(GroupList.self)
+            self.groups = groups
+            tableView.reloadData()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
-
+    
+    // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let groups = groups else { return 0 }
+        return groups.count
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.rowHeight = 93
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: groupCell, for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
         
-        let group = DataStorage.shared.groupsArray[indexPath.row]
+        guard let groups = groups else { return UITableViewCell() }
+        
+        let group = groups[indexPath.row]
         
         let imageView = UIImageView()
         
@@ -74,20 +77,21 @@ class GroupsTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-            let element = DataStorage.shared.groupsArray[indexPath.row]
-            
-            DataStorage.shared.groupsArray.remove(at: indexPath.row)
-            
-            DataStorage.shared.allGroupsArray.append(element)
-            
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
-            
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-
+    /*override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     guard let groups = groups else { return }
+     
+     let element = groups[indexPath.row]
+     
+     let indexOfElement = DataStorage.shared.groupsArray?.index(of: element)
+     
+     DataStorage.shared.allGroupsArray.append(element)
+     
+     self.tableView.deleteRows(at: [indexPath], with: .fade)
+     
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }*/
+    
 }
