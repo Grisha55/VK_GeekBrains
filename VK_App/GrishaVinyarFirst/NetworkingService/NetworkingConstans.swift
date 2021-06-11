@@ -15,6 +15,6 @@ struct NetworkingConstans {
     
     let version = "5.60"
     
-    let clientId = "7865322"
+    let clientId =  "7874888" //"7866516"
     
 }

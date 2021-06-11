@@ -17,7 +17,7 @@ final class DataStorage: NSObject {
     }
     
     var usersArray = [Friend]()
-    var allGroupsArray = List<GroupList>()
-    var groupsArray = List<GroupList>()
+    var allGroupsArray = List<GroupsArray>()
+    var groupsArray: Results<GroupList>?
     var arrayOfArraysOfFriends = [[Friend]]()
 }

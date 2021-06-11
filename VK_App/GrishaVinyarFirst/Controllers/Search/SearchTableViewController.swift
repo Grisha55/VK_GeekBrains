@@ -10,12 +10,16 @@ import RealmSwift
 
 class SearchTableViewController: UITableViewController {
     
-    var filterArray = List<GroupList>()
+    var filterArray: Results<GroupsArray>?
     
     let searchController = UISearchController(searchResultsController: nil)
     
     let networkingService = NetworkingService()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,10 +27,23 @@ class SearchTableViewController: UITableViewController {
         
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: "GroupCell")
         
-        setupFilterArray()
-        
         setupSearchController()
-        
+        pairTableAndRealm()
+    }
+    
+    func pairTableAndRealm() {
+        do {
+            let realm = try Realm()
+            realm.beginWrite()
+            let oldValue = realm.objects(GroupsArray.self)
+            realm.delete(oldValue)
+            let groups = realm.objects(GroupsArray.self)
+            self.filterArray = groups
+            try realm.commitWrite()
+            tableView.reloadData()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func setupSearchController() {
@@ -38,10 +55,6 @@ class SearchTableViewController: UITableViewController {
         
     }
     
-    func setupFilterArray() {
-        filterArray = DataStorage.shared.allGroupsArray
-    }
-    
     func setupAlert() {
         let alertController = UIAlertController(title: "Добавление группы", message: "Хотите ли вы добавить группу?", preferredStyle: .alert)
         let alertActionOne = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
@@ -50,16 +63,40 @@ class SearchTableViewController: UITableViewController {
                 
                 if let indexOfTappedOne = self?.tableView.indexPathForSelectedRow {
                     
-                    let tappedElement = DataStorage.shared.allGroupsArray[indexOfTappedOne.row]
+                    guard let filterArray = self?.filterArray else { return }
                     
-                    DataStorage.shared.allGroupsArray.remove(at: indexOfTappedOne.row)
+                    let tappedElement = filterArray[indexOfTappedOne.row]
                     
-                    self?.tableView.reloadData()
+                    // Добавляем группу в свои группы
+                    do {
+                        let realm = try Realm()
+                        realm.beginWrite()
+                        let groupClass = GroupList()
+                        groupClass.id = 0
+                        groupClass.name = tappedElement.name
+                        groupClass.photo50 = tappedElement.photo50
+                        realm.add(groupClass)
+                        try realm.commitWrite()
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                     
-                    DataStorage.shared.groupsArray.append(tappedElement)
+                    // Удаляем группу из общих групп
+                    do {
+                        let realm = try Realm()
+                        realm.beginWrite()
+                        realm.delete(tappedElement)
+                        try realm.commitWrite()
+                        DispatchQueue.main.async { [weak self] in
+                            self?.tableView.reloadData()
+                        }
+                        
+                    } catch {
+                        print(error.localizedDescription)
+                    }
                     
                     self?.navigationController?.popViewController(animated: true)
-                }
+               }
             }
             
         }
@@ -76,19 +113,23 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return DataStorage.shared.allGroupsArray.count
+        guard let filterArray = filterArray else { return 0 }
+        return filterArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
         
-        let filteredData = DataStorage.shared.allGroupsArray[indexPath.row]
+        guard let filterArray = filterArray else { return UITableViewCell() }
+        
+        let filteredData = filterArray[indexPath.row]
         
         let imageView = UIImageView()
         
-        imageView.sd_setImage(with: URL(string: filteredData.photo50), placeholderImage: UIImage(systemName: "person.3"))
+        let photo = filteredData.photo50
+        
+        imageView.sd_setImage(with: URL(string: photo), placeholderImage: UIImage(systemName: "person.3"))
         
         cell.storageElementsForGroup(groupLabel: filteredData.name , groupImage: imageView.image)
         
@@ -102,22 +143,11 @@ extension SearchTableViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         
-        networkingService.searchGroups(name: searchController.searchBar.text ?? "Sport") { [weak self] (result) in
-            
-            switch result {
-            
-            case .failure(let error):
-                print(error.localizedDescription)
-                
-            case .success(let list):
-                
-                DataStorage.shared.allGroupsArray = list
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
-        }
+        guard let text = searchController.searchBar.text else { return }
         
+        RealmManager().updateAllGroups(name: text)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
