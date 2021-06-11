@@ -40,6 +40,7 @@ class SearchTableViewController: UITableViewController {
             let groups = realm.objects(GroupsArray.self)
             self.filterArray = groups
             try realm.commitWrite()
+            tableView.reloadData()
         } catch {
             print(error.localizedDescription)
         }
