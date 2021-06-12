@@ -40,13 +40,13 @@ class PhotosViewController: UIViewController {
                 
             case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
                 
-                strongSelf.collectionView.isEditing = true
-                
-                strongSelf.collectionView.insertItems(at: insertions.map { IndexPath(row: $0, section: 0) })
-                strongSelf.collectionView.deleteItems(at: deletions.map { IndexPath(row: $0, section: 0) })
-                strongSelf.collectionView.reloadItems(at: modifications.map { IndexPath(row: $0, section: 0) })
-                
-                strongSelf.collectionView.endEditing(true)
+                strongSelf.collectionView.performBatchUpdates({
+                    
+                    strongSelf.collectionView.insertItems(at: insertions.map { IndexPath(row: $0, section: 0) })
+                    strongSelf.collectionView.deleteItems(at: deletions.map { IndexPath(row: $0, section: 0) })
+                    strongSelf.collectionView.reloadItems(at: modifications.map { IndexPath(row: $0, section: 0) })
+                    
+                }, completion: nil)
                 
             case .error(let error):
                 print(error.localizedDescription)
