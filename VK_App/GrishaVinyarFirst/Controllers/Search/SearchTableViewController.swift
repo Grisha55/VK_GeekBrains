@@ -16,34 +16,47 @@ class SearchTableViewController: UITableViewController {
     
     let networkingService = NetworkingService()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       
-    }
+    var token: NotificationToken?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        pairTableAndRealm()
         
         self.tableView.rowHeight = 93
         
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: "GroupCell")
         
         setupSearchController()
-        pairTableAndRealm()
     }
     
     func pairTableAndRealm() {
-        do {
-            let realm = try Realm()
-            realm.beginWrite()
-            let oldValue = realm.objects(GroupsArray.self)
-            realm.delete(oldValue)
-            let groups = realm.objects(GroupsArray.self)
-            self.filterArray = groups
-            try realm.commitWrite()
-            tableView.reloadData()
-        } catch {
-            print(error.localizedDescription)
-        }
+        
+        guard let realm = try? Realm() else { return }
+        
+        filterArray = realm.objects(GroupsArray.self)
+        
+        token = filterArray?.observe({ [weak self] changes in
+            switch changes {
+            case .initial:
+                self?.tableView.reloadData()
+                
+            case .update(_, deletions: let deletion, insertions: let insertions, modifications: let modifications):
+                self?.tableView.beginUpdates()
+                
+                self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.deleteRows(at: deletion.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.endUpdates()
+                
+            case .error(let error):
+                print(error.localizedDescription)
+                
+            }
+        })
     }
     
     func setupSearchController() {
@@ -87,16 +100,12 @@ class SearchTableViewController: UITableViewController {
                         realm.beginWrite()
                         realm.delete(tappedElement)
                         try realm.commitWrite()
-                        DispatchQueue.main.async { [weak self] in
-                            self?.tableView.reloadData()
-                        }
-                        
                     } catch {
                         print(error.localizedDescription)
                     }
                     
                     self?.navigationController?.popViewController(animated: true)
-               }
+                }
             }
             
         }
@@ -146,8 +155,5 @@ extension SearchTableViewController: UISearchResultsUpdating {
         guard let text = searchController.searchBar.text else { return }
         
         RealmManager().updateAllGroups(name: text)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
 }

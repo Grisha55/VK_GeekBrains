@@ -17,53 +17,35 @@ class GroupsTableViewController: UITableViewController {
 
     var token: NotificationToken?
     
-    var groups: Results<GroupList>? {
-        didSet {
-            token = groups?.observe({ [weak self] changes in
-                switch changes {
-                case .error(let error):
-                    print(error.localizedDescription)
-                case .initial(let results):
-                    print("Start to modified")
-                case .update(let results, deletions: let deletions, insertions: let insertions, modifications: let modifications):
-                    self?.tableView.reloadData()
-                }
-            })
-        }
-    }
+    var groups: Results<GroupList>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        RealmManager().updataUsersGroups()
+        pairTableWithRealm()
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        checkGroups()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-        
-    }
-    
-    func checkGroups() {
-        if groups?.count == 0 {
-            RealmManager().updataUsersGroups()
-        } else {
-            pairTableWithRealm()
-        }
-    }
-    
     func pairTableWithRealm() {
-        
-        do {
-            let realm = try Realm()
-            let groups = realm.objects(GroupList.self)
-            self.groups = groups
-            tableView.reloadData()
-        } catch {
-            print(error.localizedDescription)
-        }
+        guard let realm = try? Realm() else { return }
+        groups = realm.objects(GroupList.self)
+        token = groups?.observe({ [weak self] changes in
+            guard let strongSelf = self else { return }
+            switch changes {
+            case .error(let error):
+                print(error.localizedDescription)
+            case .initial:
+                strongSelf.tableView.reloadData()
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                strongSelf.tableView.beginUpdates()
+                
+                strongSelf.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                strongSelf.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                strongSelf.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                strongSelf.tableView.endUpdates()
+            }
+        })
     }
     
     // MARK: - Table view data source
@@ -92,25 +74,18 @@ class GroupsTableViewController: UITableViewController {
         return cell
     }
     
-    /*override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     guard let groups = groups else { return }
-     
-     let element = groups[indexPath.row]
-     
-<<<<<<< Updated upstream
-     let indexOfElement = DataStorage.shared.groupsArray?.index(of: element)
-     
-     DataStorage.shared.allGroupsArray.append(element)
-=======
-        Array(groups).remove(at: indexPath.row)
->>>>>>> Stashed changes
-     
-     self.tableView.deleteRows(at: [indexPath], with: .fade)
-     
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }*/
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let groups = groups else { return }
+            do {
+                let realm = try Realm()
+                realm.beginWrite()
+                realm.delete(groups[indexPath.row])
+                try realm.commitWrite()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
 }

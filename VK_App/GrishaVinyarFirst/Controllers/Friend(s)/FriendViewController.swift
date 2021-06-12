@@ -20,29 +20,12 @@ class FriendViewController: UIViewController {
     
     var token: NotificationToken?
     
-    var items: Results<Item>? {
-        didSet {
-            token = items?.observe({ [weak self] changes in
-                
-                switch changes {
-                case .initial(let results):
-                    print("Start to modified")
-                    
-                case .error(let error):
-                    print(error.localizedDescription)
-                    
-                case .update(let results, deletions: let deletion, insertions: let insertions, modifications: let movifications):
-                    print("Friends modified")
-                    self?.tableView.reloadData()
-                }
-            })
-        }
-    }
+    var items: Results<Item>? 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        pairTableWithRealm()
+        RealmManager().getAllFriendsToBase()
+        pairTableAndRealm()
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
         self.tableView.delegate = self
@@ -50,18 +33,31 @@ class FriendViewController: UIViewController {
         
     }
     
-    func pairTableWithRealm() {
-        do {
-            RealmManager().getAllFriendsToBase()
-            let realm = try Realm()
-            self.items = realm.objects(Item.self)
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.tableView.reloadData()
+    func pairTableAndRealm() {
+        
+        guard let realm = try? Realm() else { return }
+        items = realm.objects(Item.self)
+        
+        token = items?.observe({ [weak self] changes in
+            switch changes {
+            case .initial:
+                self?.tableView.reloadData()
+                
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                self?.tableView.beginUpdates()
+                
+                self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.endUpdates()
+                
+            case .error(let error):
+                print(error.localizedDescription)
             }
-        } catch {
-            print(error.localizedDescription)
-        }
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
