@@ -10,33 +10,49 @@ import RealmSwift
 
 class PhotosViewController: UIViewController {
     
-    let networkingService = NetworkingService()
-    
-    var pictures: Results<Picture>?
-    
     // id пользователя, на которого нажали
     var userID: Int = 0
     
     @IBOutlet var collectionView: UICollectionView!
     
+    let networkingService = NetworkingService()
+    
+    var token: NotificationToken?
+    
+    var pictures: Results<Picture>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        pairTableWithRealm()
+        RealmManager().updatePhotos(for: userID)
+        pairTableAndRealm()
         collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
     }
     
-    func pairTableWithRealm() {
-        
-        do {
-            let realm = try Realm()
-            let realmPhotos = realm.objects(Picture.self)
-            self.pictures = realmPhotos
-            collectionView.reloadData()
-        } catch {
-            print(error.localizedDescription)
-        }
+    func pairTableAndRealm() {
+        guard let realm = try? Realm() else { return }
+        pictures = realm.objects(Picture.self)
+        token = pictures?.observe({ [weak self] changes in
+            guard let strongSelf = self else { return }
+            
+            switch changes {
+            case .initial:
+                strongSelf.collectionView.reloadData()
+                
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                
+                strongSelf.collectionView.performBatchUpdates({
+                    
+                    strongSelf.collectionView.insertItems(at: insertions.map { IndexPath(row: $0, section: 0) })
+                    strongSelf.collectionView.deleteItems(at: deletions.map { IndexPath(row: $0, section: 0) })
+                    strongSelf.collectionView.reloadItems(at: modifications.map { IndexPath(row: $0, section: 0) })
+                    
+                }, completion: nil)
+                
+            case .error(let error):
+                print(error.localizedDescription)
+            }
+        })
     }
-    
 }
 
 // UICollectionViewDelegate
