@@ -18,10 +18,6 @@ class FriendViewController: UIViewController {
     
     let networkingService = NetworkingService()
     
-<<<<<<< Updated upstream
-    var items: Results<Item>?
-    
-=======
     var token: NotificationToken?
     
     var items: Results<Item>? {
@@ -43,7 +39,6 @@ class FriendViewController: UIViewController {
         }
     }
     
->>>>>>> Stashed changes
     override func viewDidLoad() {
         super.viewDidLoad()
         

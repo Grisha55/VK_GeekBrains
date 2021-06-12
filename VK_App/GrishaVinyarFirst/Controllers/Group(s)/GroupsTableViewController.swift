@@ -14,10 +14,7 @@ class GroupsTableViewController: UITableViewController {
     let groupCell = "GroupCell"
     
     let networkingService = NetworkingService()
-    
-<<<<<<< Updated upstream
-    var groups: Results<GroupList>?
-=======
+
     var token: NotificationToken?
     
     var groups: Results<GroupList>? {
@@ -34,7 +31,6 @@ class GroupsTableViewController: UITableViewController {
             })
         }
     }
->>>>>>> Stashed changes
     
     override func viewDidLoad() {
         super.viewDidLoad()

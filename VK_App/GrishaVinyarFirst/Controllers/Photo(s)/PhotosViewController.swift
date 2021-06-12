@@ -12,9 +12,6 @@ class PhotosViewController: UIViewController {
     
     let networkingService = NetworkingService()
     
-<<<<<<< Updated upstream
-    var pictures: Results<Picture>?
-=======
     var token: NotificationToken?
     
     var pictures: Results<Picture>? {
@@ -31,7 +28,6 @@ class PhotosViewController: UIViewController {
             })
         }
     }
->>>>>>> Stashed changes
     
     // id пользователя, на которого нажали
     var userID: Int = 0
