@@ -12,7 +12,26 @@ class PhotosViewController: UIViewController {
     
     let networkingService = NetworkingService()
     
+<<<<<<< Updated upstream
     var pictures: Results<Picture>?
+=======
+    var token: NotificationToken?
+    
+    var pictures: Results<Picture>? {
+        didSet {
+            token = pictures?.observe({ [weak self] changes in
+                switch changes {
+                case .error(let error):
+                    print(error.localizedDescription)
+                case .initial(let pictures):
+                    print("Start to update")
+                case .update(let results, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                    self?.collectionView.reloadData()
+                }
+            })
+        }
+    }
+>>>>>>> Stashed changes
     
     // id пользователя, на которого нажали
     var userID: Int = 0

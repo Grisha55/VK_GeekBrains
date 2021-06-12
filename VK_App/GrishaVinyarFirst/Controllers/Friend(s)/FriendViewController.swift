@@ -18,8 +18,32 @@ class FriendViewController: UIViewController {
     
     let networkingService = NetworkingService()
     
+<<<<<<< Updated upstream
     var items: Results<Item>?
     
+=======
+    var token: NotificationToken?
+    
+    var items: Results<Item>? {
+        didSet {
+            token = items?.observe({ [weak self] changes in
+                
+                switch changes {
+                case .initial(let results):
+                    print("Start to modified")
+                    
+                case .error(let error):
+                    print(error.localizedDescription)
+                    
+                case .update(let results, deletions: let deletion, insertions: let insertions, modifications: let movifications):
+                    print("Friends modified")
+                    self?.tableView.reloadData()
+                }
+            })
+        }
+    }
+    
+>>>>>>> Stashed changes
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -15,7 +15,26 @@ class GroupsTableViewController: UITableViewController {
     
     let networkingService = NetworkingService()
     
+<<<<<<< Updated upstream
     var groups: Results<GroupList>?
+=======
+    var token: NotificationToken?
+    
+    var groups: Results<GroupList>? {
+        didSet {
+            token = groups?.observe({ [weak self] changes in
+                switch changes {
+                case .error(let error):
+                    print(error.localizedDescription)
+                case .initial(let results):
+                    print("Start to modified")
+                case .update(let results, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                    self?.tableView.reloadData()
+                }
+            })
+        }
+    }
+>>>>>>> Stashed changes
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,9 +102,13 @@ class GroupsTableViewController: UITableViewController {
      
      let element = groups[indexPath.row]
      
+<<<<<<< Updated upstream
      let indexOfElement = DataStorage.shared.groupsArray?.index(of: element)
      
      DataStorage.shared.allGroupsArray.append(element)
+=======
+        Array(groups).remove(at: indexPath.row)
+>>>>>>> Stashed changes
      
      self.tableView.deleteRows(at: [indexPath], with: .fade)
      
