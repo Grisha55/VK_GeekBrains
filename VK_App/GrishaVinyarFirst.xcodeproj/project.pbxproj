@@ -37,6 +37,7 @@
 		BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4337B266BE67100EDB74F /* RealmManager.swift */; };
 		BEB8A458261C4D1B004CD850 /* First.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A457261C4D1B004CD850 /* First.storyboard */; };
 		BEB8A45C261C4D34004CD850 /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A45B261C4D34004CD850 /* Second.storyboard */; };
+		BEBD93CC2677DEA60010B5F8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEBD93CB2677DEA60010B5F8 /* GoogleService-Info.plist */; };
 		BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDB752D2632E0CE00F89977 /* LoadingViewController.swift */; };
 		BEDC5330263AA20A00DF55AE /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDC532F263AA20A00DF55AE /* CustomNavigationController.swift */; };
 		BEDC5332263AA28D00DF55AE /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDC5331263AA28D00DF55AE /* PushAnimator.swift */; };
@@ -86,6 +87,7 @@
 		BEB4337B266BE67100EDB74F /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		BEB8A457261C4D1B004CD850 /* First.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = First.storyboard; sourceTree = "<group>"; };
 		BEB8A45B261C4D34004CD850 /* Second.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
+		BEBD93CB2677DEA60010B5F8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEDB752D2632E0CE00F89977 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		BEDC532F263AA20A00DF55AE /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		BEDC5331263AA28D00DF55AE /* PushAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				BE515785261E2190000B3D8B /* Storyboards */,
 				BEA301452618E7EF00259CF1 /* Assets.xcassets */,
 				BEA3014A2618E7EF00259CF1 /* Info.plist */,
+				BEBD93CB2677DEA60010B5F8 /* GoogleService-Info.plist */,
 			);
 			path = GrishaVinyarFirst;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				BEA301442618E7ED00259CF1 /* Main.storyboard in Resources */,
 				BEEA83D7262EE3C10029C997 /* NewsTableViewCell.xib in Resources */,
 				BE21956C26205B8800ED9259 /* PhotoCollectionViewCell.xib in Resources */,
+				BEBD93CC2677DEA60010B5F8 /* GoogleService-Info.plist in Resources */,
 				BEB8A45C261C4D34004CD850 /* Second.storyboard in Resources */,
 				BEB8A458261C4D1B004CD850 /* First.storyboard in Resources */,
 				BE26FDE12641A54500049E76 /* NewsCell.xib in Resources */,

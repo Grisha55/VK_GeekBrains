@@ -10,4 +10,6 @@ target 'GrishaVinyarFirst' do
   pod 'Alamofire'
   pod 'RealmSwift'
   pod 'SDWebImage'
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
 end
