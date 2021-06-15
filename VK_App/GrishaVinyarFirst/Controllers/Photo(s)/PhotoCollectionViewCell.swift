@@ -7,12 +7,14 @@
 
 import UIKit
 
+//MARK: - PhotoCollectionViewCellDelegate
 protocol PhotoCollectionViewCellDelegate: AnyObject {
     func likeAction(sender: UIButton, label: UILabel)
 }
 
 class PhotoCollectionViewCell: UICollectionViewCell {
 
+    //MARK: Properties
     @IBOutlet weak var photoImage: UIImageView!
     @IBOutlet weak var likeView: UIView!
     @IBOutlet weak var labelForLikes: UILabel!
@@ -20,30 +22,28 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var stackView: UIStackView!
     
     weak var delegate: PhotoCollectionViewCellDelegate?
-    
-    func nilComponentsForPhoto() {
-        self.photoImage.image = nil
-    }
 
+    // Настройка photoImage
     func makeBeautifulPhoto() {
         self.photoImage.layer.cornerRadius = 20
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        nilComponentsForPhoto()
         makeBeautifulPhoto()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        nilComponentsForPhoto()
+        self.photoImage.image = nil
     }
 
+    // Соединяем ячейку и коллекцию
     func storageElementsForPhoto(image: UIImage?) {
         self.photoImage.image = image
     }
-
+    
+    //MARK: - Methods
     @IBAction func buttonLike(_ button: UIButton) {
         self.delegate?.likeAction(sender: button, label: labelForLikes)
 

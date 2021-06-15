@@ -6,27 +6,56 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PhotosViewController: UIViewController {
-
-    var photosArray = [UIImage?]()
+    
+    //MARK: - Properties
+    // id пользователя, на которого нажали
+    var userID: Int = 0
     
     @IBOutlet var collectionView: UICollectionView!
     
+    //MARK: - Properties
+    let networkingService = NetworkingService()
+    var token: NotificationToken?
+    var pictures: Results<Picture>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        RealmManager().updatePhotos(for: userID)
+        pairTableAndRealm()
         collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
     }
-    
-    func getImages(images: [UIImage?]) {
-        self.photosArray = images
+    //MARK: - Methods
+    func pairTableAndRealm() {
+        guard let realm = try? Realm() else { return }
+        pictures = realm.objects(Picture.self)
+        token = pictures?.observe({ [weak self] changes in
+            guard let strongSelf = self else { return }
+            
+            switch changes {
+            case .initial:
+                strongSelf.collectionView.reloadData()
+                
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                
+                strongSelf.collectionView.performBatchUpdates({
+                    
+                    strongSelf.collectionView.insertItems(at: insertions.map { IndexPath(row: $0, section: 0) })
+                    strongSelf.collectionView.deleteItems(at: deletions.map { IndexPath(row: $0, section: 0) })
+                    strongSelf.collectionView.reloadItems(at: modifications.map { IndexPath(row: $0, section: 0) })
+                    
+                }, completion: nil)
+                
+            case .error(let error):
+                print(error.localizedDescription)
+            }
+        })
     }
 }
 
-// UICollectionViewDelegate
+//MARK: - UICollectionViewDelegate
 extension PhotosViewController: UICollectionViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -44,7 +73,7 @@ extension PhotosViewController: UICollectionViewDelegate {
     }
 }
 
-// UICollectionViewDelegateFlowLayout
+//MARK: - UICollectionViewDelegateFlowLayout
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -57,24 +86,32 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
- //UICollectionViewDataSource
+//MARK: - UICollectionViewDataSource
 extension PhotosViewController: UICollectionViewDataSource {
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photosArray.count
+        guard let pictures = pictures else { return 0 }
+        return pictures.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
-
-        cell.storageElementsForPhoto(image: photosArray[indexPath.row])
-
+        guard let pictures = pictures else { return UICollectionViewCell() }
+        let imageView = UIImageView()
+        let sizes = pictures[indexPath.row].sizes
+        let pictureURL = sizes[indexPath.row].src
+        
+        imageView.sd_setImage(with: URL(string: pictureURL), placeholderImage: UIImage(systemName: "person"))
+        
+        cell.storageElementsForPhoto(image: imageView.image)
+        
         cell.delegate = self
-
+        
         return cell
     }
 }
 
-// PhotoCollectionViewCellDelegate
+//MARK: - PhotoCollectionViewCellDelegate
 extension PhotosViewController: PhotoCollectionViewCellDelegate {
     
     func likeAction(sender: UIButton, label: UILabel) {

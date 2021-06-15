@@ -9,7 +9,7 @@ import UIKit
 
 class MessageViewController: UIViewController {
 
-    var userMessages = [User]()
+    var userMessages = [Friend]()
     
     let tableView = UITableView()
     

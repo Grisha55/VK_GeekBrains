@@ -6,67 +6,78 @@
 //
 
 import UIKit
+import RealmSwift
+import SDWebImage
 
 class FriendViewController: UIViewController {
     
+    //MARK: - Properties
    @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var lettersView: UIView!
+    // id друга
+    var id = 0
     
-    @IBOutlet weak var stackWithLetters: UIStackView!
+    let networkingService = NetworkingService()
     
-    private var lettersArray = [String]()
+    var token: NotificationToken?
     
-    private var buttonsArray = [UIButton]()
+    var items: Results<Item>? 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        RealmManager().getAllFriendsToBase()
+        pairTableAndRealm()
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        setupLettersArray()
-        createButtons()
+    }
+    
+    //MARK: - Methods
+    
+    // Создаем наблюдателя и получаем друзей юзера
+    func pairTableAndRealm() {
+        
+        guard let realm = try? Realm() else { return }
+        items = realm.objects(Item.self)
+        
+        token = items?.observe({ [weak self] changes in
+            switch changes {
+            case .initial:
+                self?.tableView.reloadData()
+                
+            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
+                self?.tableView.beginUpdates()
+                
+                self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+                
+                self?.tableView.endUpdates()
+                
+            case .error(let error):
+                print(error.localizedDescription)
+            }
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         guard let destVC = segue.destination as? PhotosViewController else { return }
-        guard let user = sender as? User else { return }
-        destVC.getImages(images: user.photosArray)
+        
+        // Передаем id пользователя на экран с его фотографиями
+        destVC.userID = id
+        RealmManager().updatePhotos(for: id)
     }
     
-    func createButtons() {
-        for letter in lettersArray {
-            let button = UIButton()
-            button.setTitle(letter, for: .normal)
-            button.setTitleColor(.black, for: .normal)
-            button.addTarget(self, action: #selector(chooseLetter(button:)), for: .touchUpInside)
-            buttonsArray.append(button)
-            stackWithLetters.addArrangedSubview(button)
-        }
-    }
-    
-    @objc func chooseLetter(button: UIButton) {
-        let section = buttonsArray.firstIndex(of: button)
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: Int(section!)), at: .none, animated: true)
-    }
-    
-    func setupLettersArray() {
-        for usersArray in DataStorage.shared.arrayOfArraysOfFriends {
-            guard let user = usersArray.first else { return }
-            guard let letter = user.name.first else { return }
-            lettersArray.append(String(letter))
-        }
-    }
 }
 // MARK: - UITableViewDelegate
 extension FriendViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
         
         UIView.animate(withDuration: 0.5,
                        delay: 0,
@@ -77,8 +88,13 @@ extension FriendViewController: UITableViewDelegate {
         } completion: { _ in
             self.tableView.cellForRow(at: indexPath)?.transform = .identity
         }
-
-        performSegue(withIdentifier: "fromFriendsToPhotos", sender: user)
+        guard let items = items else { return }
+        let item = items[indexPath.row]
+        
+        // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
+        id = item.id 
+        
+        performSegue(withIdentifier: "fromFriendsToPhotos", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -90,29 +106,25 @@ extension FriendViewController: UITableViewDelegate {
 extension FriendViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return DataStorage.shared.arrayOfArraysOfFriends.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataStorage.shared.arrayOfArraysOfFriends[section].count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let usersArray = DataStorage.shared.arrayOfArraysOfFriends[section].first
-        
-        guard let letter = usersArray?.name.first else {return "" }
-        
-        return String(letter)
+        guard let items = items else { return 0 }
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
+        guard let items = items else { return UITableViewCell() }
+        let item = items[indexPath.row]
         
-        let user = DataStorage.shared.arrayOfArraysOfFriends[indexPath.section][indexPath.row]
+        let imageView = UIImageView()
         
-        cell.configure(name: user.name , photo: user.avatar)
+        imageView.sd_setImage(with: URL(string: item.photo_100), placeholderImage: UIImage(systemName: "person"))
+        
+        cell.configure(name: "\(item.firstName) \(item.lastName)" , photo: imageView.image)
         
         return cell
     }

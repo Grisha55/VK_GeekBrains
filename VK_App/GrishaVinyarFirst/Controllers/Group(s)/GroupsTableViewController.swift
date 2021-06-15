@@ -6,63 +6,90 @@
 //
 
 import UIKit
+import SDWebImage
+import RealmSwift
+import Firebase
 
 class GroupsTableViewController: UITableViewController {
-
+    
+    //MARK: - Properties
     let groupCell = "GroupCell"
+    let networkingService = NetworkingService()
+    var token: NotificationToken?
+    var groups = [GroupFB]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
-        
+        FirebaseStore().takeUsersGroupToFB()
+        loadUsersGroupFromFB()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
+    
+    //MARK: - Methods
+    func loadUsersGroupFromFB() {
+        guard let id = SessionApp.shared.userID else { return }
+        let refGroups = Database.database().reference(withPath: "users").child("\(id)")
         
+        refGroups.observe(.value) { [weak self] snapshot in
+            var _groups = Array<GroupFB>()
+            
+            for group in snapshot.children {
+                
+                let group = GroupFB(snapshot: group as! DataSnapshot)
+                
+                _groups.append(group)
+            }
+            self?.groups = _groups
+            self?.tableView.reloadData()
+        }
     }
     
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return DataStorage.shared.groupsArray.count
+        return groups.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         tableView.rowHeight = 93
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: groupCell, for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
         
-        let nameString = DataStorage.shared.groupsArray[indexPath.row]
+        let group = groups[indexPath.row]
         
-        cell.storageElementsForGroup(groupLabel: nameString.name, groupImage: nameString.groupImage)
+        let imageView = UIImageView()
+        
+        let url = URL(string: group.photo ?? "")
+        
+        imageView.sd_setImage(with: url, placeholderImage: UIImage(systemName: "person.3"))
+        
+        cell.storageElementsForGroup(groupLabel: group.name ?? "Warning!!! (deleted group)" , groupImage: imageView.image)
         
         return cell
     }
     
+    // Удаляем группу из Firebase
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            guard let name = groups[indexPath.row].name else { return }
+            var safeName = name.replacingOccurrences(of: "", with: "^")
+            safeName = safeName.replacingOccurrences(of: ".", with: "_")
+            safeName = safeName.replacingOccurrences(of: "#", with: "-")
+            safeName = safeName.replacingOccurrences(of: "$", with: "-")
+            safeName = safeName.replacingOccurrences(of: "[", with: "{")
+            safeName = safeName.replacingOccurrences(of: "]", with: "}")
+            safeName = safeName.replacingOccurrences(of: "@", with: "-")
             
-            let element = DataStorage.shared.groupsArray[indexPath.row]
-            
-            DataStorage.shared.groupsArray.remove(at: indexPath.row)
-            
-            DataStorage.shared.allGroupsArray.append(element)
-            
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
-            
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            guard let id = SessionApp.shared.userID else { return }
+            Database.database().reference().child("users").child("\(id)").child(name).removeValue { error, ref in
+                if error != nil {
+                    print(error?.localizedDescription as Any)
+                }
+            }
+            self.groups.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
-
+    
 }
