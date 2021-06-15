@@ -13,13 +13,13 @@ class Group: Object, Codable {
     @objc dynamic var response: GroupData?
 }
 
-// MARK: - Response
+// MARK: - GroupData
 class GroupData: Object, Codable {
     @objc dynamic var count: Int = 0
     var items: List<GroupList> = List<GroupList>()
 }
 
-// MARK: - Item
+// MARK: - GroupList
 class GroupList: Object, Codable {
     @objc dynamic var id: Int = 0
     @objc dynamic var name: String = ""

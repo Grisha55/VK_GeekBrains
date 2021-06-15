@@ -10,9 +10,10 @@ import RealmSwift
 
 class NetworkingService {
     
+    //MARK: - Properties
     let constanse = NetworkingConstans()
     
-    // MARK: Friends
+    // Загрузка друзей юзера
     func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void) {
         
         // https://api.vk.com/method/friends.get
@@ -65,7 +66,7 @@ class NetworkingService {
         task.resume()
     }
     
-    // MARK: Photos
+    // Загрузка фотографий друзей пользователя
     func getPhotos(userID: Int?, completion: @escaping (List<Picture>) -> Void, onError: @escaping (Error) -> Void) {
         
         // https://api.vk.com/method/photos.get
@@ -118,7 +119,7 @@ class NetworkingService {
         task.resume()
     }
     
-    // MARK: Groups
+    // Загрузка групп пользователя
     func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.get
@@ -168,6 +169,7 @@ class NetworkingService {
         task.resume()
     }
     
+    // Загрузка групп по поиску
     func searchGroups(name: String, completion: @escaping (Result<List<GroupsArray>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.search

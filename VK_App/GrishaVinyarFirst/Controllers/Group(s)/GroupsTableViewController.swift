@@ -12,12 +12,10 @@ import Firebase
 
 class GroupsTableViewController: UITableViewController {
     
+    //MARK: - Properties
     let groupCell = "GroupCell"
-    
     let networkingService = NetworkingService()
-
     var token: NotificationToken?
-    
     var groups = [GroupFB]()
     
     override func viewDidLoad() {
@@ -28,7 +26,7 @@ class GroupsTableViewController: UITableViewController {
         loadUsersGroupFromFB()
     }
     
-    // Загружаем все группы пользователя из Firebase
+    //MARK: - Methods
     func loadUsersGroupFromFB() {
         guard let id = SessionApp.shared.userID else { return }
         let refGroups = Database.database().reference(withPath: "users").child("\(id)")
@@ -48,7 +46,6 @@ class GroupsTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groups.count
     }

@@ -13,13 +13,13 @@ class Photo: Object, Codable {
     @objc dynamic var response: Character?
 }
 
-// MARK: - Response
+// MARK: - Character
 class Character: Object, Codable {
     @objc dynamic var count: Int = 0
     var items: List<Picture> = List<Picture>()
 }
 
-// MARK: - Item
+// MARK: - Picture
 class Picture: Object, Codable {
     
     @objc dynamic var id: Int = 0

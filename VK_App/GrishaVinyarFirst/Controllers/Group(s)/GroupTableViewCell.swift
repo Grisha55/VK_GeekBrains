@@ -35,6 +35,8 @@ class GroupTableViewCell: UITableViewCell {
         setupGroupImage()
     }
     
+    //MARK: - Methods
+    
     func setupNameLabel() {
         nameLabel.leadingAnchor.constraint(equalTo: groupImage.trailingAnchor, constant: 10).isActive    = true
         nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive                  = true

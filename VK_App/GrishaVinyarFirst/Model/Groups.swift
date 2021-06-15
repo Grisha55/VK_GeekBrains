@@ -19,7 +19,7 @@ class ResponseGroups: Object, Codable {
     var items: List<GroupsArray> = List<GroupsArray>()
 }
 
-// MARK: - Item
+// MARK: - GroupsArray
 class GroupsArray: Object, Codable {
     
     @objc dynamic var name: String = ""

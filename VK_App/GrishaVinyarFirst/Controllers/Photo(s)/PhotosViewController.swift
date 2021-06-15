@@ -10,15 +10,15 @@ import RealmSwift
 
 class PhotosViewController: UIViewController {
     
+    //MARK: - Properties
     // id пользователя, на которого нажали
     var userID: Int = 0
     
     @IBOutlet var collectionView: UICollectionView!
     
+    //MARK: - Properties
     let networkingService = NetworkingService()
-    
     var token: NotificationToken?
-    
     var pictures: Results<Picture>?
     
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ class PhotosViewController: UIViewController {
         pairTableAndRealm()
         collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
     }
-    
+    //MARK: - Methods
     func pairTableAndRealm() {
         guard let realm = try? Realm() else { return }
         pictures = realm.objects(Picture.self)
@@ -55,7 +55,7 @@ class PhotosViewController: UIViewController {
     }
 }
 
-// UICollectionViewDelegate
+//MARK: - UICollectionViewDelegate
 extension PhotosViewController: UICollectionViewDelegate {
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -73,7 +73,7 @@ extension PhotosViewController: UICollectionViewDelegate {
     }
 }
 
-// UICollectionViewDelegateFlowLayout
+//MARK: - UICollectionViewDelegateFlowLayout
 extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -86,7 +86,7 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-//UICollectionViewDataSource
+//MARK: - UICollectionViewDataSource
 extension PhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -111,7 +111,7 @@ extension PhotosViewController: UICollectionViewDataSource {
     }
 }
 
-// PhotoCollectionViewCellDelegate
+//MARK: - PhotoCollectionViewCellDelegate
 extension PhotosViewController: PhotoCollectionViewCellDelegate {
     
     func likeAction(sender: UIButton, label: UILabel) {

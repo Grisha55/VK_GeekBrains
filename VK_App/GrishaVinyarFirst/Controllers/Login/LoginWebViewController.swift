@@ -10,6 +10,7 @@ import WebKit
 
 class LoginWebViewController: UIViewController {
     
+    //MARK: - Properties
     let networkingConstanse = NetworkingConstans()
     
     @IBOutlet weak var webView: WKWebView! {
@@ -35,6 +36,11 @@ class LoginWebViewController: UIViewController {
             performSegue(withIdentifier: "toTabBar", sender: self)
         }
         
+       logInToApp()
+        
+    }
+    // Вход в приложение
+    func logInToApp() {
         // https://oauth.vk.com/authorize
         
         var constructor = URLComponents()
@@ -54,11 +60,11 @@ class LoginWebViewController: UIViewController {
         let request = URLRequest(url: url)
         
         webView.load(request)
-        
     }
     
 }
 
+//MARK: - WKNavigationDelegate
 extension LoginWebViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {

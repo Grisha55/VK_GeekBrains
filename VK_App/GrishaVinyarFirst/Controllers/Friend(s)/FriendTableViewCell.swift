@@ -8,6 +8,7 @@ import UIKit
 
 class FriendTableViewCell: UITableViewCell {
     
+    //MARK: - Properties
     private let nameLabel: UILabel = {
         let name = UILabel()
         name.adjustsFontSizeToFitWidth = true
@@ -49,26 +50,26 @@ class FriendTableViewCell: UITableViewCell {
         setupPhotoImage()
         
     }
-    
+    // Констрейнты для photoImage
     func setupPhotoImage() {
         photoImage.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor).isActive = true
         photoImage.leadingAnchor.constraint(equalTo: shadowView.leadingAnchor).isActive   = true
         photoImage.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor).isActive     = true
         photoImage.topAnchor.constraint(equalTo: shadowView.topAnchor).isActive           = true
     }
-    
+    // Констрейнты для nameLabel
     func setupNameLabel() {
         nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive               = true
     }
-    
+    // Констрейнты для shadowView
     func setupShadow() {
         shadowView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
         shadowView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive                  = true
         shadowView.widthAnchor.constraint(equalToConstant: 80).isActive                                   = true
         shadowView.heightAnchor.constraint(equalToConstant: 80).isActive                                  = true
     }
-    
+    // Констрейнты для photoImage и настройка обработчика нажатий
     func animatePhotoImage() {
         self.photoImage.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapPhoto))
@@ -93,7 +94,7 @@ class FriendTableViewCell: UITableViewCell {
         self.nameLabel.text = nil
         self.photoImage.image = nil
     }
-    
+    // Соединение таблицы и ячейки
     func configure(name: String, photo: UIImage?) {
         self.nameLabel.text = name
         self.photoImage.image = photo

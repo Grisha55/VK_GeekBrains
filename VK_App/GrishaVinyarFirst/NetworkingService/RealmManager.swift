@@ -10,6 +10,7 @@ import RealmSwift
 
 class RealmManager {
     
+    // Загрузка друзей юзера в Realm
     func getAllFriendsToBase() {
         
         NetworkingService().getFriends { result in
@@ -31,6 +32,7 @@ class RealmManager {
         }
     }
     
+    // Загрузка фотографий друзей пользователя в Realm
     func updatePhotos(for userID: Int? ){
         NetworkingService().getPhotos(userID: userID, completion: { (pictures) in
             do {
@@ -48,6 +50,7 @@ class RealmManager {
         })
     }
     
+    // Загрузка всех групп в Realm
     func updateAllGroups(name: String) {
         NetworkingService().searchGroups(name: name) { (result) in
             switch result {

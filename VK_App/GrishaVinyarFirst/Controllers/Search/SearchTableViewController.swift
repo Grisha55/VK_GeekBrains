@@ -10,12 +10,10 @@ import RealmSwift
 
 class SearchTableViewController: UITableViewController {
     
+    //MARK: - Properties
     var filterArray: Results<GroupsArray>?
-    
     let searchController = UISearchController(searchResultsController: nil)
-    
     let networkingService = NetworkingService()
-    
     var token: NotificationToken?
     
     override func viewDidLoad() {
@@ -29,6 +27,8 @@ class SearchTableViewController: UITableViewController {
         
         setupSearchController()
     }
+    
+    //MARK: - Methods
     
     func pairTableAndRealm() {
         
@@ -59,6 +59,7 @@ class SearchTableViewController: UITableViewController {
         })
     }
     
+    //MARK: - Methods
     func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -68,6 +69,7 @@ class SearchTableViewController: UITableViewController {
         
     }
     
+    // Создаем алерт и загружаем новую группу в Firebase
     func setupAlert() {
         let alertController = UIAlertController(title: "Добавление группы", message: "Хотите ли вы добавить группу?", preferredStyle: .alert)
         let alertActionOne = UIAlertAction(title: "Закрыть", style: .cancel, handler: nil)
@@ -90,30 +92,6 @@ class SearchTableViewController: UITableViewController {
                     
                     FirebaseStore().loadDataToFirebase(name: safeName, photo: tappedElement.photo50)
                     
-                    // Добавляем группу в свои группы
-                    do {
-                        let realm = try Realm()
-                        realm.beginWrite()
-                        let groupClass = GroupList()
-                        groupClass.id = 0
-                        groupClass.name = tappedElement.name
-                        groupClass.photo50 = tappedElement.photo50
-                        realm.add(groupClass)
-                        try realm.commitWrite()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                    
-                    // Удаляем группу из общих групп
-                    do {
-                        let realm = try Realm()
-                        realm.beginWrite()
-                        realm.delete(tappedElement)
-                        try realm.commitWrite()
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                    
                     self?.navigationController?.popViewController(animated: true)
                 }
             }
@@ -125,8 +103,7 @@ class SearchTableViewController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    //MARK: Table view delegate
-    
+    //MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         setupAlert()
     }

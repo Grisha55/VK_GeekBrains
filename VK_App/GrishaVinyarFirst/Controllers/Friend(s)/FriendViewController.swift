@@ -11,6 +11,7 @@ import SDWebImage
 
 class FriendViewController: UIViewController {
     
+    //MARK: - Properties
    @IBOutlet weak var tableView: UITableView!
     
     // id друга
@@ -33,6 +34,9 @@ class FriendViewController: UIViewController {
         
     }
     
+    //MARK: - Methods
+    
+    // Создаем наблюдателя и получаем друзей юзера
     func pairTableAndRealm() {
         
         guard let realm = try? Realm() else { return }
