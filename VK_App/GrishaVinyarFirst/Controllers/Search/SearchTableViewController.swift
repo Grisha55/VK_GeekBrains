@@ -80,7 +80,13 @@ class SearchTableViewController: UITableViewController {
                     
                     let tappedElement = filterArray[indexOfTappedOne.row]
                     
-                    let safeName = tappedElement.name.replacingOccurrences(of: ".", with: "-")
+                    var safeName = tappedElement.name.replacingOccurrences(of: "", with: "_")
+                    safeName = safeName.replacingOccurrences(of: ".", with: "_")
+                    safeName = safeName.replacingOccurrences(of: "#", with: "-")
+                    safeName = safeName.replacingOccurrences(of: "$", with: "dollar")
+                    safeName = safeName.replacingOccurrences(of: "[", with: "{")
+                    safeName = safeName.replacingOccurrences(of: "]", with: "}")
+                    safeName = safeName.replacingOccurrences(of: "@", with: "dog")
                     
                     FirebaseStore().loadDataToFirebase(name: safeName, photo: tappedElement.photo50)
                     

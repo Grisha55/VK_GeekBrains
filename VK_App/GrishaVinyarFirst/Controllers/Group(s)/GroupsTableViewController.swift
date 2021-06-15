@@ -63,11 +63,11 @@ class GroupsTableViewController: UITableViewController {
         
         let imageView = UIImageView()
         
-        guard let url = URL(string: group.photo ?? "") else { return UITableViewCell() }
+        let url = URL(string: group.photo ?? "")
         
         imageView.sd_setImage(with: url, placeholderImage: UIImage(systemName: "person.3"))
         
-        cell.storageElementsForGroup(groupLabel: group.name ?? "" , groupImage: imageView.image)
+        cell.storageElementsForGroup(groupLabel: group.name ?? "Warning!!! (deleted group)" , groupImage: imageView.image)
         
         return cell
     }
@@ -76,15 +76,22 @@ class GroupsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             guard let name = groups[indexPath.row].name else { return }
+            var safeName = name.replacingOccurrences(of: "", with: "^")
+            safeName = safeName.replacingOccurrences(of: ".", with: "_")
+            safeName = safeName.replacingOccurrences(of: "#", with: "-")
+            safeName = safeName.replacingOccurrences(of: "$", with: "-")
+            safeName = safeName.replacingOccurrences(of: "[", with: "{")
+            safeName = safeName.replacingOccurrences(of: "]", with: "}")
+            safeName = safeName.replacingOccurrences(of: "@", with: "-")
+            
             guard let id = SessionApp.shared.userID else { return }
-            Database.database().reference().child("users").child("\(id)").child(name).removeValue { [weak self] error, ref in
+            Database.database().reference().child("users").child("\(id)").child(name).removeValue { error, ref in
                 if error != nil {
                     print(error?.localizedDescription as Any)
                 }
-                
-                self?.groups.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
             }
+            self.groups.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     

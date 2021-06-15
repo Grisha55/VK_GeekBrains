@@ -30,7 +30,13 @@ class FirebaseStore {
                 print(error.localizedDescription)
             case .success(let groups):
                 groups.forEach { group in
-                    let safeName = group.name.replacingOccurrences(of: ".", with: "-")
+                    var safeName = group.name.replacingOccurrences(of: "", with: "^")
+                    safeName = safeName.replacingOccurrences(of: ".", with: "_")
+                    safeName = safeName.replacingOccurrences(of: "#", with: "-")
+                    safeName = safeName.replacingOccurrences(of: "$", with: "-")
+                    safeName = safeName.replacingOccurrences(of: "[", with: "{")
+                    safeName = safeName.replacingOccurrences(of: "]", with: "}")
+                    safeName = safeName.replacingOccurrences(of: "@", with: "-")
                     FirebaseStore().loadDataToFirebase(name: safeName, photo: group.photo50)
                 }
             }
