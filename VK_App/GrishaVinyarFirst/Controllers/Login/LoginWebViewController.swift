@@ -26,9 +26,11 @@ class LoginWebViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let token = UserDefaults.standard.string(forKey: "Token") {
+        if let token = UserDefaults.standard.string(forKey: "Token"),
+           let userID = UserDefaults.standard.string(forKey: "UserID") {
             
             SessionApp.shared.token = token
+            SessionApp.shared.userID = Int(userID)
             
             performSegue(withIdentifier: "toTabBar", sender: self)
         }
@@ -80,10 +82,12 @@ extension LoginWebViewController: WKNavigationDelegate {
         
         // Токен имеет ключ “access_token”, Мы можем получить его и использовать в наших запросах к ВК.
         let token = params["access_token"]
+        let userID = params["user_id"]
            
-        if let token = token, !token.isEmpty {
+        if let token = token, !token.isEmpty, let userID = userID, !userID.isEmpty {
             
             UserDefaults.standard.setValue(token, forKey: "Token")
+            UserDefaults.standard.setValue(userID, forKey: "UserID")
             
             performSegue(withIdentifier: "toTabBar", sender: self)
         }

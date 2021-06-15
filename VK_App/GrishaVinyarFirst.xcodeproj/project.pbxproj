@@ -34,6 +34,8 @@
 		BEA301442618E7ED00259CF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA301422618E7ED00259CF1 /* Main.storyboard */; };
 		BEA301462618E7EF00259CF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEA301452618E7EF00259CF1 /* Assets.xcassets */; };
 		BEA301492618E7EF00259CF1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEA301472618E7EF00259CF1 /* LaunchScreen.storyboard */; };
+		BEB4297926786509000DC5EA /* FirebaseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4297826786509000DC5EA /* FirebaseStore.swift */; };
+		BEB4297B2678A95B000DC5EA /* GroupFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4297A2678A95B000DC5EA /* GroupFB.swift */; };
 		BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4337B266BE67100EDB74F /* RealmManager.swift */; };
 		BEB8A458261C4D1B004CD850 /* First.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A457261C4D1B004CD850 /* First.storyboard */; };
 		BEB8A45C261C4D34004CD850 /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A45B261C4D34004CD850 /* Second.storyboard */; };
@@ -84,6 +86,8 @@
 		BEA301452618E7EF00259CF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEA301482618E7EF00259CF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BEA3014A2618E7EF00259CF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEB4297826786509000DC5EA /* FirebaseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStore.swift; sourceTree = "<group>"; };
+		BEB4297A2678A95B000DC5EA /* GroupFB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupFB.swift; sourceTree = "<group>"; };
 		BEB4337B266BE67100EDB74F /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		BEB8A457261C4D1B004CD850 /* First.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = First.storyboard; sourceTree = "<group>"; };
 		BEB8A45B261C4D34004CD850 /* Second.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 				BE0AB9E7265CBB390057BDC4 /* NetworkingService.swift */,
 				BEA05A27265D53BB00D1C2DE /* NetworkingConstans.swift */,
 				BEB4337B266BE67100EDB74F /* RealmManager.swift */,
+				BEB4297826786509000DC5EA /* FirebaseStore.swift */,
 			);
 			path = NetworkingService;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 				BEF2CB81265E54AA0063ED2B /* User.swift */,
 				BEF2CB83265E8F160063ED2B /* Photo.swift */,
 				BE5468B9265F5E9B007BDC52 /* Group.swift */,
+				BEB4297A2678A95B000DC5EA /* GroupFB.swift */,
 			);
 			path = DepricateModel;
 			sourceTree = "<group>";
@@ -462,6 +468,7 @@
 				BE7CBFA62620749D00A61DD4 /* GroupTableViewCell.swift in Sources */,
 				BE5468BA265F5E9B007BDC52 /* Group.swift in Sources */,
 				BEF4682726341EE500E6C7DD /* PhotosViewController.swift in Sources */,
+				BEB4297B2678A95B000DC5EA /* GroupFB.swift in Sources */,
 				BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */,
 				BEA301412618E7ED00259CF1 /* LoginViewController.swift in Sources */,
 				BEA05A28265D53BB00D1C2DE /* NetworkingConstans.swift in Sources */,
@@ -485,6 +492,7 @@
 				BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */,
 				BEEA83D1262EE3680029C997 /* NewsViewController.swift in Sources */,
 				BE7CBFB62620829E00A61DD4 /* Friend.swift in Sources */,
+				BEB4297926786509000DC5EA /* FirebaseStore.swift in Sources */,
 				BEEA83D6262EE3C10029C997 /* NewsTableViewCell.swift in Sources */,
 				BE26FDE02641A54500049E76 /* NewsCell.swift in Sources */,
 				BEF2CB84265E8F160063ED2B /* Photo.swift in Sources */,

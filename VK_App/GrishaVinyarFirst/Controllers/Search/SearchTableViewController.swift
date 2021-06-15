@@ -80,6 +80,10 @@ class SearchTableViewController: UITableViewController {
                     
                     let tappedElement = filterArray[indexOfTappedOne.row]
                     
+                    let safeName = tappedElement.name.replacingOccurrences(of: ".", with: "-")
+                    
+                    FirebaseStore().loadDataToFirebase(name: safeName, photo: tappedElement.photo50)
+                    
                     // Добавляем группу в свои группы
                     do {
                         let realm = try Realm()

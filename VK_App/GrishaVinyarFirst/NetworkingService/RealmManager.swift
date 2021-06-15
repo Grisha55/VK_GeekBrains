@@ -48,26 +48,6 @@ class RealmManager {
         })
     }
     
-    func updataUsersGroups() {
-        NetworkingService().getUserGroups { (result) in
-            switch result {
-            case .failure(let error):
-                print(error)
-            case .success(let groups):
-                do {
-                    let realm = try Realm()
-                    realm.beginWrite()
-                    let oldValue = realm.objects(GroupList.self)
-                    realm.delete(oldValue)
-                    realm.add(groups)
-                    try realm.commitWrite()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
-    
     func updateAllGroups(name: String) {
         NetworkingService().searchGroups(name: name) { (result) in
             switch result {
