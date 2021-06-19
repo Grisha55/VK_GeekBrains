@@ -8,10 +8,13 @@
 import UIKit
 import RealmSwift
 
+protocol PhotosView {
+    func onItemsRetrieval(photos: List<Picture>?)
+}
+
 class PhotosViewController: UIViewController {
     
     //MARK: - Properties
-    // id пользователя, на которого нажали
     var userID: Int = 0
     
     @IBOutlet var collectionView: UICollectionView!
@@ -19,39 +22,23 @@ class PhotosViewController: UIViewController {
     //MARK: - Properties
     let networkingService = NetworkingService()
     var token: NotificationToken?
-    var pictures: Results<Picture>?
+    var pictures: List<Picture>?
+    var presenter: PhotosPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        RealmManager().updatePhotos(for: userID)
-        pairTableAndRealm()
+        
         collectionView.register(UINib(nibName: "PhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "photoCell")
+        
+        presenter = PhotosPresenter(view: self, realmPhotosManagerProtocol: RealmManager())
+        presenter.viewDidLoad(collectionView: collectionView, id: userID)
     }
-    //MARK: - Methods
-    func pairTableAndRealm() {
-        guard let realm = try? Realm() else { return }
-        pictures = realm.objects(Picture.self)
-        token = pictures?.observe({ [weak self] changes in
-            guard let strongSelf = self else { return }
-            
-            switch changes {
-            case .initial:
-                strongSelf.collectionView.reloadData()
-                
-            case .update(_, deletions: let deletions, insertions: let insertions, modifications: let modifications):
-                
-                strongSelf.collectionView.performBatchUpdates({
-                    
-                    strongSelf.collectionView.insertItems(at: insertions.map { IndexPath(row: $0, section: 0) })
-                    strongSelf.collectionView.deleteItems(at: deletions.map { IndexPath(row: $0, section: 0) })
-                    strongSelf.collectionView.reloadItems(at: modifications.map { IndexPath(row: $0, section: 0) })
-                    
-                }, completion: nil)
-                
-            case .error(let error):
-                print(error.localizedDescription)
-            }
-        })
+}
+
+extension PhotosViewController: PhotosView {
+    func onItemsRetrieval(photos: List<Picture>?) {
+        self.pictures = photos
+        collectionView.reloadData()
     }
 }
 

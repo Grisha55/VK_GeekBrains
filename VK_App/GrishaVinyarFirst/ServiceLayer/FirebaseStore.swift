@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class FirebaseStore {
+class FirebaseStore: FirebaseStoreProtocol {
     
     // Добавляем новую группу в Firebase
     func loadDataToFirebase(name: String, photo: String) {
@@ -22,14 +22,18 @@ class FirebaseStore {
     }
     
     // Загружаем все группы юзера в Firebase
-    func takeUsersGroupToFB() {
+    func takeUsersGroupToFB(view: UserGroupsView) {
         
         NetworkingService().getUserGroups { status in
             switch status {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let groups):
+                var groupsFB = [GroupFB]()
                 groups.forEach { group in
+                    let groupFB = GroupFB(name: group.name, photo: group.photo50)
+                    groupsFB.append(groupFB)
+                    
                     var safeName = group.name.replacingOccurrences(of: "", with: "^")
                     safeName = safeName.replacingOccurrences(of: ".", with: "_")
                     safeName = safeName.replacingOccurrences(of: "#", with: "-")
@@ -39,6 +43,7 @@ class FirebaseStore {
                     safeName = safeName.replacingOccurrences(of: "@", with: "-")
                     FirebaseStore().loadDataToFirebase(name: safeName, photo: group.photo50)
                 }
+                view.onGroupRetrieval(groups: groupsFB)
             }
         }
     }

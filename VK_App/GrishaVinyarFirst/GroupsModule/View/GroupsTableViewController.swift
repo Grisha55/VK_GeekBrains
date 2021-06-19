@@ -10,40 +10,34 @@ import SDWebImage
 import RealmSwift
 import Firebase
 
+protocol UserGroupsView {
+    func onGroupRetrieval(groups: [GroupFB])
+}
+
 class GroupsTableViewController: UITableViewController {
     
     //MARK: - Properties
     let groupCell = "GroupCell"
     let networkingService = NetworkingService()
-    var token: NotificationToken?
     var groups = [GroupFB]()
+    var presenter: GroupsPresenter!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewDidLoad(tableView: tableView)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
-        FirebaseStore().takeUsersGroupToFB()
-        loadUsersGroupFromFB()
+        //FirebaseStore().takeUsersGroupToFB()
+        
+        presenter = GroupsPresenter(view: self, firebaseStore: FirebaseStore())
+        
     }
     
     //MARK: - Methods
-    func loadUsersGroupFromFB() {
-        guard let id = SessionApp.shared.userID else { return }
-        let refGroups = Database.database().reference(withPath: "users").child("\(id)")
-        
-        refGroups.observe(.value) { [weak self] snapshot in
-            var _groups = Array<GroupFB>()
-            
-            for group in snapshot.children {
-                
-                let group = GroupFB(snapshot: group as! DataSnapshot)
-                
-                _groups.append(group)
-            }
-            self?.groups = _groups
-            self?.tableView.reloadData()
-        }
-    }
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,4 +86,11 @@ class GroupsTableViewController: UITableViewController {
         }
     }
     
+}
+// MARK: - UserGroupsProtocol
+extension GroupsTableViewController: UserGroupsView {
+    func onGroupRetrieval(groups: [GroupFB]) {
+        self.groups = groups
+        tableView.reloadData()
+    }
 }

@@ -17,4 +17,9 @@ struct GroupFB {
         self.name = snapshotValue["name"] as? String
         self.photo = snapshotValue["photo"] as? String
     }
+    
+    init(name: String, photo: String) {
+        self.name = name
+        self.photo = photo
+    }
 }

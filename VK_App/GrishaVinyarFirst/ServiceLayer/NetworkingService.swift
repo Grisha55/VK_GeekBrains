@@ -8,7 +8,14 @@
 import Foundation
 import RealmSwift
 
-class NetworkingService {
+protocol NetworkServiceProtocol {
+    func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void)
+    func getPhotos(userID: Int?, completion: @escaping (List<Picture>) -> Void, onError: @escaping (Error) -> Void)
+    func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void)
+    func searchGroups(name: String, completion: @escaping (Result<List<GroupsArray>, Error>) -> Void)
+}
+
+class NetworkingService: NetworkServiceProtocol {
     
     //MARK: - Properties
     let constanse = NetworkingConstans()

@@ -19,9 +19,11 @@ class LoginWebViewController: UIViewController {
         }
     }
     
+    var presenter: LoginPresenter?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        presenter = LoginPresenter(view: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,33 +37,8 @@ class LoginWebViewController: UIViewController {
             
             performSegue(withIdentifier: "toTabBar", sender: self)
         }
-        
-       logInToApp()
-        
+        presenter?.logInToApp(webView: webView)
     }
-    // Вход в приложение
-    func logInToApp() {
-        // https://oauth.vk.com/authorize
-        
-        var constructor = URLComponents()
-        constructor.scheme = "https"
-        constructor.host = "oauth.vk.com"
-        constructor.path = "/authorize"
-        constructor.queryItems = [
-            URLQueryItem(name: "client_id", value: networkingConstanse.clientId),
-            URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
-            URLQueryItem(name: "scope", value: "262150"),
-            URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: networkingConstanse.version),
-            
-        ]
-        guard let url = constructor.url else { return }
-        let request = URLRequest(url: url)
-        
-        webView.load(request)
-    }
-    
 }
 
 //MARK: - WKNavigationDelegate

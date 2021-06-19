@@ -8,16 +8,17 @@
 import Foundation
 import RealmSwift
 
-class RealmManager {
-    
+class RealmManager: RealmFriendsServiceProtocol, RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
+ 
     // Загрузка друзей юзера в Realm
-    func getAllFriendsToBase() {
+    func getAllFriendsToBase(view: FriendsView) {
         
         NetworkingService().getFriends { result in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let users):
+                view.onItemsRetrieval(friends: users)
                 do {
                     let realm = try Realm()
                     realm.beginWrite()
@@ -33,8 +34,9 @@ class RealmManager {
     }
     
     // Загрузка фотографий друзей пользователя в Realm
-    func updatePhotos(for userID: Int? ){
+    func updatePhotos(for userID: Int?, view: PhotosView) {
         NetworkingService().getPhotos(userID: userID, completion: { (pictures) in
+            view.onItemsRetrieval(photos: pictures)
             do {
                 let realm = try Realm()
                 let oldValues = realm.objects(Picture.self)
@@ -51,12 +53,13 @@ class RealmManager {
     }
     
     // Загрузка всех групп в Realm
-    func updateAllGroups(name: String) {
+    func updateAllGroups(view: SearchGroupsView, name: String) {
         NetworkingService().searchGroups(name: name) { (result) in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
             case .success(let allGroups):
+                view.onSearchGroupsRetrieval(groups: allGroups)
                 do {
                     let realm = try Realm()
                     realm.beginWrite()
