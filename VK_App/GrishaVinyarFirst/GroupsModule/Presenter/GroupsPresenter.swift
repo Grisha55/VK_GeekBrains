@@ -22,7 +22,7 @@ class GroupsPresenter: GroupsPresenterProtocol {
    
     var view: UserGroupsView
     var firebaseStore: FirebaseStoreProtocol
-    var userGroups: [GroupFB]?
+    var userGroups = [GroupFB]()
     
     required init(view: UserGroupsView, firebaseStore: FirebaseStore) {
         self.view = view
@@ -31,10 +31,9 @@ class GroupsPresenter: GroupsPresenterProtocol {
     
     func viewDidLoad(tableView: UITableView) {
         firebaseStore.takeUsersGroupToFB(view: view)
-        loadUsersGroupFromFB(tableView: tableView)
     }
     
-    func loadUsersGroupFromFB(tableView: UITableView) {
+    func loadUsersGroupFromFB(tableView: UITableView, completion: @escaping ([GroupFB]) -> Void) {
         guard let id = SessionApp.shared.userID else { return }
         let refGroups = Database.database().reference(withPath: "users").child("\(id)")
         
@@ -50,6 +49,7 @@ class GroupsPresenter: GroupsPresenterProtocol {
                 _groups.append(group)
             }
             self.userGroups = _groups
+            completion(_groups)
             tableView.reloadData()
         }
     }

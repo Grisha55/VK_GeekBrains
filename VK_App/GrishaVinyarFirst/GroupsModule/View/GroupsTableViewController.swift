@@ -24,17 +24,18 @@ class GroupsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.viewDidLoad(tableView: tableView)
+        presenter.loadUsersGroupFromFB(tableView: tableView) { groupsFB in
+            self.groups = groupsFB
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(GroupTableViewCell.self, forCellReuseIdentifier: groupCell)
-        //FirebaseStore().takeUsersGroupToFB()
         
         presenter = GroupsPresenter(view: self, firebaseStore: FirebaseStore())
-        
+        presenter.viewDidLoad(tableView: tableView)
     }
     
     //MARK: - Methods
