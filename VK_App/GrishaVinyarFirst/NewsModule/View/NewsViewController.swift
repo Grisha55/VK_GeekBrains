@@ -7,24 +7,23 @@
 
 import UIKit
 
+protocol NewsView {
+    func onItemsRetrieval(news: [News])
+}
+
 class NewsViewController: UIViewController {
 
+    // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
-    
-    var likes = 155
-    var comments = 26
-    var shares = 18
+    private var news = [News]()
+    private var newsPresenter: NewsPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkingService().getNewsfeed { result in
-            switch result {
-            case .success(let news):
-                print(news.map { $0.likes })
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        
+        newsPresenter = NewsPresenter(view: self)
+        newsPresenter?.viewDidLoad(tableView: tableView)
+        
         tableView.rowHeight = 450
         
         tableView.delegate = self
@@ -36,55 +35,41 @@ class NewsViewController: UIViewController {
 
 }
 
+extension NewsViewController: NewsView {
+    func onItemsRetrieval(news: [News]) {
+        self.news = news
+        tableView.reloadData()
+    }
+}
+
+// MARK: - UITableViewDelegate
 extension NewsViewController: UITableViewDelegate {}
 
+// MARK: - UITableViewDataSource
 extension NewsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return news.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.row % 2 == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else { return UITableViewCell()}
-            
-            cell.configure(imageForPhoto: UIImage(named: "винни1"), labelForImage: "Василий Пупкин", bigText: "Hello my name is Krosh .kljfdklfkkfkdsflkdklfjaklsdjfskladjsklfjkajsdfweiropqwioikjgfkldskfweirowqithjifl;adskflksl;fksloikopioprewio21231fg354g564r5ger454g5reg5r541r54tg56er4grte45rer5e46er456r4554terwe14gteqrw5647t84t5644rew5464q658rt454fg4545r45645445erw45rew45r64rt5erw54", bigImage: UIImage(named: "крош"), secondBigImage: UIImage(named: "крош2"))
-            cell.delegate = self
-            return cell
-        }
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCellTwo", for: indexPath) as? NewsCell else { return UITableViewCell() }
         
-        cell.configure(name: "Мишки в сосновом бору", photo: UIImage(named: "мишки"))
+        guard let attachments = news[indexPath.row].attachments else { return UITableViewCell() }
+        let photoImageView = UIImageView()
         
-       return cell
+        attachments.forEach { new in
+            guard let photoStr = new.photo else { return }
+            guard let url = URL(string: photoStr.photo75 ?? "") else { return }
+            photoImageView.sd_setImage(with: url, completed: .none)
+            cell.configure(name: new.type ?? "N/A", photo: photoImageView.image)
+            
+        }
+        
+        return cell
+        
     }
     
 }
 
-extension NewsViewController: NewsTableViewCellDelegate {
-    
-    func likesAction(sender: UIButton, label: UILabel) {
-        if sender.titleLabel?.text == "🤍" {
-            sender.setTitle("❤️", for: .normal)
-            likes += 1
-            label.text = String(likes)
-        } else {
-            sender.setTitle("🤍", for: .normal)
-            likes -= 1
-            label.text = String(likes)
-        }
-    }
-    
-    func commentsAction(label: UILabel) {
-        comments += 1
-        label.text = String(comments)
-    }
-    
-    func shareAction(label: UILabel) {
-        shares += 1
-        label.text = String(shares)
-    }
-    
-}
