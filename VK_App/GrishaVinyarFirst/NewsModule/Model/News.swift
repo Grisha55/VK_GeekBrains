@@ -15,7 +15,7 @@ struct NewsList: Codable {
 // MARK: - NewsResponse
 struct NewsResponse: Codable {
     let items: [News]?
-    let groups: [Group]?
+    let groups: [GroupList]?
     let profiles: [Profile]?
     let nextFrom: String?
 

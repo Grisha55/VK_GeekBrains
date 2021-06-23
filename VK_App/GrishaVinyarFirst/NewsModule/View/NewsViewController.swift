@@ -20,7 +20,7 @@ class NewsViewController: UIViewController {
         NetworkingService().getNewsfeed { result in
             switch result {
             case .success(let news):
-                print(news.map { $0.comments })
+                print(news.map { $0.likes })
             case .failure(let error):
                 print(error.localizedDescription)
             }

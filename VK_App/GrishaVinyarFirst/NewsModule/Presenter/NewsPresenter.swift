@@ -9,4 +9,6 @@ import Foundation
 
 class NewsPresenter {
     
+    private var news: [News]?
+    
 }

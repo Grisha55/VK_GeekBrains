@@ -51,8 +51,11 @@ class NetworkingService: NetworkServiceProtocol {
             guard let data = data else { return }
             
             do {
-                let news = try JSONDecoder().decode([News].self, from: data)
-                completion(.success(news))
+                let news = try JSONDecoder().decode(NewsList.self, from: data)
+                guard let items = news.response?.items else { return}
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
             } catch {
                 completion(.failure(error))
             }
