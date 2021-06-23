@@ -25,12 +25,14 @@ class Picture: Object, Codable {
     @objc dynamic var id: Int = 0
     @objc dynamic var ownerID: Int = 0
     var sizes: List<Size> = List<Size>()
+    @objc dynamic var likes: PhotoLikes?
 
     enum CodingKeys: String, CodingKey {
         
         case id
         case ownerID = "owner_id"
         case sizes
+        case likes
     }
 }
 
@@ -40,5 +42,14 @@ class Size: Object, Codable {
     @objc dynamic var url: String = ""
     @objc dynamic var type: String = ""
     @objc dynamic var width: Int = 0
-    @objc dynamic var src: String = ""
+}
+
+class PhotoLikes: Object, Codable {
+    @objc dynamic var userLikes: Int = 0
+    @objc dynamic var count: Int = 0
+
+    enum CodingKeys: String, CodingKey {
+        case count
+        case userLikes = "user_likes"
+    }
 }

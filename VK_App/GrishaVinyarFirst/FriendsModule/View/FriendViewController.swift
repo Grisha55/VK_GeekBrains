@@ -77,7 +77,7 @@ extension FriendViewController: UITableViewDelegate {
         
         // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
         id = item.id 
-        
+        PhotosViewController().userID = id
         performSegue(withIdentifier: "fromFriendsToPhotos", sender: self)
     }
     

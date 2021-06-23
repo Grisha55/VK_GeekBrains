@@ -86,7 +86,7 @@ extension PhotosViewController: UICollectionViewDataSource {
         guard let pictures = pictures else { return UICollectionViewCell() }
         let imageView = UIImageView()
         let sizes = pictures[indexPath.row].sizes
-        let pictureURL = sizes[indexPath.row].src
+        let pictureURL = sizes[indexPath.row].url
         
         imageView.sd_setImage(with: URL(string: pictureURL), placeholderImage: UIImage(systemName: "person"))
         

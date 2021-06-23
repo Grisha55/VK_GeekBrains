@@ -13,7 +13,7 @@ struct NetworkingConstans {
     
     let host = "api.vk.com"
     
-    let version = "5.60"
+    let version = "5.92"
     
     //let clientId = "7866516"
     let clientId = "7874888"

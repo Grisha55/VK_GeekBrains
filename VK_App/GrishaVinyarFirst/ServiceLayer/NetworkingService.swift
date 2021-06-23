@@ -20,6 +20,46 @@ class NetworkingService: NetworkServiceProtocol {
     //MARK: - Properties
     let constanse = NetworkingConstans()
     
+    // Загрузка ленты новостей
+    func getNewsfeed(completion: @escaping (Result<[News], Error>) -> Void) {
+        //https://api.vk.com/method/newsfeed.get?user_ids=7874888&fields=bdate&access_token=a0ad5d98286931c0ba5ec23df4fa03bdf5d8f73bc550d3167813f78ed250d88475cc4fdccd14dfe9a3d8a&v=5.92
+
+        let configuration = URLSessionConfiguration.default
+        
+        let session = URLSession(configuration: configuration)
+        
+        var components = URLComponents()
+
+        components.scheme = constanse.scheme
+        components.host = constanse.host
+        components.path =  "/method/newsfeed.get"
+        
+        components.queryItems = [
+            URLQueryItem(name: "filters", value: "post"),
+            URLQueryItem(name: "count", value: "100"),
+            URLQueryItem(name: "user_ids", value: String(SessionApp.shared.userID ?? 1)),
+            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
+            URLQueryItem(name: "v", value: constanse.version)
+        ]
+        
+        guard let url = components.url else { return }
+        let request = URLRequest(url: url)
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil {
+                completion(.failure(error!))
+            }
+            guard let data = data else { return }
+            
+            do {
+                let news = try JSONDecoder().decode([News].self, from: data)
+                completion(.success(news))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
     // Загрузка друзей юзера
     func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void) {
         

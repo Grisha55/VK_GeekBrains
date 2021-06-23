@@ -17,6 +17,14 @@ class NewsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NetworkingService().getNewsfeed { result in
+            switch result {
+            case .success(let news):
+                print(news.map { $0.comments })
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         tableView.rowHeight = 450
         
         tableView.delegate = self

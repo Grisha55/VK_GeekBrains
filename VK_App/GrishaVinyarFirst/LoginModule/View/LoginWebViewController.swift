@@ -68,7 +68,7 @@ extension LoginWebViewController: WKNavigationDelegate {
         let userID = params["user_id"]
            
         if let token = token, !token.isEmpty, let userID = userID, !userID.isEmpty {
-            
+            print("TOKEN = ", token as Any)
             UserDefaults.standard.setValue(token, forKey: "Token")
             UserDefaults.standard.setValue(userID, forKey: "UserID")
             
