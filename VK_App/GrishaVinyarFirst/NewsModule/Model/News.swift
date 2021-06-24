@@ -82,6 +82,7 @@ struct PhotoNews: Codable {
     let hasTags: Bool?
     let albumID: Int?
     let photo75: String?
+    let sizes: [PhotoSizes]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -99,7 +100,12 @@ struct PhotoNews: Codable {
         case hasTags = "has_tags"
         case albumID = "album_id"
         case photo75 = "photo_75"
+        case sizes
     }
+}
+
+struct PhotoSizes: Codable {
+    let url: String?
 }
 
 // MARK: - Reposts

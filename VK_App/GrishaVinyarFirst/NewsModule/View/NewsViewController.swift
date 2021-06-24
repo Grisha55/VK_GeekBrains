@@ -9,6 +9,7 @@ import UIKit
 
 protocol NewsView {
     func onItemsRetrieval(news: [News])
+    func getProfiles(profiles: [Profile])
 }
 
 class NewsViewController: UIViewController {
@@ -16,6 +17,7 @@ class NewsViewController: UIViewController {
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
     private var news = [News]()
+    private var profiles = [Profile]()
     private var newsPresenter: NewsPresenter?
     
     override func viewDidLoad() {
@@ -40,6 +42,11 @@ extension NewsViewController: NewsView {
         self.news = news
         tableView.reloadData()
     }
+    
+    func getProfiles(profiles: [Profile]) {
+        self.profiles = profiles
+        tableView.reloadData()
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -54,18 +61,36 @@ extension NewsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCellTwo", for: indexPath) as? NewsCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
         
-        guard let attachments = news[indexPath.row].attachments else { return UITableViewCell() }
-        let photoImageView = UIImageView()
+        let news = news[indexPath.row]
+        let profile = profiles[indexPath.row]
         
-        attachments.forEach { new in
-            guard let photoStr = new.photo else { return }
-            guard let url = URL(string: photoStr.photo75 ?? "") else { return }
-            photoImageView.sd_setImage(with: url, completed: .none)
-            cell.configure(name: new.type ?? "N/A", photo: photoImageView.image)
-            
+        let imageView = UIImageView()
+        let profileImageView = UIImageView()
+        
+        let attachments = news.attachments
+        
+        attachments?.forEach({ attachment in
+            attachment.photo?.sizes?.forEach({ size in
+                imageView.sd_setImage(with: URL(string: size.url ?? ""), completed: .none)
+                //profileImageView.sd_setImage(with: URL(string: attachment.photo?.photo75 ?? ""), completed: .none)
+            })
+        })
+        
+        profileImageView.sd_setImage(with: URL(string: profile.photo ?? ""), completed: .none)
+        
+        var text = ""
+        if news.sourceName == "" {
+            text = "Not found"
+        } else {
+            text = news.text ?? ""
         }
+        
+        cell.configure(imageForPhoto: profileImageView.image, labelForImage: text, bigText: text, bigImage: imageView.image, secondBigImage: imageView.image)
+        cell.labelToLikes.text = "\(news.likes?.count ?? 0)"
+        cell.labelToComments.text = "\(news.comments?.count ?? 0)"
+        cell.labelToShare.text = "\(news.reposts?.count ?? 0)"
         
         return cell
         

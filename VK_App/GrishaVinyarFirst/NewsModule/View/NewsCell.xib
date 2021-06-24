@@ -16,26 +16,24 @@
                 <rect key="frame" x="0.0" y="0.0" width="496" height="237"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="XQ6-Ae-Vf7">
-                        <rect key="frame" x="0.0" y="0.0" width="496" height="237"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EH3-aK-InO">
-                                <rect key="frame" x="227.5" y="0.0" width="41.5" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qYz-U5-HEO">
-                                <rect key="frame" x="0.0" y="41" width="496" height="196"/>
-                            </imageView>
-                        </subviews>
-                    </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EH3-aK-InO">
+                        <rect key="frame" x="10" y="10" width="476" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qYz-U5-HEO">
+                        <rect key="frame" x="0.0" y="41.5" width="496" height="195.5"/>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="XQ6-Ae-Vf7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="I3R-Ww-V7q"/>
-                    <constraint firstAttribute="trailing" secondItem="XQ6-Ae-Vf7" secondAttribute="trailing" id="TVz-wv-8SO"/>
-                    <constraint firstAttribute="bottom" secondItem="XQ6-Ae-Vf7" secondAttribute="bottom" id="TaF-iM-iSf"/>
-                    <constraint firstItem="XQ6-Ae-Vf7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dG3-Ec-Iau"/>
+                    <constraint firstItem="qYz-U5-HEO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="7ar-ig-KXh"/>
+                    <constraint firstItem="qYz-U5-HEO" firstAttribute="top" secondItem="EH3-aK-InO" secondAttribute="bottom" constant="11" id="FPV-Ff-n7U"/>
+                    <constraint firstAttribute="bottom" secondItem="qYz-U5-HEO" secondAttribute="bottom" id="VHN-N3-AwF"/>
+                    <constraint firstItem="EH3-aK-InO" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="oFv-fN-sP9"/>
+                    <constraint firstAttribute="trailing" secondItem="EH3-aK-InO" secondAttribute="trailing" constant="10" id="rCr-Rs-ofP"/>
+                    <constraint firstAttribute="trailing" secondItem="qYz-U5-HEO" secondAttribute="trailing" id="sfw-4X-hwj"/>
+                    <constraint firstItem="EH3-aK-InO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="v6w-at-aKR"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

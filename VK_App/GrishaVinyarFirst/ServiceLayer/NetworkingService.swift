@@ -21,7 +21,7 @@ class NetworkingService: NetworkServiceProtocol {
     let constanse = NetworkingConstans()
     
     // Загрузка ленты новостей
-    func getNewsfeed(completion: @escaping (Result<[News], Error>) -> Void) {
+    func getNewsfeed(completion: @escaping ([News], [GroupList], [Profile]) -> Void) {
         //https://api.vk.com/method/newsfeed.get?user_ids=7874888&fields=bdate&access_token=a0ad5d98286931c0ba5ec23df4fa03bdf5d8f73bc550d3167813f78ed250d88475cc4fdccd14dfe9a3d8a&v=5.92
 
         let configuration = URLSessionConfiguration.default
@@ -46,18 +46,20 @@ class NetworkingService: NetworkServiceProtocol {
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil {
-                completion(.failure(error!))
+                print(error?.localizedDescription as Any)
             }
             guard let data = data else { return }
             
             do {
                 let news = try JSONDecoder().decode(NewsList.self, from: data)
-                guard let items = news.response?.items else { return}
+                guard let items = news.response?.items else { return }
+                guard let groups = news.response?.groups else { return }
+                guard let profiles = news.response?.profiles else { return }
                 DispatchQueue.main.async {
-                    completion(.success(items))
+                    completion(items, groups, profiles)
                 }
             } catch {
-                completion(.failure(error))
+                print(error.localizedDescription)
             }
         }
         task.resume()
