@@ -80,6 +80,7 @@ class SearchGroupsPresenter: SearchGroupsPresenterProtocol {
                     safeName = safeName.replacingOccurrences(of: "[", with: "{")
                     safeName = safeName.replacingOccurrences(of: "]", with: "}")
                     safeName = safeName.replacingOccurrences(of: "@", with: "dog")
+                    safeName = safeName.replacingOccurrences(of: "/", with: "")
                     
                     FirebaseStore().loadDataToFirebase(name: safeName, photo: tappedElement.photo50)
                     
