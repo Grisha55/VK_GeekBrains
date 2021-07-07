@@ -26,13 +26,15 @@ class NewsViewController: UIViewController {
         newsPresenter = NewsPresenter(view: self)
         newsPresenter?.viewDidLoad(tableView: tableView)
         
-        tableView.rowHeight = 450
+        tableView.rowHeight = 150
         
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: "NewsTableViewCell", bundle: nil), forCellReuseIdentifier: "newsCell")
         tableView.register(UINib(nibName: "NewsCell", bundle: nil), forCellReuseIdentifier: "newsCellTwo")
+        tableView.register(UINib(nibName: "AuthorCell", bundle: nil), forCellReuseIdentifier: "authorCell")
+        tableView.register(UINib(nibName: "LikesAndCommentsCell", bundle: nil), forCellReuseIdentifier: "likesAndCommentsCell")
     }
 
 }
@@ -55,44 +57,50 @@ extension NewsViewController: UITableViewDelegate {}
 // MARK: - UITableViewDataSource
 extension NewsViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news.count
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
+        //let news = news[indexPath.row]
+        //let profile = profiles[indexPath.row]
         
-        let news = news[indexPath.row]
-        let profile = profiles[indexPath.row]
-        
-        let imageView = UIImageView()
-        let profileImageView = UIImageView()
-        
-        let attachments = news.attachments
-        
-        attachments?.forEach({ attachment in
-            attachment.photo?.sizes?.forEach({ size in
-                imageView.sd_setImage(with: URL(string: size.url ?? ""), completed: .none)
-                //profileImageView.sd_setImage(with: URL(string: attachment.photo?.photo75 ?? ""), completed: .none)
-            })
-        })
-        
-        profileImageView.sd_setImage(with: URL(string: profile.photo ?? ""), completed: .none)
-        
-        var text = ""
-        if news.sourceName == "" {
-            text = "Not found"
-        } else {
-            text = news.text ?? ""
+        switch indexPath.row {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
+            
+            cell.configure(bigText: "At the next lesson there will be data of news from server, but now it is not")
+            
+            return cell
+            
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "newsCellTwo", for: indexPath) as? NewsCell else { return UITableViewCell() }
+            
+            cell.configure(photo: UIImage(named: "еда"))
+            
+            return cell
+            
+        case 2:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "authorCell", for: indexPath) as? AuthorCell else { return UITableViewCell() }
+            
+            cell.configureAuthorCell(authorImage: UIImage(systemName: "person") ?? UIImage(), data: "1.05.1990")
+            
+            return cell
+            
+        case 3:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "likesAndCommentsCell", for: indexPath) as? LikesAndCommentsCell else { return UITableViewCell() }
+            
+            cell.configureCell(likesCount: 999, commentsCount: 100)
+            
+            return cell
+        default:
+            return UITableViewCell()
         }
-        
-        cell.configure(imageForPhoto: profileImageView.image, labelForImage: text, bigText: text, bigImage: imageView.image, secondBigImage: imageView.image)
-        cell.labelToLikes.text = "\(news.likes?.count ?? 0)"
-        cell.labelToComments.text = "\(news.comments?.count ?? 0)"
-        cell.labelToShare.text = "\(news.reposts?.count ?? 0)"
-        
-        return cell
         
     }
     

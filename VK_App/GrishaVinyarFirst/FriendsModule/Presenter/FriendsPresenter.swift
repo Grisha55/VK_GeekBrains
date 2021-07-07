@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 protocol FriendsViewPresenterProtocol: AnyObject {
-    init(view: FriendsView, realmService: RealmFriendsServiceProtocol)
+    init(view: FriendsView, realmService: RealmFriendsServiceProtocol, networkService: NetworkServiceProtocol)
     func viewDidLoad(tableView: UITableView)
 }
 
@@ -21,13 +21,14 @@ class FriendsPresenter: FriendsViewPresenterProtocol {
     
     private var friends: Results<Item>?
     weak var view: FriendsView?
-    let networkService = NetworkingService()
+    let networkService: NetworkServiceProtocol!
     var token: NotificationToken?
-    var realmService: RealmFriendsServiceProtocol?
+    var realmService: RealmFriendsServiceProtocol!
     
-    required init(view: FriendsView, realmService: RealmFriendsServiceProtocol) {
+    required init(view: FriendsView, realmService: RealmFriendsServiceProtocol, networkService: NetworkServiceProtocol) {
         self.view = view
         self.realmService = realmService
+        self.networkService = networkService
     }
     
     func viewDidLoad(tableView: UITableView) {
