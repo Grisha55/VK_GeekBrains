@@ -8,13 +8,10 @@
 import UIKit
 
 class NewsCell: UITableViewCell {
-
-    @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var photoImage: UIImageView!
     
     func update() {
-        self.nameLabel.text = nil
         self.photoImage.image = nil
     }
     
@@ -31,8 +28,7 @@ class NewsCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configure(name: String, photo: UIImage?) {
-        self.nameLabel.text = name
+    func configure(photo: UIImage?) {
         self.photoImage.image = photo
     }
     

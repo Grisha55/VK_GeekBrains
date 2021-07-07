@@ -34,7 +34,7 @@ class FriendViewController: UIViewController {
         self.tableView.dataSource = self
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
-        presenter = FriendsPresenter(view: self, realmService: RealmManager())
+        presenter = FriendsPresenter(view: self, realmService: RealmManager(), networkService: NetworkingService())
         presenter.viewDidLoad(tableView: tableView)
         tableView.reloadData()
     }
