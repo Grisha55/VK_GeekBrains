@@ -21,23 +21,23 @@ class NetworkingService: NetworkServiceProtocol {
     let constanse = NetworkingConstans()
     
     // Загрузка ленты новостей
-    func getNewsfeed(completion: @escaping ([News], [GroupList], [Profile]) -> Void) {
+    func getNewsfeed(completion: @escaping (Result<[NewsModel], Error>) -> Void) {
         //https://api.vk.com/method/newsfeed.get?user_ids=7874888&fields=bdate&access_token=a0ad5d98286931c0ba5ec23df4fa03bdf5d8f73bc550d3167813f78ed250d88475cc4fdccd14dfe9a3d8a&v=5.92
-
+  
         let configuration = URLSessionConfiguration.default
         
         let session = URLSession(configuration: configuration)
         
         var components = URLComponents()
-
+        
         components.scheme = constanse.scheme
         components.host = constanse.host
         components.path =  "/method/newsfeed.get"
         
         components.queryItems = [
             URLQueryItem(name: "filters", value: "post"),
+            URLQueryItem(name: "start_from", value: "next_from"),
             URLQueryItem(name: "count", value: "100"),
-            URLQueryItem(name: "user_ids", value: String(SessionApp.shared.userID ?? 1)),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
             URLQueryItem(name: "v", value: constanse.version)
         ]
@@ -46,23 +46,46 @@ class NetworkingService: NetworkServiceProtocol {
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil {
+                completion(.failure(error!))
                 print(error?.localizedDescription as Any)
             }
             guard let data = data else { return }
             
-            do {
-                let news = try JSONDecoder().decode(NewsList.self, from: data)
-                guard let items = news.response?.items else { return }
-                guard let groups = news.response?.groups else { return }
-                guard let profiles = news.response?.profiles else { return }
-                DispatchQueue.main.async {
-                    completion(items, groups, profiles)
-                }
-            } catch {
-                print(error.localizedDescription)
+            guard var news = try? JSONDecoder().decode(ResponseNews.self, from: data).response.items else {
+                print("Error with news")
+                return
             }
+            
+            guard let profiles = try? JSONDecoder().decode(ResponseNews.self, from: data).response.profiles else {
+                print("Error with profiles")
+                return
+            }
+            
+            guard let groups = try? JSONDecoder().decode(ResponseNews.self, from: data).response.groups else {
+                print("Error with groups")
+                return
+            }
+            
+            for i in 0..<news.count {
+                if news[i].sourceID < 0 {
+                    let group = groups.first(where: { $0.id == -news[i].sourceID })
+                    news[i].avatarURL = group?.avatarURL
+                    news[i].creatorName = group?.name
+                } else {
+                    let profile = profiles.first(where: { $0.id == news[i].sourceID })
+                    news[i].avatarURL = profile?.avatarURL
+                    news[i].creatorName = profile?.firstName
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion(.success(news))
+            }
+            
         }
-        task.resume()
+        DispatchQueue.global(qos: .utility).async {
+            task.resume()
+        }
     }
     
     // Загрузка друзей юзера
@@ -200,7 +223,7 @@ class NetworkingService: NetworkServiceProtocol {
             if error != nil {
                 completion(.failure(error!))
             }
-                
+            
             guard let data = data else {
                 completion(.failure(error!))
                 return }
@@ -213,7 +236,7 @@ class NetworkingService: NetworkServiceProtocol {
                 DispatchQueue.main.async {
                     completion(.success(items))
                 }
-    
+                
             } catch {
                 completion(.failure(error))
             }

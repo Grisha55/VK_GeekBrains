@@ -38,7 +38,7 @@
 		BEB42993267E55B2000DC5EA /* SearchGroupsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB42992267E55B2000DC5EA /* SearchGroupsPresenter.swift */; };
 		BEB42999267E5CDF000DC5EA /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB42998267E5CDF000DC5EA /* LoginPresenter.swift */; };
 		BEB4299F26811561000DC5EA /* NewsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4299E26811561000DC5EA /* NewsPresenter.swift */; };
-		BEB429A12681159B000DC5EA /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB429A02681159B000DC5EA /* News.swift */; };
+		BEB429A12681159B000DC5EA /* ResponseNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB429A02681159B000DC5EA /* ResponseNews.swift */; };
 		BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB4337B266BE67100EDB74F /* RealmManager.swift */; };
 		BEB8A458261C4D1B004CD850 /* First.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A457261C4D1B004CD850 /* First.storyboard */; };
 		BEB8A45C261C4D34004CD850 /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB8A45B261C4D34004CD850 /* Second.storyboard */; };
@@ -48,6 +48,8 @@
 		BECBD6782694839D00ADE5AD /* LikesAndCommentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECBD6762694839D00ADE5AD /* LikesAndCommentsCell.swift */; };
 		BECBD6792694839D00ADE5AD /* LikesAndCommentsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BECBD6772694839D00ADE5AD /* LikesAndCommentsCell.xib */; };
 		BECBD67B26949F8A00ADE5AD /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECBD67A26949F8A00ADE5AD /* Builder.swift */; };
+		BECEBE3F2698219A00A0D7F4 /* PhotoNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEBE3E2698219A00A0D7F4 /* PhotoNews.swift */; };
+		BECEBE412698548C00A0D7F4 /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECEBE402698548C00A0D7F4 /* NewsModel.swift */; };
 		BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDB752D2632E0CE00F89977 /* LoadingViewController.swift */; };
 		BEDC5330263AA20A00DF55AE /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDC532F263AA20A00DF55AE /* CustomNavigationController.swift */; };
 		BEDC5332263AA28D00DF55AE /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDC5331263AA28D00DF55AE /* PushAnimator.swift */; };
@@ -98,7 +100,7 @@
 		BEB42992267E55B2000DC5EA /* SearchGroupsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupsPresenter.swift; sourceTree = "<group>"; };
 		BEB42998267E5CDF000DC5EA /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		BEB4299E26811561000DC5EA /* NewsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPresenter.swift; sourceTree = "<group>"; };
-		BEB429A02681159B000DC5EA /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		BEB429A02681159B000DC5EA /* ResponseNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseNews.swift; sourceTree = "<group>"; };
 		BEB4337B266BE67100EDB74F /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		BEB8A457261C4D1B004CD850 /* First.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = First.storyboard; sourceTree = "<group>"; };
 		BEB8A45B261C4D34004CD850 /* Second.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
@@ -108,6 +110,8 @@
 		BECBD6762694839D00ADE5AD /* LikesAndCommentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesAndCommentsCell.swift; sourceTree = "<group>"; };
 		BECBD6772694839D00ADE5AD /* LikesAndCommentsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LikesAndCommentsCell.xib; sourceTree = "<group>"; };
 		BECBD67A26949F8A00ADE5AD /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		BECEBE3E2698219A00A0D7F4 /* PhotoNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNews.swift; sourceTree = "<group>"; };
+		BECEBE402698548C00A0D7F4 /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		BEDB752D2632E0CE00F89977 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		BEDC532F263AA20A00DF55AE /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		BEDC5331263AA28D00DF55AE /* PushAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
@@ -452,7 +456,9 @@
 		BEB4299D2681154E000DC5EA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BEB429A02681159B000DC5EA /* News.swift */,
+				BECEBE402698548C00A0D7F4 /* NewsModel.swift */,
+				BEB429A02681159B000DC5EA /* ResponseNews.swift */,
+				BECEBE3E2698219A00A0D7F4 /* PhotoNews.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -616,6 +622,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BECEBE412698548C00A0D7F4 /* NewsModel.swift in Sources */,
 				BECBD67426947E5E00ADE5AD /* AuthorCell.swift in Sources */,
 				BEDC5334263AABAE00DF55AE /* PopAnimator.swift in Sources */,
 				BEDC5330263AA20A00DF55AE /* CustomNavigationController.swift in Sources */,
@@ -628,7 +635,7 @@
 				BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */,
 				BEB42999267E5CDF000DC5EA /* LoginPresenter.swift in Sources */,
 				BEA301412618E7ED00259CF1 /* LoginViewController.swift in Sources */,
-				BEB429A12681159B000DC5EA /* News.swift in Sources */,
+				BEB429A12681159B000DC5EA /* ResponseNews.swift in Sources */,
 				BEB42987267E3EAA000DC5EA /* GroupsPresenter.swift in Sources */,
 				BEA05A28265D53BB00D1C2DE /* NetworkingConstans.swift in Sources */,
 				BECBD6782694839D00ADE5AD /* LikesAndCommentsCell.swift in Sources */,
@@ -650,6 +657,7 @@
 				BEF2CB82265E54AA0063ED2B /* User.swift in Sources */,
 				BEA3013F2618E7ED00259CF1 /* SceneDelegate.swift in Sources */,
 				BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */,
+				BECEBE3F2698219A00A0D7F4 /* PhotoNews.swift in Sources */,
 				BEEA83D1262EE3680029C997 /* NewsViewController.swift in Sources */,
 				BEB4297926786509000DC5EA /* FirebaseStore.swift in Sources */,
 				BEEA83D6262EE3C10029C997 /* NewsTableViewCell.swift in Sources */,

@@ -8,16 +8,14 @@
 import UIKit
 
 protocol NewsView {
-    func onItemsRetrieval(news: [News])
-    func getProfiles(profiles: [Profile])
+    func onItemsRetrieval(news: [NewsModel])
 }
 
 class NewsViewController: UIViewController {
 
     // MARK: - Properties
     @IBOutlet weak var tableView: UITableView!
-    private var news = [News]()
-    private var profiles = [Profile]()
+    private var news = [NewsModel]()
     private var newsPresenter: NewsPresenter?
     
     override func viewDidLoad() {
@@ -40,13 +38,8 @@ class NewsViewController: UIViewController {
 }
 
 extension NewsViewController: NewsView {
-    func onItemsRetrieval(news: [News]) {
+    func onItemsRetrieval(news: [NewsModel]) {
         self.news = news
-        tableView.reloadData()
-    }
-    
-    func getProfiles(profiles: [Profile]) {
-        self.profiles = profiles
         tableView.reloadData()
     }
 }

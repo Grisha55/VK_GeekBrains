@@ -14,7 +14,7 @@ protocol NewsPresenterProtocol {
 
 class NewsPresenter: NewsPresenterProtocol {
     
-    private var news: [News]?
+    private var news: [NewsModel]?
     private var view: NewsView
     
     required init(view: NewsView) {
@@ -26,10 +26,15 @@ class NewsPresenter: NewsPresenterProtocol {
     }
     
     private func loadNewsFromServer() {
-        NetworkingService().getNewsfeed { [weak self] news, groups, profiles in
+        NetworkingService().getNewsfeed { [weak self] result in
             guard let self = self else { return }
-            self.view.onItemsRetrieval(news: news)
-            self.view.getProfiles(profiles: profiles)
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let news):
+                self.view.onItemsRetrieval(news: news)
+            }
+            
         }
         
     }
