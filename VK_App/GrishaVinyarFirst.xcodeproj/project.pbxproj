@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BE0AB9E6265C9E4A0057BDC4 /* LoginWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0AB9E5265C9E490057BDC4 /* LoginWebViewController.swift */; };
 		BE0AB9E8265CBB390057BDC4 /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0AB9E7265CBB390057BDC4 /* NetworkingService.swift */; };
+		BE16C02E269CCFDE00BE4185 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE16C02D269CCFDE00BE4185 /* AsyncOperation.swift */; };
 		BE21956B26205B8800ED9259 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE21956926205B8800ED9259 /* PhotoCollectionViewCell.swift */; };
 		BE21956C26205B8800ED9259 /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */; };
 		BE26FDE02641A54500049E76 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE26FDDE2641A54500049E76 /* NewsCell.swift */; };
@@ -69,6 +70,7 @@
 		AFAF5C88AAFB2BB2800E2D33 /* Pods_GrishaVinyarFirst.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrishaVinyarFirst.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0AB9E5265C9E490057BDC4 /* LoginWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWebViewController.swift; sourceTree = "<group>"; };
 		BE0AB9E7265CBB390057BDC4 /* NetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingService.swift; sourceTree = "<group>"; };
+		BE16C02D269CCFDE00BE4185 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		BE21956926205B8800ED9259 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		BE26FDDE2641A54500049E76 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				BEB4337B266BE67100EDB74F /* RealmManager.swift */,
 				BEB4297826786509000DC5EA /* FirebaseStore.swift */,
 				BE7CBFB92620835000A61DD4 /* DataStorage.swift */,
+				BE16C02D269CCFDE00BE4185 /* AsyncOperation.swift */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 				BE5468BA265F5E9B007BDC52 /* Group.swift in Sources */,
 				BEF4682726341EE500E6C7DD /* PhotosViewController.swift in Sources */,
 				BEB4297B2678A95B000DC5EA /* GroupFB.swift in Sources */,
+				BE16C02E269CCFDE00BE4185 /* AsyncOperation.swift in Sources */,
 				BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */,
 				BEB42999267E5CDF000DC5EA /* LoginPresenter.swift in Sources */,
 				BEA301412618E7ED00259CF1 /* LoginViewController.swift in Sources */,

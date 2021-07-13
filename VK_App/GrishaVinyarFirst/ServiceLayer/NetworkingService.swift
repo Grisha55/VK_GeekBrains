@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 protocol NetworkServiceProtocol {
-    func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void)
+    func getFriends()
     func getPhotos(userID: Int?, completion: @escaping (List<Picture>) -> Void, onError: @escaping (Error) -> Void)
     func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void)
     func searchGroups(name: String, completion: @escaping (Result<List<GroupsArray>, Error>) -> Void)
@@ -89,56 +89,21 @@ class NetworkingService: NetworkServiceProtocol {
     }
     
     // Загрузка друзей юзера
-    func getFriends(completion: @escaping (Result<List<Item>, Error>) -> Void) {
+    func getFriends() {
         
-        // https://api.vk.com/method/friends.get
+        let queue = OperationQueue()
         
-        let configuration = URLSessionConfiguration.default
+        let getFriendsDataFromServer = GetFriendsDataFromServer()
+        queue.addOperation(getFriendsDataFromServer)
         
-        let session = URLSession(configuration: configuration)
+        let parseFriendsDataInToStruct = ParseFriendsDataInToStruct()
+        parseFriendsDataInToStruct.addDependency(getFriendsDataFromServer)
+        queue.addOperation(parseFriendsDataInToStruct)
         
-        var components = URLComponents()
-        components.scheme = constanse.scheme
-        components.host = constanse.host
-        components.path = "/method/friends.get"
+        let saveFriendsInToRealm = SaveFriendsInToRealm()
+        saveFriendsInToRealm.addDependency(parseFriendsDataInToStruct)
+        queue.addOperation(saveFriendsInToRealm)
         
-        components.queryItems = [
-            URLQueryItem(name: "order", value: "name"),
-            URLQueryItem(name: "fields", value: "sex, bdate, city, country, photo_100, photo_200_orig"),
-            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: constanse.version),
-            //URLQueryItem(name: "count", value: "100")
-        ]
-        
-        guard let url = components.url else { return }
-        let request = URLRequest(url: url)
-        
-        let task = session.dataTask(with: request) { data, response, error in
-            
-            if error != nil {
-                completion(.failure(error!))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(error!))
-                return }
-            
-            do {
-                
-                let user = try JSONDecoder().decode(User.self, from: data)
-                
-                guard let items = user.response?.items else { return }
-                
-                DispatchQueue.main.async {
-                    completion(.success(items))
-                }
-                
-            } catch {
-                completion(.failure(error))
-            }
-        }
-        task.resume()
     }
     
     // Загрузка фотографий друзей пользователя

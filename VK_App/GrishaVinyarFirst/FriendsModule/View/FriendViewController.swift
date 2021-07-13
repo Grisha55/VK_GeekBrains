@@ -10,7 +10,7 @@ import RealmSwift
 import SDWebImage
 
 protocol FriendsView: AnyObject {
-    func onItemsRetrieval(friends: List<Item>?)
+    func onItemsRetrieval(friends: Results<Item>?)
 }
 
 class FriendViewController: UIViewController {
@@ -23,7 +23,7 @@ class FriendViewController: UIViewController {
     
     var token: NotificationToken?
     
-    var items: List<Item>?
+    var items: Results<Item>?
     
     var presenter: FriendsPresenter!
     
@@ -34,9 +34,8 @@ class FriendViewController: UIViewController {
         self.tableView.dataSource = self
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
-        presenter = FriendsPresenter(view: self, realmService: RealmManager(), networkService: NetworkingService())
+        presenter = FriendsPresenter(view: self, networkService: NetworkingService())
         presenter.viewDidLoad(tableView: tableView)
-        tableView.reloadData()
     }
     
     //MARK: - Methods
@@ -52,7 +51,7 @@ class FriendViewController: UIViewController {
 // MARK: - FriendsView
 extension FriendViewController: FriendsView {
     
-    func onItemsRetrieval(friends: List<Item>?) {
+    func onItemsRetrieval(friends: Results<Item>?) {
         self.items = friends
         tableView.reloadData()
     }

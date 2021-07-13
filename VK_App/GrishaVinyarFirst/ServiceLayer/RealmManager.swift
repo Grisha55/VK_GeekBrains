@@ -8,30 +8,7 @@
 import Foundation
 import RealmSwift
 
-class RealmManager: RealmFriendsServiceProtocol, RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
- 
-    // Загрузка друзей юзера в Realm
-    func getAllFriendsToBase(view: FriendsView) {
-        
-        NetworkingService().getFriends { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let users):
-                view.onItemsRetrieval(friends: users)
-                do {
-                    let realm = try Realm()
-                    realm.beginWrite()
-                    let oldValue = realm.objects(Item.self)
-                    realm.delete(oldValue)
-                    realm.add(users)
-                    try realm.commitWrite()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
+class RealmManager: RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
     
     // Загрузка фотографий друзей пользователя в Realm
     func updatePhotos(for userID: Int?, view: PhotosView) {
