@@ -7,12 +7,13 @@
 
 import Foundation
 import RealmSwift
+import PromiseKit
 
 protocol NetworkServiceProtocol {
     func getFriends()
-    func getPhotos(userID: Int?, completion: @escaping (List<Picture>) -> Void, onError: @escaping (Error) -> Void)
-    func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void)
-    func searchGroups(name: String, completion: @escaping (Result<List<GroupsArray>, Error>) -> Void)
+    func getPhotosWithPromises(userID: Int?) -> Promise<List<Picture>>
+    func getUserGroups(completion: @escaping (Swift.Result<List<GroupList>, Error>) -> Void)
+    func searchGroups(name: String, completion: @escaping (Swift.Result<List<GroupsArray>, Error>) -> Void)
 }
 
 class NetworkingService: NetworkServiceProtocol {
@@ -21,7 +22,7 @@ class NetworkingService: NetworkServiceProtocol {
     let constanse = NetworkingConstans()
     
     // Загрузка ленты новостей
-    func getNewsfeed(completion: @escaping (Result<[NewsModel], Error>) -> Void) {
+    func getNewsfeed(completion: @escaping (Swift.Result<[NewsModel], Error>) -> Void) {
         //https://api.vk.com/method/newsfeed.get?user_ids=7874888&fields=bdate&access_token=a0ad5d98286931c0ba5ec23df4fa03bdf5d8f73bc550d3167813f78ed250d88475cc4fdccd14dfe9a3d8a&v=5.92
   
         let configuration = URLSessionConfiguration.default
@@ -107,60 +108,46 @@ class NetworkingService: NetworkServiceProtocol {
     }
     
     // Загрузка фотографий друзей пользователя
-    func getPhotos(userID: Int?, completion: @escaping (List<Picture>) -> Void, onError: @escaping (Error) -> Void) {
+    func getPhotosWithPromises(userID: Int?) -> Promise<List<Picture>> {
         
-        // https://api.vk.com/method/photos.get
-        
-        let configuration = URLSessionConfiguration.default
-        
-        let session = URLSession(configuration: configuration)
-        
-        var components = URLComponents()
-        components.scheme = constanse.scheme
-        components.host = constanse.host
-        components.path = "/method/photos.get"
-        
-        components.queryItems = [
-            URLQueryItem(name: "owner_id", value: String(userID ?? -1)),
-            URLQueryItem(name: "album_id", value: "wall"),
-            URLQueryItem(name: "photo_sizes", value: "1"),
-            URLQueryItem(name: "count", value: "3"),
-            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
-            URLQueryItem(name: "v", value: constanse.version)
-        ]
-        
-        guard let url = components.url else { return }
-        let request = URLRequest(url: url)
-        
-        let task = session.dataTask(with: request) { data, response, error in
+        return Promise { seal in
             
-            if error != nil {
-                onError(error!)
-            }
+            var components = URLComponents()
+            components.scheme = constanse.scheme
+            components.host = constanse.host
+            components.path = "/method/photos.get"
             
-            guard let data = data else {
-                onError(error!)
-                return }
+            components.queryItems = [
+                URLQueryItem(name: "owner_id", value: String(userID ?? -1)),
+                URLQueryItem(name: "album_id", value: "wall"),
+                URLQueryItem(name: "photo_sizes", value: "1"),
+                URLQueryItem(name: "count", value: "3"),
+                URLQueryItem(name: "access_token", value: SessionApp.shared.token),
+                URLQueryItem(name: "v", value: constanse.version)
+            ]
             
-            do {
+            guard let url = components.url else { return }
+            
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                guard error == nil else { return }
                 
-                let photos = try JSONDecoder().decode(Photo.self, from: data)
-                
-                guard let pictures = photos.response?.items else { return }
-                
-                DispatchQueue.main.async {
-                    completion(pictures)
+                guard let data = data,
+                      let result = try? JSONDecoder().decode(Photo.self, from: data).response?.items
+                else {
+                    let genericError = NSError(domain: "VK_App",
+                                               code: 0,
+                                               userInfo: [NSLocalizedDescriptionKey: "Unknown error"])
+                    seal.reject(error ?? genericError)
+                    return
                 }
                 
-            } catch {
-                print(error.localizedDescription)
-            }
+                seal.fulfill(result)
+            }.resume()
         }
-        task.resume()
     }
     
     // Загрузка групп пользователя
-    func getUserGroups(completion: @escaping (Result<List<GroupList>, Error>) -> Void) {
+    func getUserGroups(completion: @escaping (Swift.Result<List<GroupList>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.get
         
@@ -210,7 +197,7 @@ class NetworkingService: NetworkServiceProtocol {
     }
     
     // Загрузка групп по поиску
-    func searchGroups(name: String, completion: @escaping (Result<List<GroupsArray>, Error>) -> Void) {
+    func searchGroups(name: String, completion: @escaping (Swift.Result<List<GroupsArray>, Error>) -> Void) {
         
         // https://api.vk.com/method/groups.search
         

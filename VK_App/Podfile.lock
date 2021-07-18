@@ -94,6 +94,15 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - PromiseKit (6.15.3):
+    - PromiseKit/CorePromise (= 6.15.3)
+    - PromiseKit/Foundation (= 6.15.3)
+    - PromiseKit/UIKit (= 6.15.3)
+  - PromiseKit/CorePromise (6.15.3)
+  - PromiseKit/Foundation (6.15.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (6.15.3):
+    - PromiseKit/CorePromise
   - PromisesObjC (1.2.12)
   - Realm (10.7.6):
     - Realm/Headers (= 10.7.6)
@@ -108,6 +117,7 @@ DEPENDENCIES:
   - Alamofire
   - Firebase/Core
   - Firebase/Database
+  - PromiseKit
   - RealmSwift
   - SDWebImage
 
@@ -125,6 +135,7 @@ SPEC REPOS:
     - GoogleUtilities
     - leveldb-library
     - nanopb
+    - PromiseKit
     - PromisesObjC
     - Realm
     - RealmSwift
@@ -143,11 +154,12 @@ SPEC CHECKSUMS:
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
   RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
 
-PODFILE CHECKSUM: 81d80c1517bf944608f0e76b6f3e0c7ac3daec53
+PODFILE CHECKSUM: cf3e8cb0d51c11817e048c073a1f3d7f2af94e67
 
 COCOAPODS: 1.10.1
