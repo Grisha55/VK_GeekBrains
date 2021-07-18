@@ -12,4 +12,5 @@ target 'GrishaVinyarFirst' do
   pod 'SDWebImage'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+  pod 'PromiseKit'
 end

@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 protocol PhotosView {
-    func onItemsRetrieval(photos: List<Picture>?)
+    func onItemsRetrieval(photos: Results<Picture>?)
 }
 
 class PhotosViewController: UIViewController {
@@ -20,9 +20,8 @@ class PhotosViewController: UIViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     //MARK: - Properties
-    let networkingService = NetworkingService()
     var token: NotificationToken?
-    var pictures: List<Picture>?
+    var pictures: Results<Picture>?
     var presenter: PhotosPresenter!
     
     override func viewDidLoad() {
@@ -36,7 +35,7 @@ class PhotosViewController: UIViewController {
 }
 
 extension PhotosViewController: PhotosView {
-    func onItemsRetrieval(photos: List<Picture>?) {
+    func onItemsRetrieval(photos: Results<Picture>?) {
         self.pictures = photos
         collectionView.reloadData()
     }

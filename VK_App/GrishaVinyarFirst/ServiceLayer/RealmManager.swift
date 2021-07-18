@@ -12,21 +12,23 @@ class RealmManager: RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
     
     // Загрузка фотографий друзей пользователя в Realm
     func updatePhotos(for userID: Int?, view: PhotosView) {
-        NetworkingService().getPhotos(userID: userID, completion: { (pictures) in
-            view.onItemsRetrieval(photos: pictures)
-            do {
-                let realm = try Realm()
-                let oldValues = realm.objects(Picture.self)
-                realm.beginWrite()
-                realm.delete(oldValues)
-                realm.add(pictures)
-                try realm.commitWrite()
-            } catch {
-                print(error)
+        
+        NetworkingService().getPhotosWithPromises(userID: userID)
+            .done { photos in
+                do {
+                    let realm = try Realm()
+                    let oldValues = realm.objects(Picture.self)
+                    realm.beginWrite()
+                    realm.delete(oldValues)
+                    realm.add(photos)
+                    try realm.commitWrite()
+                } catch {
+                    print(error)
+                }
             }
-        }, onError: { (error) in
-            print(error)
-        })
+            .catch { error in
+                fatalError(error.localizedDescription)
+            }
     }
     
     // Загрузка всех групп в Realm

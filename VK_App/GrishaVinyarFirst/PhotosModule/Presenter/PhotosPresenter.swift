@@ -38,6 +38,7 @@ class PhotosPresenter: PhotosPresenterProtocol {
         guard let realm = try? Realm() else { return }
         pictures = realm.objects(Picture.self)
         token = pictures?.observe({ changes in
+        self.view.onItemsRetrieval(photos: self.pictures)
             
             switch changes {
             case .initial:
