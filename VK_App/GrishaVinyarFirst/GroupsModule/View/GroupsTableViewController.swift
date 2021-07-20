@@ -53,13 +53,9 @@ class GroupsTableViewController: UITableViewController {
         
         let group = groups[indexPath.row]
         
-        let imageView = UIImageView()
+        guard let url = URL(string: group.photo ?? "") else { return UITableViewCell() }
         
-        let url = URL(string: group.photo ?? "")
-        
-        imageView.sd_setImage(with: url, placeholderImage: UIImage(systemName: "person.3"))
-        
-        cell.storageElementsForGroup(groupLabel: group.name ?? "Warning!!! (deleted group)" , groupImage: imageView.image)
+        cell.storageElementsForGroup(groupLabel: group.name ?? "Warning!!! (deleted group)" , url: url)
         
         return cell
     }

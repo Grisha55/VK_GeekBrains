@@ -99,11 +99,9 @@ extension FriendViewController: UITableViewDataSource {
         guard let items = items else { return UITableViewCell() }
         let item = items[indexPath.row]
         
-        let imageView = UIImageView()
+        guard let url = URL(string: item.photo_100) else { return UITableViewCell() }
         
-        imageView.sd_setImage(with: URL(string: item.photo_100), placeholderImage: UIImage(systemName: "person"))
-        
-        cell.configure(name: "\(item.firstName) \(item.lastName)" , photo: imageView.image)
+        cell.configure(name: "\(item.firstName) \(item.lastName)" , url: url)
         
         return cell
     }

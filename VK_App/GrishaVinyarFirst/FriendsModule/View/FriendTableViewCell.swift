@@ -9,6 +9,8 @@ import UIKit
 class FriendTableViewCell: UITableViewCell {
     
     //MARK: - Properties
+    private var urlOfPhoto: URL?
+    
     private let nameLabel: UILabel = {
         let name = UILabel()
         name.adjustsFontSizeToFitWidth = true
@@ -95,9 +97,11 @@ class FriendTableViewCell: UITableViewCell {
         self.photoImage.image = nil
     }
     // Соединение таблицы и ячейки
-    func configure(name: String, photo: UIImage?) {
+    func configure(name: String, url: URL?) {
         self.nameLabel.text = name
-        self.photoImage.image = photo
+        self.urlOfPhoto = url
+        guard let url = urlOfPhoto else { return }
+        photoImage.setImage(at: url)
     }
     
 }
