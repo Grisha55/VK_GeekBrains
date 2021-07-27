@@ -15,7 +15,7 @@ protocol NewsTableViewCellDelegate: AnyObject {
 
 class NewsTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var bigText: UITextView!
+    @IBOutlet weak var bigText: UILabel!
     
     func clearCell() {
         bigText.text = nil

@@ -16,8 +16,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="398" height="108"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="887-em-mmE">
+                    <imageView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="кот" translatesAutoresizingMaskIntoConstraints="NO" id="887-em-mmE">
                         <rect key="frame" x="20" y="4" width="100" height="100"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="100" id="hKY-fD-S6y"/>
                             <constraint firstAttribute="width" constant="100" id="xbW-h1-KmR"/>
@@ -25,9 +26,11 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0FH-u6-ZPh">
                         <rect key="frame" x="178" y="43.5" width="42" height="21"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </label>
                 </subviews>
                 <constraints>
@@ -45,4 +48,7 @@
             <point key="canvasLocation" x="192.75362318840581" y="164.0625"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="кот" width="225" height="225"/>
+    </resources>
 </document>

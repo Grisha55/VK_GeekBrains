@@ -18,29 +18,35 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Rp-Yo-ENL">
-                        <rect key="frame" x="20" y="20" width="321" height="330"/>
+                        <rect key="frame" x="20" y="20" width="321" height="313"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aRY-6D-NJy">
-                        <rect key="frame" x="20" y="350" width="321" height="57"/>
+                        <rect key="frame" x="20" y="333" width="321" height="57"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKm-DH-Kw3">
                                 <rect key="frame" x="270" y="5" width="51" height="47"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pY-1U-d6h">
                                         <rect key="frame" x="0.0" y="0.0" width="18" height="47"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRF-FS-3mN">
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRF-FS-3mN">
                                         <rect key="frame" x="18" y="0.0" width="33" height="47"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="29"/>
-                                        <state key="normal" title="🤍"/>
+                                        <state key="normal" title="🤍">
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
                                             <action selector="buttonLike:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jAo-jg-bQL"/>
                                         </connections>
                                     </button>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -56,7 +62,7 @@
             <constraints>
                 <constraint firstItem="5Rp-Yo-ENL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="AbA-jV-WiX"/>
                 <constraint firstAttribute="trailing" secondItem="5Rp-Yo-ENL" secondAttribute="trailing" constant="20" id="C38-sN-YXu"/>
-                <constraint firstAttribute="bottom" secondItem="aRY-6D-NJy" secondAttribute="bottom" constant="3" id="QVo-Xr-AhD"/>
+                <constraint firstAttribute="bottom" secondItem="aRY-6D-NJy" secondAttribute="bottom" constant="20" id="QVo-Xr-AhD"/>
                 <constraint firstItem="5Rp-Yo-ENL" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="RFf-2T-3rh"/>
                 <constraint firstItem="aRY-6D-NJy" firstAttribute="top" secondItem="5Rp-Yo-ENL" secondAttribute="bottom" id="Rje-cX-R9H"/>
                 <constraint firstItem="aRY-6D-NJy" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="V2h-Tm-Ma4"/>

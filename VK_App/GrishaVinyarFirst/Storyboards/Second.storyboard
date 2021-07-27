@@ -20,7 +20,7 @@
                             <outlet property="delegate" destination="tYM-0n-y3z" id="PwB-6J-Jjt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Groups" id="i2O-ga-SqW">
+                    <navigationItem key="navigationItem" title="Groups" largeTitleDisplayMode="always" id="i2O-ga-SqW">
                         <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="stx-pY-299">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -59,7 +59,7 @@
         <scene sceneID="8SL-gR-qNf">
             <objects>
                 <navigationController modalPresentationStyle="fullScreen" id="WX6-Gt-OPu" customClass="CustomNavigationController" customModule="GrishaVinyarFirst" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Groups" image="person.3" catalog="system" id="xmb-oU-fyy">
+                    <tabBarItem key="tabBarItem" title="Groups" image="person.3" catalog="system" selectedImage="person.3.fill" id="xmb-oU-fyy">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -88,6 +88,7 @@
     </scenes>
     <resources>
         <image name="person.3" catalog="system" width="128" height="62"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
