@@ -13,6 +13,7 @@ class FriendTableViewCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         let name = UILabel()
+        name.backgroundColor = .white
         name.adjustsFontSizeToFitWidth = true
         name.numberOfLines = 0
         name.textColor = .black
@@ -22,6 +23,7 @@ class FriendTableViewCell: UITableViewCell {
     
     private let photoImage: UIImageView = {
         let photo = UIImageView()
+        photo.backgroundColor = .white
         photo.clipsToBounds = true
         photo.layer.masksToBounds = true
         photo.layer.cornerRadius = 40

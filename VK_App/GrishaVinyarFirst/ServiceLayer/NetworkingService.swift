@@ -20,6 +20,7 @@ class NetworkingService: NetworkServiceProtocol {
     
     //MARK: - Properties
     let constanse = NetworkingConstans()
+    let queue = OperationQueue()
     
     // Загрузка ленты новостей
     func getNewsfeed(completion: @escaping (Swift.Result<[NewsModel], Error>) -> Void) {
@@ -89,10 +90,53 @@ class NetworkingService: NetworkServiceProtocol {
         }
     }
     
+    func oldMethodForGettingFriend(completion: @escaping (Swift.Result<List<Item>, Error>) -> Void) {
+        
+        let configuration = URLSessionConfiguration.default
+        let session = URLSession(configuration: configuration)
+        
+        var components = URLComponents()
+        components.scheme = constanse.scheme
+        components.host = constanse.host
+        components.path = "/method/friends.get"
+        
+        components.queryItems = [
+            URLQueryItem(name: "order", value: "name"),
+            URLQueryItem(name: "fields", value: "sex, bdate, city, country, photo_100, photo_200_orig"),
+            URLQueryItem(name: "access_token", value: SessionApp.shared.token),
+            URLQueryItem(name: "v", value: constanse.version)
+        ]
+        
+        guard let url = components.url else { return }
+        let request = URLRequest(url: url)
+        
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil {
+                completion(.failure(error!))
+            }
+            
+            guard let data = data else {
+                completion(.failure(error!))
+                return
+            }
+            
+            do {
+                let user = try JSONDecoder().decode(User.self, from: data)
+                
+                guard let items = user.response?.items else { return }
+                
+                DispatchQueue.main.async {
+                    completion(.success(items))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
     // Загрузка друзей юзера
     func getFriends() {
-        
-        let queue = OperationQueue()
         
         let getFriendsDataFromServer = GetFriendsDataFromServer()
         queue.addOperation(getFriendsDataFromServer)

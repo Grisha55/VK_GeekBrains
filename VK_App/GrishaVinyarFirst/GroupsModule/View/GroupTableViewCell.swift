@@ -11,6 +11,7 @@ class GroupTableViewCell: UITableViewCell {
 
     private let nameLabel: UILabel = {
         let name = UILabel()
+        name.backgroundColor = .white
         name.textColor = .black
         name.numberOfLines = 0
         name.translatesAutoresizingMaskIntoConstraints = false
