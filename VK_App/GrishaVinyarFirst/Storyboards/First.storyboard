@@ -12,7 +12,9 @@
         <scene sceneID="hOo-Bj-oSK">
             <objects>
                 <navigationController modalPresentationStyle="fullScreen" id="q3K-4O-wex" customClass="CustomNavigationController" customModule="GrishaVinyarFirst" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" image="person.2" catalog="system" id="0Cb-hg-8aX"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="person.2" catalog="system" selectedImage="person.2.fill" id="0Cb-hg-8aX">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="LzY-CM-To3">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -103,6 +105,7 @@
     </scenes>
     <resources>
         <image name="person.2" catalog="system" width="128" height="81"/>
+        <image name="person.2.fill" catalog="system" width="128" height="80"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

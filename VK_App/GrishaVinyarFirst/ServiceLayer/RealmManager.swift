@@ -10,6 +10,29 @@ import RealmSwift
 
 class RealmManager: RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
     
+    // Загрузка друзей пользователя в Realm
+    func getAllFriendsToBase(view: FriendsView) {
+        
+        NetworkingService().oldMethodForGettingFriend { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let items):
+                view.onItemsRetrieval(friends: items)
+                do {
+                    let realm = try Realm()
+                    realm.beginWrite()
+                    let oldValues = realm.objects(Item.self)
+                    realm.delete(oldValues)
+                    realm.add(items)
+                    try realm.commitWrite()
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     // Загрузка фотографий друзей пользователя в Realm
     func updatePhotos(for userID: Int?, view: PhotosView) {
         

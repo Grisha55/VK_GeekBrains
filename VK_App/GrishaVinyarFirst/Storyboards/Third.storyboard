@@ -43,7 +43,9 @@
         <scene sceneID="7uh-pM-Lc7">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RHJ-k8-DiU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="News" image="newspaper" catalog="system" id="aQq-sc-dwq"/>
+                    <tabBarItem key="tabBarItem" title="News" image="newspaper" catalog="system" id="aQq-sc-dwq">
+                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="U5t-1G-d2N">
