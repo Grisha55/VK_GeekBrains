@@ -26,14 +26,10 @@ class NewsPresenter: NewsPresenterProtocol {
     }
     
     private func loadNewsFromServer() {
-        NetworkingService().getNewsfeed { [weak self] result in
+        NetworkingService().getNewsfeed(startTime: "next_from") { [weak self] news, profiles, _, error  in
             guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let news):
-                self.view.onItemsRetrieval(news: news)
-            }
+            guard error == nil, let news = news else { return }
+            self.view.onItemsRetrieval(news: news)
             
         }
         

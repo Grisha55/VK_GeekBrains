@@ -28,8 +28,8 @@ class NewsCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configure(photo: UIImage?) {
-        self.photoImage.image = photo
+    func configure(photoURL: URL) {
+        self.photoImage.setImage(at: photoURL)
     }
     
 }

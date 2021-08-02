@@ -23,7 +23,7 @@ class NetworkingService: NetworkServiceProtocol {
     let queue = OperationQueue()
     
     // Загрузка ленты новостей
-    func getNewsfeed(completion: @escaping (Swift.Result<[NewsModel], Error>) -> Void) {
+    func getNewsfeed(startTime: String, completion: @escaping ([NewsModel]?, [ProfileNews]?, String?, Error?) -> Void) {
         //https://api.vk.com/method/newsfeed.get?user_ids=7874888&fields=bdate&access_token=a0ad5d98286931c0ba5ec23df4fa03bdf5d8f73bc550d3167813f78ed250d88475cc4fdccd14dfe9a3d8a&v=5.92
   
         let configuration = URLSessionConfiguration.default
@@ -38,7 +38,7 @@ class NetworkingService: NetworkServiceProtocol {
         
         components.queryItems = [
             URLQueryItem(name: "filters", value: "post"),
-            URLQueryItem(name: "start_from", value: "next_from"),
+            URLQueryItem(name: "start_from", value: startTime),
             URLQueryItem(name: "count", value: "100"),
             URLQueryItem(name: "access_token", value: SessionApp.shared.token),
             URLQueryItem(name: "v", value: constanse.version)
@@ -48,10 +48,15 @@ class NetworkingService: NetworkServiceProtocol {
         let request = URLRequest(url: url)
         let task = session.dataTask(with: request) { data, response, error in
             if error != nil {
-                completion(.failure(error!))
+                completion(nil, nil, nil, error!)
                 print(error?.localizedDescription as Any)
             }
             guard let data = data else { return }
+            
+            guard let nextFrom = try? JSONDecoder().decode(ResponseNews.self, from: data).response.nextFrom else {
+                print("Error with nextFrom")
+                return
+            }
             
             guard var news = try? JSONDecoder().decode(ResponseNews.self, from: data).response.items else {
                 print("Error with news")
@@ -81,7 +86,7 @@ class NetworkingService: NetworkServiceProtocol {
             }
             
             DispatchQueue.main.async {
-                completion(.success(news))
+                completion(news, profiles, nextFrom, nil)
             }
             
         }

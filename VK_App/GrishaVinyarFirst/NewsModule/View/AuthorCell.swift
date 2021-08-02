@@ -24,8 +24,8 @@ class AuthorCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureAuthorCell(authorImage: UIImage, data: String) {
-        self.authorImageView.image = authorImage
+    func configureAuthorCell(authorImageURL: URL, data: String) {
+        self.authorImageView.setImage(at: authorImageURL)
         self.dataLabel.text = data
     }
     
