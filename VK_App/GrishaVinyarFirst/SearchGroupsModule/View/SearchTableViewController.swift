@@ -62,13 +62,11 @@ class SearchTableViewController: UITableViewController {
         
         let filteredData = filterArray[indexPath.row]
         
-        let imageView = UIImageView()
-        
         let photo = filteredData.photo50
         
-        imageView.sd_setImage(with: URL(string: photo), placeholderImage: UIImage(systemName: "person.3"))
+        guard let url = URL(string: photo) else { return UITableViewCell() }
         
-        cell.storageElementsForGroup(groupLabel: filteredData.name , groupImage: imageView.image)
+        cell.storageElementsForGroup(groupLabel: filteredData.name , url: url)
         
         return cell
     }

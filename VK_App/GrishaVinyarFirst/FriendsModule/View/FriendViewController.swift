@@ -93,17 +93,22 @@ extension FriendViewController: UITableViewDataSource {
         return items.count
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        guard let cell = cell as? FriendTableViewCell else { return }
+        
+        guard let items = items else { return }
+        
+        let item = items[indexPath.row]
+        
+        guard let url = URL(string: item.photo_100) else { return }
+        
+        cell.configure(name: "\(item.firstName) \(item.lastName)" , url: url)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
-        guard let items = items else { return UITableViewCell() }
-        let item = items[indexPath.row]
-        
-        let imageView = UIImageView()
-        
-        imageView.sd_setImage(with: URL(string: item.photo_100), placeholderImage: UIImage(systemName: "person"))
-        
-        cell.configure(name: "\(item.firstName) \(item.lastName)" , photo: imageView.image)
         
         return cell
     }

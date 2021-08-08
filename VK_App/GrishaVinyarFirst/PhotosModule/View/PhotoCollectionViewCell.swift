@@ -39,8 +39,10 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
 
     // Соединяем ячейку и коллекцию
-    func storageElementsForPhoto(image: UIImage?) {
-        self.photoImage.image = image
+    func storageElementsForPhoto(url: URL?) {
+        guard let url = url else { return }
+        self.photoImage.setImage(at: url)
+        
     }
     
     //MARK: - Methods

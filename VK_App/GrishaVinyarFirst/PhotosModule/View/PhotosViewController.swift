@@ -83,13 +83,12 @@ extension PhotosViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
         guard let pictures = pictures else { return UICollectionViewCell() }
-        let imageView = UIImageView()
         let sizes = pictures[indexPath.row].sizes
-        let pictureURL = sizes[indexPath.row].url
+        let pictureURLString = sizes[indexPath.row].url
         
-        imageView.sd_setImage(with: URL(string: pictureURL), placeholderImage: UIImage(systemName: "person"))
+        guard let url = URL(string: pictureURLString) else { return UICollectionViewCell() }
         
-        cell.storageElementsForPhoto(image: imageView.image)
+        cell.storageElementsForPhoto(url: url)
         
         cell.delegate = self
         

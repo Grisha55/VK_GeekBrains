@@ -59,9 +59,10 @@ class GroupTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func storageElementsForGroup(groupLabel: String, groupImage: UIImage?) {
+    func storageElementsForGroup(groupLabel: String, url: URL?) {
         self.nameLabel.text = groupLabel
-        self.groupImage.image = groupImage
+        guard let url = url else { return }
+        self.groupImage.setImage(at: url)
     }
     
 }

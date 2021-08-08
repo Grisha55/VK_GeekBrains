@@ -20,14 +20,14 @@ class RealmManager: RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
                     let oldValues = realm.objects(Picture.self)
                     realm.beginWrite()
                     realm.delete(oldValues)
-                    realm.add(photos)
+                    realm.add(photos, update: .error)
                     try realm.commitWrite()
                 } catch {
                     print(error)
                 }
             }
             .catch { error in
-                fatalError(error.localizedDescription)
+                print(error.localizedDescription)
             }
     }
     
