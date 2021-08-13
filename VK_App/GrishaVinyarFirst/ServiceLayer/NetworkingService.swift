@@ -9,14 +9,7 @@ import Foundation
 import RealmSwift
 import PromiseKit
 
-protocol NetworkServiceProtocol {
-    func getFriends()
-    func getPhotosWithPromises(userID: Int?) -> Promise<List<Picture>>
-    func getUserGroups(completion: @escaping (Swift.Result<List<GroupList>, Error>) -> Void)
-    func searchGroups(name: String, completion: @escaping (Swift.Result<List<GroupsArray>, Error>) -> Void)
-}
-
-class NetworkingService: NetworkServiceProtocol {
+class NetworkingService {
     
     //MARK: - Properties
     let constanse = NetworkingConstans()
@@ -95,7 +88,7 @@ class NetworkingService: NetworkServiceProtocol {
         }
     }
     
-    func oldMethodForGettingFriend(completion: @escaping (Swift.Result<List<Item>, Error>) -> Void) {
+    func getFriendFromServer() {
         
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
@@ -116,44 +109,27 @@ class NetworkingService: NetworkServiceProtocol {
         let request = URLRequest(url: url)
         
         let task = session.dataTask(with: request) { data, response, error in
-            if error != nil {
-                completion(.failure(error!))
-            }
+            if error != nil { return }
             
-            guard let data = data else {
-                completion(.failure(error!))
-                return
-            }
+            guard let data = data else { return }
             
             do {
                 let user = try JSONDecoder().decode(User.self, from: data)
                 
                 guard let items = user.response?.items else { return }
                 
-                DispatchQueue.main.async {
-                    completion(.success(items))
+                let realm = try Realm()
+                try realm.write {
+                    let oldValues = realm.objects(Item.self)
+                    realm.delete(oldValues)
+                    realm.add(items)
                 }
+                
             } catch {
-                completion(.failure(error))
+                print(error.localizedDescription)
             }
         }
         task.resume()
-    }
-    
-    // Загрузка друзей юзера
-    func getFriends() {
-        
-        let getFriendsDataFromServer = GetFriendsDataFromServer()
-        queue.addOperation(getFriendsDataFromServer)
-        
-        let parseFriendsDataInToStruct = ParseFriendsDataInToStruct()
-        parseFriendsDataInToStruct.addDependency(getFriendsDataFromServer)
-        queue.addOperation(parseFriendsDataInToStruct)
-        
-        let saveFriendsInToRealm = SaveFriendsInToRealm()
-        saveFriendsInToRealm.addDependency(parseFriendsDataInToStruct)
-        queue.addOperation(saveFriendsInToRealm)
-        
     }
     
     // Загрузка фотографий друзей пользователя
@@ -246,7 +222,7 @@ class NetworkingService: NetworkServiceProtocol {
     }
     
     // Загрузка групп по поиску
-    func searchGroups(name: String, completion: @escaping (Swift.Result<List<GroupsArray>, Error>) -> Void) {
+    func searchGroups(name: String) {
         
         // https://api.vk.com/method/groups.search
         
@@ -271,26 +247,24 @@ class NetworkingService: NetworkServiceProtocol {
         
         let task = session.dataTask(with: request) { data, response, error in
             
-            if error != nil {
-                completion(.failure(error!))
-                return
-            }
+            if error != nil { return }
             
-            guard let data = data else {
-                completion(.failure(error!))
-                return }
+            guard let data = data else { return }
             
             do {
                 let group = try JSONDecoder().decode(AllGroups.self, from: data)
                 
                 guard let items = group.response?.items else { return }
                 
-                DispatchQueue.main.async {
-                    completion(.success(items))
+                let realm = try Realm()
+                try realm.write {
+                    let oldValues = realm.objects(GroupsArray.self)
+                    realm.delete(oldValues)
+                    realm.add(items)
                 }
                 
             } catch {
-                completion(.failure(error))
+                print(error.localizedDescription)
             }
         }
         task.resume()
