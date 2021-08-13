@@ -15,10 +15,10 @@ protocol SearchGroupsView {
 class SearchTableViewController: UITableViewController {
     
     //MARK: - Properties
-    var filterArray: List<GroupsArray>?
-    let searchController = UISearchController(searchResultsController: nil)
-    var token: NotificationToken?
-    var presenter: SearchGroupsPresenter?
+    private var filterArray = [SimpleGroup]()
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var presenter: SearchGroupsPresenter?
+    private let networkingService = GroupAdapter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,7 @@ class SearchTableViewController: UITableViewController {
         
         setupSearchController()
         
-        presenter = SearchGroupsPresenter(view: self, realmSearchManager: RealmManager())
-        presenter?.viewDidLoad(tableView: tableView)
+        presenter = SearchGroupsPresenter()
         
     }
     
@@ -50,15 +49,12 @@ class SearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let filterArray = filterArray else { return 0 }
         return filterArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as? GroupTableViewCell else { return UITableViewCell() }
-        
-        guard let filterArray = filterArray else { return UITableViewCell() }
         
         let filteredData = filterArray[indexPath.row]
         
@@ -72,13 +68,6 @@ class SearchTableViewController: UITableViewController {
     }
     
 }
-// MARK: - SearchGroupsView
-extension SearchTableViewController: SearchGroupsView {
-    func onSearchGroupsRetrieval(groups: List<GroupsArray>?) {
-        self.filterArray = groups
-        tableView.reloadData()
-    }
-}
 
 // MARK: - UISearchResultsUpdating
 extension SearchTableViewController: UISearchResultsUpdating {
@@ -87,6 +76,11 @@ extension SearchTableViewController: UISearchResultsUpdating {
         
         guard let text = searchController.searchBar.text else { return }
         
-        presenter?.textDidChange(name: text, tableView: tableView)
+        networkingService.getGroups(name: text) { [weak self] groups in
+            guard let self = self else { return }
+            self.filterArray = groups
+            self.presenter?.searchGroups = groups
+            self.tableView.reloadData()
+        }
     }
 }

@@ -99,9 +99,9 @@ class FriendTableViewCell: UITableViewCell {
         self.photoImage.image = nil
     }
     // Соединение таблицы и ячейки
-    func configure(name: String, url: URL?) {
-        self.nameLabel.text = name
-        self.urlOfPhoto = url
+    func configure(friendViewModel: FriendViewModel) {
+        self.nameLabel.text = friendViewModel.fullName
+        self.urlOfPhoto = friendViewModel.photoURL
         guard let url = urlOfPhoto else { return }
         photoImage.setImage(at: url)
     }

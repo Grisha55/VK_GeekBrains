@@ -15,7 +15,13 @@
 		BE21956C26205B8800ED9259 /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */; };
 		BE26FDE02641A54500049E76 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE26FDDE2641A54500049E76 /* NewsCell.swift */; };
 		BE26FDE12641A54500049E76 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26FDDF2641A54500049E76 /* NewsCell.xib */; };
+		BE53AFF526C6380300FF8B56 /* FriendAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53AFF426C6380300FF8B56 /* FriendAdapter.swift */; };
+		BE53AFF726C639B000FF8B56 /* SimpleFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE53AFF626C639B000FF8B56 /* SimpleFriend.swift */; };
 		BE5468BA265F5E9B007BDC52 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5468B9265F5E9B007BDC52 /* Group.swift */; };
+		BE715C7926C67FFD00E60758 /* SimpleGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE715C7826C67FFD00E60758 /* SimpleGroup.swift */; };
+		BE715C7B26C6803C00E60758 /* GroupAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE715C7A26C6803C00E60758 /* GroupAdapter.swift */; };
+		BE715C8026C68FD700E60758 /* FriendViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE715C7F26C68FD700E60758 /* FriendViewModelFactory.swift */; };
+		BE715C8226C68FE600E60758 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE715C8126C68FE600E60758 /* FriendViewModel.swift */; };
 		BE7BF56D2658A4C4005A6718 /* SessionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7BF56C2658A4C4005A6718 /* SessionApp.swift */; };
 		BE7CBFA22620744A00A61DD4 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CBFA12620744A00A61DD4 /* GroupsTableViewController.swift */; };
 		BE7CBFA62620749D00A61DD4 /* GroupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CBFA42620749D00A61DD4 /* GroupTableViewCell.swift */; };
@@ -77,7 +83,13 @@
 		BE21956A26205B8800ED9259 /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		BE26FDDE2641A54500049E76 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		BE26FDDF2641A54500049E76 /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
+		BE53AFF426C6380300FF8B56 /* FriendAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAdapter.swift; sourceTree = "<group>"; };
+		BE53AFF626C639B000FF8B56 /* SimpleFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleFriend.swift; sourceTree = "<group>"; };
 		BE5468B9265F5E9B007BDC52 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		BE715C7826C67FFD00E60758 /* SimpleGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGroup.swift; sourceTree = "<group>"; };
+		BE715C7A26C6803C00E60758 /* GroupAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAdapter.swift; sourceTree = "<group>"; };
+		BE715C7F26C68FD700E60758 /* FriendViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModelFactory.swift; sourceTree = "<group>"; };
+		BE715C8126C68FE600E60758 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		BE7BF56C2658A4C4005A6718 /* SessionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionApp.swift; sourceTree = "<group>"; };
 		BE7CBFA12620744A00A61DD4 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		BE7CBFA42620749D00A61DD4 /* GroupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupTableViewCell.swift; sourceTree = "<group>"; };
@@ -180,6 +192,34 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
+		BE53AFF326C637F000FF8B56 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				BE715C7126C678C200E60758 /* Models */,
+				BE53AFF426C6380300FF8B56 /* FriendAdapter.swift */,
+				BE715C7A26C6803C00E60758 /* GroupAdapter.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
+		BE715C7126C678C200E60758 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BE53AFF626C639B000FF8B56 /* SimpleFriend.swift */,
+				BE715C7826C67FFD00E60758 /* SimpleGroup.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE715C7E26C68FBF00E60758 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				BE715C7F26C68FD700E60758 /* FriendViewModelFactory.swift */,
+				BE715C8126C68FE600E60758 /* FriendViewModel.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		BE7BF56B2658A49C005A6718 /* ServiceLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +273,8 @@
 		BEA3013B2618E7ED00259CF1 /* GrishaVinyarFirst */ = {
 			isa = PBXGroup;
 			children = (
+				BE715C7E26C68FBF00E60758 /* Factory */,
+				BE53AFF326C637F000FF8B56 /* Adapters */,
 				BEB4299A26811527000DC5EA /* NewsModule */,
 				BEB42994267E5C8B000DC5EA /* LoginModule */,
 				BEB4298E267E5492000DC5EA /* SearchGroupsModule */,
@@ -631,12 +673,15 @@
 				BECEBE412698548C00A0D7F4 /* NewsModel.swift in Sources */,
 				BECBD67426947E5E00ADE5AD /* AuthorCell.swift in Sources */,
 				BEDC5334263AABAE00DF55AE /* PopAnimator.swift in Sources */,
+				BE715C7926C67FFD00E60758 /* SimpleGroup.swift in Sources */,
 				BEDC5330263AA20A00DF55AE /* CustomNavigationController.swift in Sources */,
 				BEB4298D267E4A75000DC5EA /* PhotosPresenter.swift in Sources */,
 				BE7CBFA62620749D00A61DD4 /* GroupTableViewCell.swift in Sources */,
 				BEB42993267E55B2000DC5EA /* SearchGroupsPresenter.swift in Sources */,
+				BE53AFF726C639B000FF8B56 /* SimpleFriend.swift in Sources */,
 				BE5468BA265F5E9B007BDC52 /* Group.swift in Sources */,
 				BEF4682726341EE500E6C7DD /* PhotosViewController.swift in Sources */,
+				BE715C7B26C6803C00E60758 /* GroupAdapter.swift in Sources */,
 				BEB4297B2678A95B000DC5EA /* GroupFB.swift in Sources */,
 				BE16C02E269CCFDE00BE4185 /* AsyncOperation.swift in Sources */,
 				BEDB752E2632E0CE00F89977 /* LoadingViewController.swift in Sources */,
@@ -645,6 +690,7 @@
 				BEA301412618E7ED00259CF1 /* LoginViewController.swift in Sources */,
 				BEB429A12681159B000DC5EA /* ResponseNews.swift in Sources */,
 				BEB42987267E3EAA000DC5EA /* GroupsPresenter.swift in Sources */,
+				BE715C8226C68FE600E60758 /* FriendViewModel.swift in Sources */,
 				BEA05A28265D53BB00D1C2DE /* NetworkingConstans.swift in Sources */,
 				BECBD6782694839D00ADE5AD /* LikesAndCommentsCell.swift in Sources */,
 				BE7CBFA22620744A00A61DD4 /* GroupsTableViewController.swift in Sources */,
@@ -652,6 +698,7 @@
 				BEB4299F26811561000DC5EA /* NewsPresenter.swift in Sources */,
 				BE7BF56D2658A4C4005A6718 /* SessionApp.swift in Sources */,
 				BE7CBFBE262084BC00A61DD4 /* Groups.swift in Sources */,
+				BE53AFF526C6380300FF8B56 /* FriendAdapter.swift in Sources */,
 				BEB42981267DF2BD000DC5EA /* FriendsPresenter.swift in Sources */,
 				BE9BE83F2620540500B5C86F /* FriendTableViewCell.swift in Sources */,
 				BE0AB9E8265CBB390057BDC4 /* NetworkingService.swift in Sources */,
@@ -665,6 +712,7 @@
 				BEF2CB82265E54AA0063ED2B /* User.swift in Sources */,
 				BEA3013F2618E7ED00259CF1 /* SceneDelegate.swift in Sources */,
 				BEB4337C266BE67100EDB74F /* RealmManager.swift in Sources */,
+				BE715C8026C68FD700E60758 /* FriendViewModelFactory.swift in Sources */,
 				BECEBE3F2698219A00A0D7F4 /* PhotoNews.swift in Sources */,
 				BEEA83D1262EE3680029C997 /* NewsViewController.swift in Sources */,
 				BEB4297926786509000DC5EA /* FirebaseStore.swift in Sources */,

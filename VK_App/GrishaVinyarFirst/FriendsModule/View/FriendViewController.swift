@@ -9,23 +9,19 @@ import UIKit
 import RealmSwift
 import SDWebImage
 
-protocol FriendsView: AnyObject {
-    func onItemsRetrieval(friends: List<Item>?)
-}
-
 class FriendViewController: UIViewController {
     
     //MARK: - Properties
    @IBOutlet weak var tableView: UITableView!
     
+    private let friendViewModelFactory = FriendViewModelFactory()
+    
     // id друга
     var id = 0
     
-    var token: NotificationToken?
+    private var friends = [SimpleFriend]()
     
-    var items: List<Item>?
-    
-    var presenter: FriendsPresenter!
+    private var friendViewModels = [FriendViewModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +30,15 @@ class FriendViewController: UIViewController {
         self.tableView.dataSource = self
         tableView.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendCell")
         
-        presenter = FriendsPresenter(view: self, realmService: RealmManager(), networkService: NetworkingService())
-        presenter.viewDidLoad(tableView: tableView)
+        FriendAdapter().getFriends { [weak self] (friends) in
+            guard let self = self else { return }
+            self.friends = friends
+            self.friendViewModels = self.friendViewModelFactory.constructFriendViewModels(friends: friends)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        }
     }
     
     //MARK: - Methods
@@ -49,13 +52,7 @@ class FriendViewController: UIViewController {
     
 }
 // MARK: - FriendsView
-extension FriendViewController: FriendsView {
-    
-    func onItemsRetrieval(friends: List<Item>?) {
-        self.items = friends
-        tableView.reloadData()
-    }
-}
+
 
 // MARK: - UITableViewDelegate
 extension FriendViewController: UITableViewDelegate {
@@ -71,12 +68,11 @@ extension FriendViewController: UITableViewDelegate {
         } completion: { _ in
             self.tableView.cellForRow(at: indexPath)?.transform = .identity
         }
-        guard let items = items else { return }
-        let item = items[indexPath.row]
+        let friend = friends[indexPath.row]
         
         // Получаем id пользователя, который был выбран (на ячейку с именем которого нажали)
-        id = item.id 
-        PhotosViewController().userID = id
+        id = friend.id
+        
         performSegue(withIdentifier: "fromFriendsToPhotos", sender: self)
     }
     
@@ -89,26 +85,16 @@ extension FriendViewController: UITableViewDelegate {
 extension FriendViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let items = items else { return 0 }
-        return items.count
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        guard let cell = cell as? FriendTableViewCell else { return }
-        
-        guard let items = items else { return }
-        
-        let item = items[indexPath.row]
-        
-        guard let url = URL(string: item.photo_100) else { return }
-        
-        cell.configure(name: "\(item.firstName) \(item.lastName)" , url: url)
+        return friends.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell", for: indexPath) as? FriendTableViewCell else { return UITableViewCell() }
+        
+        let friendViewModel = self.friendViewModels[indexPath.row]
+        
+        cell.configure(friendViewModel: friendViewModel)
         
         return cell
     }

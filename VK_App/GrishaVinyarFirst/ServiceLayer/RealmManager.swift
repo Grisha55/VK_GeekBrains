@@ -8,30 +8,7 @@
 import Foundation
 import RealmSwift
 
-class RealmManager: RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
-    
-    // Загрузка друзей пользователя в Realm
-    func getAllFriendsToBase(view: FriendsView) {
-        
-        NetworkingService().oldMethodForGettingFriend { result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let items):
-                view.onItemsRetrieval(friends: items)
-                do {
-                    let realm = try Realm()
-                    realm.beginWrite()
-                    let oldValues = realm.objects(Item.self)
-                    realm.delete(oldValues)
-                    realm.add(items)
-                    try realm.commitWrite()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-    }
+class RealmManager: RealmPhotosManagerProtocol {
     
     // Загрузка фотографий друзей пользователя в Realm
     func updatePhotos(for userID: Int?, view: PhotosView) {
@@ -52,27 +29,5 @@ class RealmManager: RealmPhotosManagerProtocol, RealmSearchManagerProtocol {
             .catch { error in
                 print(error.localizedDescription)
             }
-    }
-    
-    // Загрузка всех групп в Realm
-    func updateAllGroups(view: SearchGroupsView, name: String) {
-        NetworkingService().searchGroups(name: name) { (result) in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let allGroups):
-                view.onSearchGroupsRetrieval(groups: allGroups)
-                do {
-                    let realm = try Realm()
-                    realm.beginWrite()
-                    let oldValue = realm.objects(GroupsArray.self)
-                    realm.delete(oldValue)
-                    realm.add(allGroups)
-                    try realm.commitWrite()
-                } catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
     }
 }
